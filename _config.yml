@@ -22,7 +22,7 @@ source: .
 destination: ./_site
 permalink: /:title
 paginate: 5
-paginate_path: /page:num/
+paginate_path: /page/:num/
 url: http://allenkunle.me
 
 # Syntax Highlighter
