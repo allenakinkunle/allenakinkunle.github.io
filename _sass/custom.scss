@@ -1,0 +1,31 @@
+/*- Custom style -*/
+
+// -- Put custom style under this point -- //
+#header {
+  p {
+    color: lighten($text-color, 30%);
+    max-width: 600px;
+    margin: 0 auto;
+    a {
+      color: $main-color;
+      font-weight: normal;
+      &:hover,
+      &:focus {
+        color: darken($main-color, 5%);
+      }
+    }
+  }
+
+  .social {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    a {
+      padding: 0 15px;
+      &:hover,
+      &:focus {
+        color: $main-color;
+      }
+    }
+  }
+}

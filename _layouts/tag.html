@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<div id="tag-page" class="content">
+  <h2>Posts tagged '{{ page.tag }}'</h2>
+  <ul>
+  {% for post in page.posts %}
+    <li><a href="{{ post.url }}">{{ post.title }}</a> &raquo; {{ post.date | date_to_string }}</li>
+  {% endfor %}
+  </ul>
+</div>

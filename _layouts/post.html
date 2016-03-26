@@ -1,0 +1,32 @@
+---
+layout: default
+---
+<article id="post-page">
+	<h2>{{ page.title }}</h2>
+
+	<div id="metadata">
+	  <time datetime="{{ page.date | date_to_xmlschema }}" class="time"><i class="fa fa-clock-o"></i>{{ page.date | date_to_string }}</time>
+	  <p class="tags"><i class="fa fa-tags"></i>
+	    {% for tag in page.tags %}
+	      <a href="/tags/{{ tag }}">{{ tag }}</a>
+	    {% endfor %}
+	  </p>
+	</div>
+
+	<div class="content">
+
+		{{ content }}
+
+	</div>
+
+	<div class="footer">
+		<!-- Share Buttons -->
+		{% include share.html %}
+
+		<!-- Show next and previous links -->
+		{% include page-navigation.html %}
+
+		<!-- Comments -->
+		{% include comments.html %}
+	</div>
+</article>

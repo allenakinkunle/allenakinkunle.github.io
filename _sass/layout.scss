@@ -1,0 +1,371 @@
+/* -- General Layout -- */
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+/* Navigation */
+
+#nav, #nav-left {
+  a {
+    display: block;
+    color: $background-color;
+    padding: 0.33334em 0;
+    font-size: 1.5em;
+    font-weight: 400;
+    @media (min-width: 940px) {
+      font-size: 1em;
+    }
+    &:hover {
+      background-color: lighten($main-color, 5%);
+    }
+  }
+  span {
+      font-weight: 200;
+    }
+}
+
+#nav {
+  @include nav-position(right);
+}
+
+#nav-left {
+  @include nav-position(left);
+}
+
+/* Toggle class to open menu */
+
+#nav.menu-open {
+  @include open(-14rem);
+}
+
+#nav-left.menu-open-left {
+  @include open(14rem);
+}
+
+/* Separator after menu */
+
+#nav-list:after {
+  display: block;
+  content: '';
+  width: 5rem;
+  height: 1px;
+  margin: 23px auto;
+  background-color: $background-color;
+}
+
+/* Icon menu */
+
+#nav-menu {
+  @include icon-position(right);
+}
+
+#nav-menu-left {
+  @include icon-position(left);
+}
+
+#menu {
+  height: 4px;
+  width: 1.5em;
+  background-color: darken($main-color, 5%);
+  margin-top: 8px;
+  &:after, &:before {
+    content: "";
+    display: block;
+    position: relative;
+    height: 4px;
+    width: 1.5em;
+    background-color: darken($main-color, 5%);
+    transition: all 0.3s ease-in;
+  }
+  &:before {
+    top: -8px;
+  }
+  &:after {
+    top: 4px;
+  }
+  &.btn-close {
+    background: none;
+  }
+  &.btn-close:before {
+    top: 0;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    background-color: $background-color;
+  }
+  &.btn-close:after {
+    top: -4px;
+    -webkit-transform: rotate(45deg);
+       -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+    background-color: $background-color;
+  }
+}
+
+/* Main content */
+
+.fixed {
+  position: fixed;
+  @media (min-width: 940px) {
+    position: static;
+  }
+}
+
+.container {
+	margin:0 auto;
+	max-width: 750px;
+	padding: 0 1.5rem;
+}
+
+#header {
+	text-align: center;
+  padding: 24px 0;
+  padding-bottom: 0;
+  position: relative;
+  a {
+  	text-decoration: none;
+  	color: $text-color;
+  	display: inline-block;
+  }
+  img {
+  	max-height: 120px;
+  	margin: 0 auto;
+  	display: block;
+    border: 5px solid darken($syntax-highlighter-background, 5%);
+    border-radius: 50%;
+  }
+  h1 {
+  	font-family: 'Signika', sans-serif; //Emerald logo font
+    font-weight: 600;
+  }
+  &:after {
+  	display: block;
+    content: '';
+    width: 5rem;
+    height: 1px;
+    margin: 23px auto;
+    margin-bottom: 0;
+    background-color: lighten($text-color, 75%);
+  }
+}
+
+/* Posts */
+
+#posts {
+  text-align: justify;
+  li {
+    list-style-type: none;
+  }
+}
+
+#post-page {
+  text-align: justify;
+  margin-bottom: 1.5em;
+  .fa {
+    display: inline-block;
+    font-size: 13px;
+    padding-right: 5px;
+  }
+  blockquote {
+    background: none;
+    margin: 0;
+    border-left: 5px solid $main-color;
+    font-style: italic;
+    p {
+      padding: 0;
+    }
+  }
+  @media (min-width: 940px) {
+      margin-bottom: 1.3334em;
+    }
+}
+
+.post+.post:before {
+    display: block;
+    content: '';
+    width: 5rem;
+    height: 1px;
+    margin: 23px auto;
+    background-color: lighten($text-color, 75%);
+  }
+
+#metadata {
+  line-height: 1.3334em; /* 24px/18px */
+  margin-bottom: 1.3334em; /* 24px/18px */
+  margin-top: 0.1em;
+  color: lighten($text-color, 25%);
+  .time {
+    display: inline-block;
+    font-weight: 200;
+  }
+  .fa {
+    padding-right: 4px;
+    display: inline-block;
+    font-size: 13px;
+    padding-right: 5px;
+  }
+  .tags {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
+  }
+  .tags a {
+    font-weight: 200;
+    color: lighten($text-color, 25%);
+    text-decoration: underline;
+    display: inline-block;
+    padding-right: 5px;
+  }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+          border-radius: 4px;
+}
+
+img[title="Emerald"] {
+    box-shadow: 0 2px 6px #ddd;
+  }
+
+
+/* Set the vertical rhythm (and padding-left) for lists inside post content */
+
+.content ul, .content ol {
+  line-height: 1.6em; /* 24px/16px */
+  padding-left: 1.5em;
+  @media (min-width: 940px) {
+    line-height: 1.6em; /* 24px/18px */
+  }
+}
+
+/* Pages */
+#page {
+  h2 {
+    padding-bottom: 0.66667em;
+  }
+  ul, ol {
+    padding-left: 1.5em;
+  }
+}
+
+/* Paginator */
+
+.pagination {
+  text-align: center;
+  margin: 2.666668em;
+  span {
+    background-color: darken($background-color, 5%);
+    color: $text-color;
+  }
+  a:hover {
+    background-color: lighten($main-color, 5%);
+  }
+}
+.page-item {
+  background-color: $main-color;
+  color: $background-color;
+  padding: 4px 8px;
+  font-weight: 400;
+  padding: 0.5em 1em;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+          border-radius: 4px;
+}
+
+@media (min-width: 760px) { //Breakpoint set to 760px
+  #header {
+    &:after {
+      margin: 23px auto;
+    }
+  }
+}
+
+/* Tag Page */
+#tag-page {
+  ul {
+    margin-top: 20px;
+    li {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* Page Navigation */
+#page-navigation {
+  .previous, .next {
+    width: 100%;
+    border: 1px solid lighten($text-color, 80%);
+    margin-bottom: 15px;
+  }
+  a {
+    width: 70%;
+    float: left;
+    padding: 10px 0;
+    padding-left: 10px;
+    text-align: center;
+  }
+  p.side-indicator {
+    width: 30%;
+    float: left;
+    margin: 0;
+    font-size: 1em;
+    text-align: center;
+    background: $main-color;
+    padding: 10px 0;
+    color: #fff;
+  }
+
+  @media (min-width: 760px) { //Breakpoint set to 760px
+    .previous, .next {
+      width: 48%;
+      float: left;
+      margin-right: 2%;
+    }
+    .next {
+      float: right;
+      margin-right: 0;
+      margin-left: 2%;
+    }
+  }
+}
+
+/* Share Buttons */
+#share {
+  text-align: center;
+  list-style-type: none;
+  &:before {
+    display: block;
+    content: '';
+    width: 5rem;
+    height: 1px;
+    margin: 20px auto;
+    background-color: lighten($text-color, 75%);
+  }
+  li {
+    display: inline-block;
+    border: 1px solid lighten($text-color, 80%);
+    padding: 6px 10px;
+    margin: 0 5px 10px;
+  }
+  a {
+    font-weight: normal;
+    color: $text-color;
+  }
+}

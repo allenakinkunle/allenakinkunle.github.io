@@ -1,0 +1,47 @@
+# Site settings
+title: Allen Akinkunle | Data Science, Machine Learning, Data Visualisation, Software Development
+description: "The personal website of Allen Akinkunle"
+url: "http://www.allenkunle.me"
+author:
+  name: "Allen Akinkunle"
+  email: "hello@allenkunle.me"
+  url: "http://www.allenkunle.me"
+
+# Gems
+gems:     [jekyll-paginate]
+
+# Tag page
+tag_page_layout: tag
+tag_page_dir: tags
+
+# Build settings
+baseurl: /
+markdown: kramdown
+source: .
+destination: ./_site
+permalink: /:title
+paginate: 5
+paginate_path: /page:num/
+
+# Syntax Highlighter
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+
+# Default values
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+# Custom variables
+version: "1.0.0"
+
+# Options
+reverse: true
+
+exclude: [Gemfile, Rakefile, Gemfile.lock]
