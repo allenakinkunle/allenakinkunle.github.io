@@ -13,4 +13,8 @@ Check out my LinkedIn Profile: [**LinkedIn**](http://uk.linkedin.com/in/allenkun
 I answer questions on Stack Overflow: [**Stack Overflow**](http://stackoverflow.com/users/1748587/akinkunle-allen)
 
 ## License
+You may not reuse anything within the following folders without my permission:
+* _posts/
+* img/
+
 All other directories and files are MIT Licensed. Feel free to use the HTML and CSS as you please.
