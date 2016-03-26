@@ -3,7 +3,6 @@ _site
 .jekyll-metadata
 .DS_Store
 _posts
-img
 Gemfile
 Gemfile.lock
 _plugins
