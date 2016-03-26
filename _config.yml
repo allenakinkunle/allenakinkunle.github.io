@@ -1,5 +1,6 @@
 # Site settings
 title: Allen Akinkunle | Data Science, Machine Learning, Data Visualisation, Software Development
+content: Data Science, Machine Learning, Data Visualisation, Software Development
 description: "The personal website of Allen Akinkunle"
 url: "http://www.allenkunle.me"
 author:
@@ -22,6 +23,7 @@ destination: ./_site
 permalink: /:title
 paginate: 5
 paginate_path: /page:num/
+url: http://allenkunle.me
 
 # Syntax Highlighter
 kramdown:
