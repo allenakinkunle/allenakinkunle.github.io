@@ -20,6 +20,7 @@ code { background: none }
 pre { padding: 10px; overflow-x: auto }
 
 .highlight { background-color: $syntax-highlighter-background; color: #586e75; width: 100%; margin: 0; }
+.highlighter-rouge { background-color: $syntax-highlighter-background; color: $syntax-text-color; padding: 4px; border-radius: 2px;}
 .highlight .c { color: #93a1a1 } /* Comment */
 .highlight .err { color: #586e75 } /* Error */
 .highlight .g { color: #586e75 } /* Generic */

@@ -112,6 +112,21 @@
 
 /* Main content */
 
+.plotly {
+  position: relative;
+  padding-bottom: 88.89%;
+  height: 0;
+  overflow: hidden;
+}
+
+.plotly iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .fixed {
   position: fixed;
   @media (min-width: 940px) {
@@ -121,7 +136,7 @@
 
 .container {
 	margin:0 auto;
-	max-width: 750px;
+	max-width: 800px;
 	padding: 0 1.5rem;
 }
 
@@ -169,6 +184,9 @@
 #post-page {
   text-align: justify;
   margin-bottom: 1.5em;
+  h2.title {
+    color: $main-color;
+  }
   .fa {
     display: inline-block;
     font-size: 13px;

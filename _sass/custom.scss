@@ -4,8 +4,11 @@
 #header {
   p {
     color: lighten($text-color, 30%);
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
+    span.diamond {
+      color: $main-color;
+    }
     a {
       color: $main-color;
       font-weight: normal;
