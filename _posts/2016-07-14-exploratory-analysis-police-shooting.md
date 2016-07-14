@@ -5,7 +5,7 @@ comments: true
 tags: ['R', 'Plotly']
 ---
 
-The [Washington Post](https://www.washingtonpost.com/graphics/national/police-shootings-2016/){:target="_blank"} has been compiling a database of fatal shootings in the United States by police officers in the line of duty since January 1, 2015. The [dataset](https://github.com/washingtonpost/data-police-shootings){:target="_blank"} contains information like the date and the US state in which the killing occurred, the age, gender and, race of the deceased.
+The [Washington Post](https://www.washingtonpost.com/graphics/national/police-shootings-2016/){:target="_blank"} has been compiling a database of fatal shootings in the United States by police officers in the line of duty since January 1, 2015. The [dataset](https://github.com/washingtonpost/data-police-shootings){:target="_blank"} contains information such as the date and the state in which the killing occurred, the age, gender and, race of the deceased.
 
 In light of the recent Police killings in the US, I thought it would be interesting to perform the following exploratory analyses using the dataset:
 
@@ -20,7 +20,7 @@ For this analysis, we will need the `dplyr` package for data manipulation, the `
 The complete source code for this post is available on [Github](https://github.com/allenakinkunle/washington-post-data-analysis){:target="_blank"}.
 
 ## Data Preparation
-The first thing we need to do is read the data into R as a data frame from where it is hosted on Github.
+The first thing we need to do is read the data into R as a dataframe from where it is hosted on Github.
 {% highlight r %}
 shooting_data <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv")
 {% endhighlight %}
@@ -40,7 +40,7 @@ We see that there are 14 variables. We only need the `age` and `state` variables
 shooting_data <- select(shooting_data, age, state)
 {% endhighlight %}
 
-We take a look into how the new data frame looks.
+Let's see what the new dataframe looks like
 
 {% highlight r %}
 > head(shooting_data)
@@ -53,10 +53,10 @@ age state
 18    OK
 {% endhighlight %}
 
-The age column contains integer values and the state column contains the 2-letter abbreviations for the US states in which the killings occurred.
+The age column contains integer values and the state column contains the 2-letter abbreviations for the states in which the killings occurred.
 
 ## Handling Missing Values
-Before performing any analysis, it is a good practice to check for anomalies like missing values in the data. Missing values are coded with `NA` in most datasets, so we check for this in our dataset. Be familiar with how missing values are represented in your dataset and handle them accordingly.
+Before performing any analysis, it's a good practice to check for anomalies like missing values in the data. Missing values are coded with `NA` in most datasets, so we check for this in our dataset. Be familiar with how missing values are represented in your dataset and handle them accordingly.
 
 {% highlight r %}
 > sapply(shooting_data, function(x) sum(is.na(x)))
@@ -114,9 +114,9 @@ The plot is interactive so hover and click on it to interact with it.
 ## What is the Police killings per million population value for each state?
 To compare the number of police killings across US states in our dataset, we will compute the police killings per million population value for each state and plot these values on a `Plotly`'s choropleth map.
 
-For this analysis, we need the population estimates for each state and the full state names. These details are not in the Washington Post's data set so we need to get them from other sources. We will use the `state.abb` (contains the 2-letter state name abbreviations) and `state.name` (contains the full state names) data sets available in R to get the full state names into our `shooting_data` dataframe.
+For this analysis, we need the population estimates for each state and the full state names. These details are not in the Washington Post's dataset so we need to get them from other sources. We will use the `state.abb` (contains the 2-letter state name abbreviations) and `state.name` (contains the full state names) datasets available in R to get the full state names into our `shooting_data` dataframe.
 
-The `state` data sets contain information relating to the 50 states of the US and they are arranged according to alphabetical order of the state names. So for an index `i`, the 2-letter state name abbreviation at `state.abb[i]` will map to the full state name at `state.name[i]`. One caveat of the `state` data sets is that it does not contain information about the District of Columbia.
+The `state` data sets contain information relating to the 50 states of the US and they are arranged according to alphabetical order of the state names. So for an index `i`, the 2-letter state name abbreviation at `state.abb[i]` will map to the full state name at `state.name[i]`. One caveat of the `state` datasets is that they do not contain information about the District of Columbia.
 
 For the population estimates of each state, I created a state population data set from data I extracted from the [United States Census Bureau website](https://www.census.gov/popest/data/state/totals/2015/index.html){:target="_blank"}. I have cleaned the data set and it contains 2015 population estimates for each of the 50 US states and the District of Columbia. The data set is hosted [here](https://raw.githubusercontent.com/allenakinkunle/washington-post-data-analysis/master/state_population_data.csv){:target="_blank"}.
 
@@ -183,6 +183,6 @@ plot_ly(killings_by_state, z = killings_per_million, text = hover, locations = s
 Hover on the map, zoom in and out to interact with it.
 
 ## Conclusion
-This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with `ggplot` as it uses a similar syntax to ggplot. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me [@allenakinkunle](https://twitter.com/allenakinkunle){:target="_blank"}, and I would reply as soon as I can.
+This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with `ggplot` as it uses a similar syntax. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me [@allenakinkunle](https://twitter.com/allenakinkunle){:target="_blank"}, and I would reply as soon as I can.
 
 The complete source code is available on [Github](https://github.com/allenakinkunle/washington-post-data-analysis){:target="_blank"}. Feel free to check and make suggestions for improvements. Thank you for reading!
