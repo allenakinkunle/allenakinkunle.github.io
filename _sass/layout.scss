@@ -150,13 +150,6 @@
   	color: $text-color;
   	display: inline-block;
   }
-  img {
-  	max-height: 120px;
-  	margin: 0 auto;
-  	display: block;
-    //border: 5px solid darken($syntax-highlighter-background, 5%);
-    border-radius: 50%;
-  }
   h1 {
   	font-family: 'Signika', sans-serif; //Emerald logo font
     font-weight: 600;
