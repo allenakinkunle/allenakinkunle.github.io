@@ -2,7 +2,7 @@
 This is the personal website of Allen Akinkunle, hosted by [Github Pages](https://pages.github.com/). You can check the website out on [allenkunle.me](http://www.allenkunle.me).
 
 ## Say 'Hello'
-I am currently a master's degree student in Data Science at [Lancaster University](www.lancaster.ac.uk). I write about data science, machine learning, data visualisation and software development.
+I am currently a Data Scientist based in London, United Kingdom. I work within EY's Data & Analytics team (Transaction Advisory Services service line). I write about data science, machine learning, data visualisation and software development.
 
 I tweet about random stuff: [**Twitter**](http://twitter.com/allenakinkunle)
 
