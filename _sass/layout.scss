@@ -147,17 +147,28 @@
   position: relative;
   a {
   	text-decoration: none;
-  	color: $text-color;
-  	display: inline-block;
+  	color: lighten($text-color, 40%);
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+  }
+  a.about {
+    font-weight: normal;
+  }
+  .dot {
+    font-size: 0.8em;
+    color: lighten($text-color, 50%);
   }
   h1 {
   	font-family: 'Signika', sans-serif; //Emerald logo font
     font-weight: 600;
+    color: lighten($text-color, 30%);
   }
   &:after {
   	display: block;
     content: '';
     width: 5rem;
+    color: lighten($text-color, 50%);
     height: 1px;
     margin: 23px auto;
     margin-bottom: 0;
@@ -171,6 +182,15 @@
   text-align: justify;
   li {
     list-style-type: none;
+  }
+  &:after {
+  	display: block;
+    content: '';
+    width: 5rem;
+    height: 1px;
+    margin: 23px auto;
+    margin-bottom: 0;
+    background-color: lighten($text-color, 75%);
   }
 }
 

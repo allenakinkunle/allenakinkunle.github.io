@@ -9,7 +9,7 @@ author:
   url: "http://www.allenkunle.me"
 
 # Gems
-gems:     [jekyll-paginate]
+plugins:     [jekyll-paginate]
 
 # Tag page
 tag_page_layout: tag
