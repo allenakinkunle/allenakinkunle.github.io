@@ -1,5 +1,9 @@
 /* -- General Layout -- */
 
+body {
+  text-align: justify;
+}
+
 .clearfix:after {
   visibility: hidden;
   display: block;
@@ -48,15 +52,12 @@
   @include open(14rem);
 }
 
-/* Separator after menu */
 
-#nav-list:after {
-  display: block;
-  content: '';
-  width: 5rem;
-  height: 1px;
-  margin: 23px auto;
-  background-color: $background-color;
+/* Static Pages Styles */
+#page {
+  h2 {
+    color: $main-color;
+  }
 }
 
 /* Icon menu */
