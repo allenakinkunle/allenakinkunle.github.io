@@ -148,7 +148,7 @@ body {
   position: relative;
   a {
   	text-decoration: none;
-  	color: lighten($text-color, 40%);
+  	color: lighten($text-color, 10%);
     display: inline-block;
     vertical-align: middle;
     font-size: 17px;
@@ -163,7 +163,7 @@ body {
   h1 {
   	font-family: 'Signika', sans-serif; //Emerald logo font
     font-weight: 600;
-    color: lighten($text-color, 30%);
+    color: lighten($text-color, 10%);
   }
   &:after {
   	display: block;
