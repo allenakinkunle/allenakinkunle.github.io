@@ -163,7 +163,7 @@ body {
   h1 {
   	font-family: 'Signika', sans-serif; //Emerald logo font
     font-weight: 600;
-    color: lighten($text-color, 10%);
+    color: $main-color;
   }
   &:after {
   	display: block;
