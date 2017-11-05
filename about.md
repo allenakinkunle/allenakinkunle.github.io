@@ -10,7 +10,7 @@ I am a Data Scientist based in London, United Kingdom. I currently work within [
 
 Before joining EY, I was a software developer building web and cross-platform mobile applications. I worked with startups in Lagos and London.
 
-I hold a Master degree in Data Science from Lancaster University and a BSc in Information Technology & Business Information Systems from Middlesex University.
+I hold a Masters degree in Data Science from Lancaster University and a BSc in Information Technology & Business Information Systems from Middlesex University.
 
 To get in touch with me, please send me a [tweet](http://twitter.com/allenakinkunle) or an [email](mailto:hello@allenkunle.me).
 
