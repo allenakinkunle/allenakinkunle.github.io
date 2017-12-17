@@ -203,8 +203,14 @@ body {
   }
   .fa {
     display: inline-block;
-    font-size: 13px;
+    font-size: 20px;
     padding-right: 5px;
+  }
+  .fa.fa-twitter-square {
+    color: $twitter-color;
+  }
+  .fa.fa-facebook-square {
+    color: $facebook-color;
   }
   blockquote {
     background: none;
