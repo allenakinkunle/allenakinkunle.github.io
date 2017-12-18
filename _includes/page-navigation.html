@@ -2,15 +2,15 @@
 
 {% if page.previous.url %}
   <div class="previous clearfix">
-      <p class="side-indicator"><i class="fa fa-chevron-left"></i>Previous</p>
-      <a href="{{page.previous.url}}">{{page.previous.title}}</a>
+      <i class="fa fa-chevron-left"></i>
+    <a href="{{page.previous.url}}">{{page.previous.title}}</a>
   </div>
 {% endif %}
 
 {% if page.next.url %}
   <div class="next clearfix">
       <a href="{{page.next.url}}">{{page.next.title}}</a>
-      <p class="side-indicator">Next <i class="fa fa-chevron-right"></i></p>
+      <i class="fa fa-chevron-right"></i>
   </div>
 {% endif %}
 

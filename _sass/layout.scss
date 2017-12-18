@@ -351,12 +351,36 @@ img[title="Emerald"] {
     width: 100%;
     border: 1px solid lighten($text-color, 80%);
     margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    i.fa {
+      position: relative;
+      opacity: 0.7;
+      font-size: 25px;
+    }
+    i.fa::before {  
+      position: absolute;
+      display: block;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+  }
+  
+  .previous a {
+    padding-left: 30px;
+    text-align: left;
+  }
+  .next a {
+    padding-right: 10px;
+    text-align: right;
   }
   a {
-    width: 70%;
+    width: 100%;
     float: left;
-    padding: 10px 0;
-    padding-left: 10px;
+    padding: 5px 0;
     text-align: center;
   }
   p.side-indicator {
