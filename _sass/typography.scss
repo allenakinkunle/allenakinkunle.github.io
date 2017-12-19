@@ -50,6 +50,12 @@ blockquote {
 	}
 }
 
+code.highlighter-rouge {
+	background-color: rgba(27,31,35,0.05);
+	color: $text-color;
+	border-radius: 3px;
+}
+
 /*- Typography for big screen, based on 18px font-size -*/
 
 @media (min-width: 760px) { //Breakpoint set to 940px
