@@ -14,12 +14,12 @@ In light of the recent Police killings in the US, I thought it would be interest
 
 We will use R and [Plotly](https://plot.ly){:target="_blank"} for this purpose.
 
-## Required Packages
+### Required Packages
 For this analysis, we will need the `dplyr` package for data manipulation, the `magrittr` package for pipe-like operations, and the `plotly` package for creating interactive graphs. Install these packages using R's `install.packages` method if you haven't already, then load the packages using the `library` method.
 
 The complete source code for this post is available on [Github](https://github.com/allenakinkunle/washington-post-data-analysis){:target="_blank"}.
 
-## Data Preparation
+### Data Preparation
 The first thing we need to do is read the data into R as a dataframe from where it is hosted on Github.
 {% highlight r %}
 shooting_data <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv")
@@ -55,7 +55,7 @@ age state
 
 The age column contains integer values and the state column contains the 2-letter abbreviations for the states in which the killings occurred.
 
-## Handling Missing Values
+### Handling Missing Values
 Before performing any analysis, it's a good practice to check for anomalies like missing values in the data. Missing values are coded with `NA` in most datasets, so we check for this in our dataset. Be familiar with how missing values are represented in your dataset and handle them accordingly.
 
 {% highlight r %}
@@ -72,7 +72,7 @@ We see that there are 37 missing values coded as `NA` in the `age` column so we 
 shooting_data$age[is.na(shooting_data$age)] <- 0
 {% endhighlight %}
 
-## How many people are killed by age group?
+### How many people are killed by age group?
 Since the ages are integer values, I thought it would be more useful to group them and then plot the distribution of killings in the age groups. We convert the integer values into categories (factors) using the `cut()` method. Running `?cut` in R, we get the following documentation:
 
 > `cut` divides the range of x into intervals and codes the values in x according to which interval they fall. The leftmost interval corresponds to level one, the next leftmost to level two and so on.
@@ -111,7 +111,7 @@ The `%>%` operator in the snippet above might look strange to some R users. `%>%
 
 The plot is interactive so hover and click on it to interact with it.
 
-## What is the Police killings per million population value for each state?
+### What is the Police killings per million population value for each state?
 To compare the number of police killings across US states in our dataset, we will compute the police killings per million population value for each state and plot these values on a `Plotly`'s choropleth map.
 
 For this analysis, we need the population estimates for each state and the full state names. These details are not in the Washington Post's dataset so we need to get them from other sources. We will use the `state.abb` (contains the 2-letter state name abbreviations) and `state.name` (contains the full state names) datasets available in R to get the full state names into our `shooting_data` dataframe.
@@ -182,7 +182,7 @@ plot_ly(killings_by_state, z = killings_per_million, text = hover, locations = s
 
 Hover on the map, zoom in and out to interact with it.
 
-## Conclusion
+### Conclusion
 This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with `ggplot` as it uses a similar syntax. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me [@allenakinkunle](https://twitter.com/allenakinkunle){:target="_blank"}, and I would reply as soon as I can.
 
 The complete source code is available on [Github](https://github.com/allenakinkunle/washington-post-data-analysis){:target="_blank"}. Feel free to check and make suggestions for improvements. Thank you for reading!

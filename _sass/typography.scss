@@ -4,8 +4,13 @@
 //
 
 body {
-	font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Crimson Text', serif;
 	letter-spacing: 0.01em;
+}
+
+pre {
+	font-size: 16px;
+	padding: 6px !important;
 }
 
 /*- Typography for medium and small screen, based on 16px font-size -*/
@@ -13,13 +18,14 @@ body {
 p, ul, ol {
 	font-size: 1.125em; /* 18px / 16px */
 	line-height: 1.6em; /* 24px/16px */
-	margin-bottom: 1.3334em; /* 24px/18px */
+	margin-bottom: 1.125em; /* 24px/18px */
 }
 
 h1 {
 	font-size: 2.25em; /* 36px/16px */
 	line-height: 1.3333em; /* 48px/36px */
 	padding: 0.2em 0; /* 12px/36px * 2 (Use padding instead of margin to maintain proximity with paragraph) */
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 h2 {
@@ -28,12 +34,17 @@ h2 {
 	padding: 1em 0 0 0; /* 12px/24px * 2, only top (Use padding instead of margin to maintain proximity with paragwithph) */
 	text-align: left;
 	padding-top: 0.5em;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 h3, h4, h5, h6 {
 	font-size: 1.125em; /* 18px/16px */
 	line-height: 1.3334em; /* 24px/18px */
-	padding: 0.66667em 0; /* 12px/18px * 2 (Use padding instead of margin to maintain proximity with paragraph) */
+	padding: 0.3em 0; /* 12px/18px * 2 (Use padding instead of margin to maintain proximity with paragraph) */
+}
+
+h3 {
+	font-size: 1.5em; /* 20px/16px */
 }
 
 blockquote {
@@ -54,6 +65,7 @@ code.highlighter-rouge {
 	background-color: rgba(27,31,35,0.05);
 	color: $text-color;
 	border-radius: 3px;
+	font-family: 'Crimson Text', serif;
 }
 
 figure.highlight {
@@ -69,6 +81,11 @@ p, ul, ol {
 	line-height: 1.6em; /* 24px/18px */
 	margin-bottom: 1.3334em; /* 24px/18px */
 
+}
+
+p {
+	font-size: 1.125em;
+	margin-bottom: 1em;
 }
 
 h1 {
@@ -87,6 +104,10 @@ h3, h4, h5, h6 {
 	font-size: 1.3334em; /* 24px/18px */
 	line-height: 1em; /* 24px/24px */
 	padding: 0.5em 0; /* 12px/24px * 2 (Use padding instead of margin to maintain proximity with paragraph) */
+}
+
+h3 {
+	font-size: 1.5em;
 }
 
 blockquote {
