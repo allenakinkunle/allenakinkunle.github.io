@@ -113,6 +113,48 @@ body {
 
 /* Main content */
 
+/*Pandas tables*/
+div.table {
+  width: 100%; 
+  overflow-y: hidden;
+  margin-bottom: 1.3334em;
+
+	table {
+    overflow-x: auto;
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+    table-layout: fixed;
+
+    thead {
+      border-bottom: 1px solid black;
+      vertical-align: bottom;
+      tr {
+        display: table-row;
+        th {
+          font-weight: bold;
+        }
+      }
+    }
+
+    tbody {
+      tr:nth-child(odd) {
+        background: #f5f5f5;
+      }
+    }
+
+    tr, th, td {
+      vertical-align: middle;
+      padding: 0.35em 0.35em;
+      line-height: normal;
+      white-space: normal;
+      max-width: none;
+      border: none;
+    }
+	}
+}
+
 .plotly {
   position: relative;
   padding-bottom: 88.89%;
