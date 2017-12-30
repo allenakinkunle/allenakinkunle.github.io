@@ -47,3 +47,6 @@ version: "1.0.0"
 reverse: true
 
 exclude: [Gemfile, Rakefile, Gemfile.lock]
+
+sass:
+  style: compressed
