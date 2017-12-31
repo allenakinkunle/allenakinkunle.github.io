@@ -183,6 +183,6 @@ plot_ly(killings_by_state, z = killings_per_million, text = hover, locations = s
 Hover on the map, zoom in and out to interact with it.
 
 ### Conclusion
-This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with `ggplot` as it uses a similar syntax. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me [@allenakinkunle](https://twitter.com/allenakinkunle){:target="_blank"}, and I would reply as soon as I can.
+This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with `ggplot` as it uses a similar syntax. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me [@allenakinkunle](https://twitter.com/allenakinkunle){:target="_blank"}, and I will reply as soon as I can.
 
 The complete source code is available on [Github](https://github.com/allenakinkunle/washington-post-data-analysis){:target="_blank"}. Feel free to check and make suggestions for improvements. Thank you for reading!
