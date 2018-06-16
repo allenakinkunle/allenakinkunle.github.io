@@ -7,6 +7,7 @@ author:
   name: "Allen Akinkunle"
   email: "hello@allenkunle.me"
   url: "http://www.allenkunle.me"
+  twitter: "@allenakinkunle"
 
 # Gems
 plugins:     [jekyll-paginate]
