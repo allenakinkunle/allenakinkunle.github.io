@@ -3,6 +3,7 @@ layout: post
 title: Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly
 comments: true
 tags: ['R', 'Plotly']
+image_url: https://unsplash.com/photos/FbtfRkRCvJc
 ---
 
 The [Washington Post](https://www.washingtonpost.com/graphics/national/police-shootings-2016/){:target="_blank"} has been compiling a database of fatal shootings in the United States by police officers in the line of duty since January 1, 2015. The [dataset](https://github.com/washingtonpost/data-police-shootings){:target="_blank"} contains information such as the date and the state in which the killing occurred, the age, gender and, race of the deceased.

@@ -3,6 +3,7 @@ layout: post
 title: dplyr-style Data Manipulation with Pipes in Python
 comments: true
 tags: ['Python', 'pandas', 'dplyr', 'Data Wrangling']
+image_url: https://unsplash.com/photos/ieic5Tq8YMk
 ---
 
 I often use R's `dplyr` package for exploratory data analysis and data manipulation. In addition to providing a consistent set of functions that one can use to solve the most common data manipulation problems, dplyr also allows one to write elegant, chainable data manipulation code using pipes.
