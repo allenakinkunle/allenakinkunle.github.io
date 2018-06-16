@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<meta name="generator" content="Data Science, Machine Learning, Data Visualisation, Software Development">
+
+	<title>Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly</title>
+
+	<!-- Twitter cards -->
+	<meta name="twitter:site"    content="@allenakinkunle">
+	<meta name="twitter:creator" content="@allenakinkunle">
+	<meta name="twitter:title"   content="Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly">
+	<meta name="twitter:card"    content="summary_large_image">
+	<meta name="twitter:image"   content="http://allenkunle.me/img/police.jpg">
+
+	<!-- CSS & fonts -->
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+	<script>
+	WebFont.load({
+		google: {
+			families: [
+				'Crimson Text:400',
+				'Source Sans Pro:600',
+				'Signika:600'
+			]
+		}
+	});
+	</script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- RSS -->
+	<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" />
+
+	<!-- Feed -->
+	<link rel="alternate" type="application/rss+xml" title="My Site RSS" href="/feed.xml" />
+
+	<!-- Icons -->
+	<link rel="shortcut icon" href="/img/favicon.ico">
+
+	<!-- Google Analytics -->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75469310-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+	<!-- MathJax-->
+	<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        messageStyle: 'none',
+        tex2jax: {
+          inlineMath: [['$','$']],
+          displayMath: [['$$','$$']],
+          processEnvironments: false
+        },
+        // show equation numbers
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          },
+          extensions: ["color.js"],
+        },
+        'HTML-CSS': {
+          imageFont: null
+        }
+      });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+
+<body>
+
+	<div id="wrap">
+
+		<!-- Header -->
+		<header id="header">
+	<div class="container">
+		<a href="/">
+		  <h1>Allen Akinkunle</h1>
+		</a>
+
+		<div class="social">
+		  <a href="https://github.com/allenakinkunle" target="_blank"><i class="fa fa-github"></i></a> <i class="dot">.</i>
+		  <a href="mailto:hello@allenkunle.me" target="_blank"><i class="fa fa-envelope"></i></a> <i class="dot">.</i>
+		  <a href="http://twitter.com/allenakinkunle" target="_blank"><i class="fa fa-twitter"></i></a> <i class="dot">.</i>
+		  <a href="http://uk.linkedin.com/in/allenkunle" target="_blank"><i class="fa fa-linkedin"></i></a> <i class="dot">.</i>
+			<a href="http://stackoverflow.com/users/1748587/akinkunle-allen" target="_blank"><i class="fa fa-stack-overflow"></i></a> <i class="dot">.</i>
+			<a href="/about/" class="about">About</a>
+		</div>
+	</div>
+</header>
+
+
+    <!-- Main content -->
+	  <div class="container">
+
+		<main>
+
+			<article id="post-page">
+	<h2 class="title">Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly</h2>
+
+	<div id="metadata">
+	  <time datetime="2016-07-14T00:00:00+01:00" class="time"><i class="fa fa-clock-o"></i>14 Jul 2016</time>
+	  <p class="tags"><i class="fa fa-tags"></i>
+	    
+	      <a href="/tags/R">R</a>
+	    
+	      <a href="/tags/Plotly">Plotly</a>
+	    
+	  </p>
+	</div>
+
+	<div class="content">
+
+		<p>The <a href="https://www.washingtonpost.com/graphics/national/police-shootings-2016/" target="_blank">Washington Post</a> has been compiling a database of fatal shootings in the United States by police officers in the line of duty since January 1, 2015. The <a href="https://github.com/washingtonpost/data-police-shootings" target="_blank">dataset</a> contains information such as the date and the state in which the killing occurred, the age, gender and, race of the deceased.</p>
+
+<p>In light of the recent Police killings in the US, I thought it would be interesting to perform the following exploratory analyses using the dataset:</p>
+
+<ul>
+  <li>The distribution of the deceased by age group</li>
+  <li>The distribution of Police killings per million people for each state using a choropleth map.</li>
+</ul>
+
+<p>We will use R and <a href="https://plot.ly" target="_blank">Plotly</a> for this purpose.</p>
+
+<h3 id="required-packages">Required Packages</h3>
+<p>For this analysis, we will need the <code class="highlighter-rouge">dplyr</code> package for data manipulation, the <code class="highlighter-rouge">magrittr</code> package for pipe-like operations, and the <code class="highlighter-rouge">plotly</code> package for creating interactive graphs. Install these packages using R’s <code class="highlighter-rouge">install.packages</code> method if you haven’t already, then load the packages using the <code class="highlighter-rouge">library</code> method.</p>
+
+<p>The complete source code for this post is available on <a href="https://github.com/allenakinkunle/washington-post-data-analysis" target="_blank">Github</a>.</p>
+
+<h3 id="data-preparation">Data Preparation</h3>
+<p>The first thing we need to do is read the data into R as a dataframe from where it is hosted on Github.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">shooting_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv"</span><span class="p">)</span></code></pre></figure>
+
+<p>We use the <code class="highlighter-rouge">colnames()</code> method to get the column names of the data frame.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">shooting_data</span><span class="p">)</span><span class="w">
+</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w">  </span><span class="s2">"id"</span><span class="w">                      </span><span class="s2">"name"</span><span class="w">                    </span><span class="s2">"date"</span><span class="w">                    </span><span class="s2">"manner_of_death"</span><span class="w">        
+</span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="w">  </span><span class="s2">"armed"</span><span class="w">                   </span><span class="s2">"age"</span><span class="w">                     </span><span class="s2">"gender"</span><span class="w">                  </span><span class="s2">"race"</span><span class="w">                   
+</span><span class="p">[</span><span class="m">9</span><span class="p">]</span><span class="w">  </span><span class="s2">"city"</span><span class="w">                    </span><span class="s2">"state"</span><span class="w">                   </span><span class="s2">"signs_of_mental_illness"</span><span class="w"> </span><span class="s2">"threat_level"</span><span class="w">           
+</span><span class="p">[</span><span class="m">13</span><span class="p">]</span><span class="w"> </span><span class="s2">"flee"</span><span class="w">                    </span><span class="s2">"body_camera"</span><span class="w"> </span></code></pre></figure>
+
+<p>We see that there are 14 variables. We only need the <code class="highlighter-rouge">age</code> and <code class="highlighter-rouge">state</code> variables for our analysis so we use <code class="highlighter-rouge">dplyr</code>’s <code class="highlighter-rouge">select()</code> method to create a new data frame with only those variables selected. Remember that you can always check out a method’s documentation in R using <code class="highlighter-rouge">?method_name</code>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">shooting_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">shooting_data</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span></code></pre></figure>
+
+<p>Let’s see what the new dataframe looks like</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">shooting_data</span><span class="p">)</span><span class="w">
+</span><span class="n">age</span><span class="w"> </span><span class="n">state</span><span class="w">
+</span><span class="m">53</span><span class="w">    </span><span class="n">WA</span><span class="w">
+</span><span class="m">47</span><span class="w">    </span><span class="n">OR</span><span class="w">
+</span><span class="m">23</span><span class="w">    </span><span class="n">KS</span><span class="w">
+</span><span class="m">32</span><span class="w">    </span><span class="n">CA</span><span class="w">
+</span><span class="m">39</span><span class="w">    </span><span class="n">CO</span><span class="w">
+</span><span class="m">18</span><span class="w">    </span><span class="n">OK</span></code></pre></figure>
+
+<p>The age column contains integer values and the state column contains the 2-letter abbreviations for the states in which the killings occurred.</p>
+
+<h3 id="handling-missing-values">Handling Missing Values</h3>
+<p>Before performing any analysis, it’s a good practice to check for anomalies like missing values in the data. Missing values are coded with <code class="highlighter-rouge">NA</code> in most datasets, so we check for this in our dataset. Be familiar with how missing values are represented in your dataset and handle them accordingly.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">shooting_data</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="w">
+</span><span class="n">age</span><span class="w"> </span><span class="n">state</span><span class="w">
+</span><span class="m">37</span><span class="w">     </span><span class="m">0</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">sapply()</code> method applies the function supplied as its argument to each column of the data frame. The function returns the number of cells that have <code class="highlighter-rouge">NA</code> as their values in each of the dataframe’s column. To learn more about the Apply family of functions in R, check this <a href="https://www.datacamp.com/community/tutorials/r-tutorial-apply-family" target="_blank">tutorial</a>.</p>
+
+<p>We see that there are 37 missing values coded as <code class="highlighter-rouge">NA</code> in the <code class="highlighter-rouge">age</code> column so we handle this by recoding them to <code class="highlighter-rouge">0</code>. The choice of 0 will be apparent in the following section.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">shooting_data</span><span class="o">$</span><span class="n">age</span><span class="p">[</span><span class="nf">is.na</span><span class="p">(</span><span class="n">shooting_data</span><span class="o">$</span><span class="n">age</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span></code></pre></figure>
+
+<h3 id="how-many-people-are-killed-by-age-group">How many people are killed by age group?</h3>
+<p>Since the ages are integer values, I thought it would be more useful to group them and then plot the distribution of killings in the age groups. We convert the integer values into categories (factors) using the <code class="highlighter-rouge">cut()</code> method. Running <code class="highlighter-rouge">?cut</code> in R, we get the following documentation:</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">cut</code> divides the range of x into intervals and codes the values in x according to which interval they fall. The leftmost interval corresponds to level one, the next leftmost to level two and so on.</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">shooting_data</span><span class="o">$</span><span class="n">cat_age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="n">cut</span><span class="p">(</span><span class="n">shooting_data</span><span class="o">$</span><span class="n">age</span><span class="p">,</span><span class="w">
+      </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="o">-</span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="kc">Inf</span><span class="p">),</span><span class="w">  
+      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Under 18"</span><span class="p">,</span><span class="w"> </span><span class="s2">"18-29"</span><span class="p">,</span><span class="w"> </span><span class="s2">"30-44"</span><span class="p">,</span><span class="w"> </span><span class="s2">"45-59"</span><span class="p">,</span><span class="w"> </span><span class="s2">"60 above"</span><span class="p">),</span><span class="w">
+      </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span></code></pre></figure>
+
+<p>Since we coded our missing age values as 0, we set the label for any value between -Inf and 1 to <em>“Unknown”</em>. This interval covers our missing values coded as 0. Ages between 1 and 18 are grouped into <em>“Under 18”</em>, 18 - 30 coded as <em>“18-29”</em>, 30 - 45 coded as <em>“30-44”</em>, 45 - 60 coded as <em>“45 - 59”</em> while ages between 60 and Inf are coded as <em>“60 above”</em>.</p>
+
+<p>In the following code snippet, we group the data frame by the age group categories column <code class="highlighter-rouge">cat_age</code> we created above and then summarise each group by counting the number of killings. We pass the summarised data into ggplot and display it as a bar chart.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">killings_by_age_group_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shooting_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">cat_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cat_age</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#f29999"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Age Group"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of Police Killings"</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Distribution of Police Killings by age group in the United States (Jan 2015 - July 2016)"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggplotly</span><span class="p">(</span><span class="n">killings_by_age_group_plot</span><span class="p">)</span><span class="w"> </span><span class="c1"># Make graph interactive with Plotly</span></code></pre></figure>
+
+<p>The reason Plotly was chosen for this analysis is because it allows us to create beautiful, interactive visualisation with APIs in Python, R and many other languages. The <code class="highlighter-rouge">ggplotly</code> method accepts a <code class="highlighter-rouge">ggplot</code> object as argument and turns it into an interactive graph. Check out <a href="https://plot.ly/r/#basic-charts" target="_blank">some example plots</a> created with Plotly’s R library.</p>
+
+<p>The <code class="highlighter-rouge">%&gt;%</code> operator in the snippet above might look strange to some R users. <code class="highlighter-rouge">%&gt;%</code>, available in the <code class="highlighter-rouge">magrittr</code> package, allows us to pipe values into an expression or a function call. It improves code readability by removing the need to create a bunch of variables to hold the results of function calls. Check out <a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html" target="_blank"><code class="highlighter-rouge">magrittr</code>’s vignette</a> for a detailed explanation of how to use the package.</p>
+
+<div class="plotly">
+  <iframe frameborder="0" scrolling="no" src="https://plot.ly/~allenkunle/0.embed"></iframe>
+</div>
+
+<p>The plot is interactive so hover and click on it to interact with it.</p>
+
+<h3 id="what-is-the-police-killings-per-million-population-value-for-each-state">What is the Police killings per million population value for each state?</h3>
+<p>To compare the number of police killings across US states in our dataset, we will compute the police killings per million population value for each state and plot these values on a <code class="highlighter-rouge">Plotly</code>’s choropleth map.</p>
+
+<p>For this analysis, we need the population estimates for each state and the full state names. These details are not in the Washington Post’s dataset so we need to get them from other sources. We will use the <code class="highlighter-rouge">state.abb</code> (contains the 2-letter state name abbreviations) and <code class="highlighter-rouge">state.name</code> (contains the full state names) datasets available in R to get the full state names into our <code class="highlighter-rouge">shooting_data</code> dataframe.</p>
+
+<p>The <code class="highlighter-rouge">state</code> data sets contain information relating to the 50 states of the US and they are arranged according to alphabetical order of the state names. So for an index <code class="highlighter-rouge">i</code>, the 2-letter state name abbreviation at <code class="highlighter-rouge">state.abb[i]</code> will map to the full state name at <code class="highlighter-rouge">state.name[i]</code>. One caveat of the <code class="highlighter-rouge">state</code> datasets is that they do not contain information about the District of Columbia.</p>
+
+<p>For the population estimates of each state, I created a state population data set from data I extracted from the <a href="https://www.census.gov/popest/data/state/totals/2015/index.html" target="_blank">United States Census Bureau website</a>. I have cleaned the data set and it contains 2015 population estimates for each of the 50 US states and the District of Columbia. The data set is hosted <a href="https://raw.githubusercontent.com/allenakinkunle/washington-post-data-analysis/master/state_population_data.csv" target="_blank">here</a>.</p>
+
+<p>We start our analysis by adding the full state name for each row containing the 2-letter state name abbreviation in our dataframe. We check for matches between the values of our <code class="highlighter-rouge">shooting_data$state</code> column and the <code class="highlighter-rouge">state.abb</code> vector. If there is a match, the <code class="highlighter-rouge">match()</code> method returns the index of the match in the <code class="highlighter-rouge">state.abb</code> vector, else it returns <code class="highlighter-rouge">NA</code>, in this case this only happens for <strong>DC</strong> (District of Columbia) abbreviation.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">shooting_data</span><span class="o">$</span><span class="n">state_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="c1"># Get full state name if index exists, else set full state name as "District of Columbia"</span><span class="w">
+  </span><span class="n">index</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">match</span><span class="p">(</span><span class="n">shooting_data</span><span class="o">$</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">state.abb</span><span class="p">)</span><span class="w">
+  </span><span class="n">shooting_data</span><span class="o">$</span><span class="n">state_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">index</span><span class="p">),</span><span class="w"> </span><span class="s2">"District of Columbia"</span><span class="p">,</span><span class="w"> </span><span class="n">state.name</span><span class="p">[</span><span class="n">index</span><span class="p">])</span></code></pre></figure>
+
+<p>Let’s take a look into how the dataframe looks now</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">shooting_data</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w">
+    </span><span class="n">age</span><span class="w">   </span><span class="n">state</span><span class="w">   </span><span class="n">cat_age</span><span class="w">   </span><span class="n">state_name</span><span class="w">
+</span><span class="m">1</span><span class="w">   </span><span class="m">53</span><span class="w">    </span><span class="n">WA</span><span class="w">      </span><span class="m">45-59</span><span class="w">     </span><span class="n">Washington</span><span class="w">
+</span><span class="m">2</span><span class="w">   </span><span class="m">47</span><span class="w">    </span><span class="n">OR</span><span class="w">      </span><span class="m">45-59</span><span class="w">     </span><span class="n">Oregon</span><span class="w">
+</span><span class="m">3</span><span class="w">   </span><span class="m">23</span><span class="w">    </span><span class="n">KS</span><span class="w">      </span><span class="m">18-29</span><span class="w">     </span><span class="n">Kansas</span></code></pre></figure>
+
+<p>We see that the full state name has been added to the dataframe. To get the population estimates for each state, we read in the state population data set.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">state_population_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/allenakinkunle/washington-post-data-analysis/master/state_population_data.csv"</span><span class="p">)</span></code></pre></figure>
+
+<p>In the following code snippet, we group the data frame by state name and count the number of killings in each state. We use <code class="highlighter-rouge">merge()</code> to perform an inner join of our <code class="highlighter-rouge">shooting_data</code>  dataframe and newly imported <code class="highlighter-rouge">state_population_data</code> dataframe by their common column <code class="highlighter-rouge">state_name</code>. We then use <code class="highlighter-rouge">dplyr</code>’s <code class="highlighter-rouge">mutate</code> method to add the computed Police killings per million for each state to the dataframe. The <code class="highlighter-rouge">hover</code> variable, also added to the dataframe, is used by <code class="highlighter-rouge">Plotly</code> to display a hover text when the choropleth map is interacted with.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">killings_by_state</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shooting_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">state_name</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">merge</span><span class="p">(</span><span class="n">state_population_data</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"state_name"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="c1"># calculate the killings per million for each state</span><span class="w">
+    </span><span class="n">killings_per_million</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="n">population</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1000000</span><span class="p">)),</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w">
+    </span><span class="n">hover</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">state_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'&lt;br&gt;'</span><span class="p">,</span><span class="w"> </span><span class="n">killings_per_million</span><span class="p">,</span><span class="w"> </span><span class="s1">'per million people'</span><span class="p">,</span><span class="w">
+                  </span><span class="s1">'&lt;br&gt;'</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="s1">'shootings since January 2015'</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span></code></pre></figure>
+
+<p>The next step is to use <code class="highlighter-rouge">Plotly</code>’s <code class="highlighter-rouge">plot_ly</code> method to create the choropleth map. We pass in the <code class="highlighter-rouge">killings_by_state</code> dataframe we created above as argument to the function among other configuration arguments.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># List of options for the map</span><span class="w">
+</span><span class="n">l</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toRGB</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'usa'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot the choropleth map</span><span class="w">
+</span><span class="n">plot_ly</span><span class="p">(</span><span class="n">killings_by_state</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">killings_per_million</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hover</span><span class="p">,</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'choropleth'</span><span class="p">,</span><span class="w">
+      </span><span class="n">locationmode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'USA-states'</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">killings_per_million</span><span class="p">,</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Reds'</span><span class="p">,</span><span class="w">
+      </span><span class="n">marker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">),</span><span class="w"> </span><span class="n">colorbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Police killings per million people"</span><span class="p">,</span><span class="w">
+      </span><span class="n">lenmode</span><span class="o">=</span><span class="s2">"pixels"</span><span class="p">,</span><span class="w"> </span><span class="n">titleside</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span><span class="w"> </span><span class="n">xpad</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ypad</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">layout</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Police killings per million people in United States (Jan 2015 - July 2016))'</span><span class="p">,</span><span class="w"> </span><span class="n">geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">)</span></code></pre></figure>
+
+<div class="plotly">
+  <iframe frameborder="0" scrolling="no" src="https://plot.ly/~allenkunle/2.embed"></iframe>
+</div>
+
+<p>Hover on the map, zoom in and out to interact with it.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>This blog post shows the power of R for quick exploratory analysis and demonstrates how static graphs can be brought to life with Plotly. Plotly is easy to use for users familiar with <code class="highlighter-rouge">ggplot</code> as it uses a similar syntax. If you have suggestions or questions, please drop a comment in the comment section below. You can  also send me emails at hello [at] allenkunle [dot] me or tweet at me <a href="https://twitter.com/allenakinkunle" target="_blank">@allenakinkunle</a>, and I will reply as soon as I can.</p>
+
+<p>The complete source code is available on <a href="https://github.com/allenakinkunle/washington-post-data-analysis" target="_blank">Github</a>. Feel free to check and make suggestions for improvements. Thank you for reading!</p>
+
+
+	</div>
+
+	<div class="footer">
+		<!-- Share Buttons -->
+		<ul id="share" class="clearfix">
+    <li>
+        <a href="https://www.linkedin.com/shareArticle?url=http://allenkunle.me/exploratory-analysis-police-shooting&mini=true&title=Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly&summary=The Washington Post has been compiling a database of fatal shootings in the United States by police officers in the line of duty since January 1, 2015. The dataset contains information such as the date and the state in which the killing occurred, the age, gender and, race of the deceased. In light of the recent Police killings in the US, I thought it would be interesting to perform the following exploratory analyses using the dataset: The distribution of the deceased by age group The distribution of Police killings per million people for each state using a choropleth map. We..."
+          target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin-square"></i> Share on LinkedIn</a>
+      </li>
+  <li>
+    <a href="https://www.twitter.com/intent/tweet?text='Exploratory Analysis of the Washington's Post Police Shooting dataset using R and Plotly'&url=http://allenkunle.me/exploratory-analysis-police-shooting&via=allenakinkunle"
+      rel="nofollow" target="_blank" title="Share on Twitter"><i class="fa fa-twitter-square"></i> Share on Twitter</a>
+  </li>
+  <li>
+    <a href="https://www.facebook.com/sharer.php?u=http://allenkunle.me/exploratory-analysis-police-shooting" rel="nofollow"
+      target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i> Share on Facebook</a>
+  </li>
+</ul>
+
+
+		<!-- Show next and previous links -->
+		<div id="page-navigation" class="clearfix">
+
+
+
+
+  <div class="next clearfix">
+      <a href="/dplyr-style-data-manipulation-in-python">dplyr-style Data Manipulation with Pipes in Python</a>
+      <i class="fa fa-chevron-right"></i>
+  </div>
+
+
+</div>
+
+
+		<!-- Comments -->
+		  <!-- Add Disqus comments. -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'allenakinkunle'; // required: replace example with your forum shortname
+    var disqus_identifier = "/exploratory-analysis-police-shooting";
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+	</div>
+</article>
+
+
+	  </main>
+
+		  <!-- Pagination links -->
+      
+
+	  </div>
+
+	</div>
+</body>
+</html>
