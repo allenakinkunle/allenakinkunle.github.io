@@ -19,8 +19,12 @@ layout: default
 			  </p>
 			</div>
 
-
-	  	<p>{{ post.content | strip_html | truncatewords:50 }}&nbsp; <a href="{% if site.baseurl == "/" %}{{ post.url }}{% else %}{{ post.url | prepend: site.baseurl }}{% endif %}">READ MORE</a></p>
+	  	<p>{{ post.excerpt}}</p>
+      <p class="btn_read_more">
+        <a href="{% if site.baseurl == "/" %}{{ post.url }}{% else %}{{ post.url | prepend: site.baseurl }}{% endif %}">
+          READ ARTICLE
+        </a>
+      </p>
 	  </li>
 
     {% endfor %}
