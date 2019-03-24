@@ -4,7 +4,7 @@
  <title>Allen Akinkunle | Data Science, Machine Learning</title>
  <link href="http://allenkunle.me/atom.xml" rel="self"/>
  <id>http://allenkunle.me</id>
- <updated>2019-03-24T01:44:15+00:00</updated>
+ <updated>2019-03-24T02:18:25+00:00</updated>
  <author>
    <name>Allen Akinkunle</name>
    <uri>http://www.allenkunle.me</uri>
@@ -18,7 +18,7 @@
    <link href="http://allenkunle.me/deriving-ml-cost-functions-part1"/>
    <id>http://allenkunle.me/deriving-ml-cost-functions-part1</id>
    <updated>2019-03-24T00:00:00+00:00</updated>
-   <content type="html">&lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt; &lt;p&gt;In supervised machine learning, cost functions are used to measure a trained model’s performance on data. The most commonly used cost function for regression is the Mean Squared Error (MSE), and for binary classification, Cross Entropy is the most common choice. For many people, the reasons for choosing...</content>
+   <content type="html">&lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt; &lt;p&gt;In supervised machine learning, cost functions are used to measure a trained model’s performance. The most commonly used cost function for regression is the Mean Squared Error (MSE), and Cross Entropy for binary classification problems. For many people, the reasons for choosing these cost functions are not at...</content>
  </entry>
 
  
