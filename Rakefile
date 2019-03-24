@@ -7,12 +7,6 @@ require 'tmpdir'
 require 'jekyll'
 
 desc "Generate blog files"
-task :generate do
-  Jekyll::Site.new(Jekyll.configuration({
-    "source"      => ".",
-    "destination" => "_site"
-  })).process
-end
 
 desc "Generate and publish blog to master branch"
 task :publish => [:generate] do
