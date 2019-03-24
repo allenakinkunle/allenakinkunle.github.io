@@ -276,18 +276,18 @@ div.table {
     display: block;
     content: '';
     width: 5rem;
-    height: 1px;
-    margin: 23px auto;
+    margin: 25px auto;
     background-color: lighten($text-color, 75%);
   }
 
 #metadata {
-  line-height: 1.3334em; /* 24px/18px */
-  margin-bottom: 1.3334em; /* 24px/18px */
+  line-height: 4rem; 
+  margin-bottom: 0.5rem;
   margin-top: 0.1em;
   color: lighten($text-color, 25%);
   .time {
     display: inline-block;
+    font-size: 1.9rem;
     font-weight: 200;
   }
   .fa {
@@ -418,10 +418,14 @@ img[title="Emerald"] {
   .previous a {
     padding-left: 30px;
     text-align: left;
+    font-size: 1.8rem;
+    color: $main-color;
   }
   .next a {
     padding-right: 10px;
     text-align: right;
+    font-size: 1.8rem;
+    color: $main-color;
   }
   a {
     width: 100%;
