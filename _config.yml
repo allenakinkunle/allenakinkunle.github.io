@@ -47,6 +47,8 @@ version: "1.0.0"
 # Options
 reverse: true
 
+timezone: Europe/London
+
 exclude: [Gemfile, Rakefile, Gemfile.lock]
 
 sass:
