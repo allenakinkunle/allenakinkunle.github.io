@@ -57,28 +57,37 @@
 	<!-- MathJax-->
 	<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
+        jax: ['input/TeX', 'output/HTML-CSS'],
         showProcessingMessages: false,
         messageStyle: 'none',
+        
         tex2jax: {
           inlineMath: [['$','$']],
           displayMath: [['$$','$$']],
-          processEnvironments: false
+          processEnvironments: true
         },
-        // show equation numbers
+        "HTML-CSS": { 
+          fonts: ["TeX"] ,
+          minScaleAdjust: 100,
+          matchFontHeight: false,
+          linebreaks: {
+            width: "100% container"
+          }
+        },
         TeX: {
           equationNumbers: {
             autoNumber: "AMS"
           },
           extensions: ["color.js"],
-        },
-        'HTML-CSS': {
-          imageFont: null
         }
       });
 </script>
+
 <script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML">
 </script>
+
+
 </head>
 
 
@@ -123,7 +132,7 @@
 	    
 	      <a href="/tags/dplyr">dplyr</a>
 	    
-	      <a href="/tags/Data Wrangling">Data Wrangling</a>
+	      <a href="/tags/Data-Wrangling">Data-Wrangling</a>
 	    
 	  </p>
 	</div>
@@ -159,8 +168,8 @@
 <h3 id="piping">Piping</h3>
 <p>Let’s say you want to perform <code class="highlighter-rouge">n</code> discrete transformation operations on your dataset before outputting the final result. The most common way is to perform the operations step by step and store the result of each step in a variable. The variable holding the intermediate result is then used in the next step of the transformation pipeline. Let’s take a look at an abstract example.</p>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># 'original_data' could be a pandas DataFrame.</span>
-<span class="n">result_1</span> <span class="o">=</span> <span class="n">transformation_1</span><span class="p">(</span><span class="n">original_data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># 'original_data' could be a pandas DataFrame.
+</span><span class="n">result_1</span> <span class="o">=</span> <span class="n">transformation_1</span><span class="p">(</span><span class="n">original_data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">result_2</span> <span class="o">=</span> <span class="n">transformation_2</span><span class="p">(</span><span class="n">result_1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">result_3</span> <span class="o">=</span> <span class="n">transformation_3</span><span class="p">(</span><span class="n">result_2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="o">.</span>
@@ -185,8 +194,8 @@
 <p>dfply allows chaining multiple operations on a pandas DataFrame with the <code class="highlighter-rouge">&gt;&gt;</code> operator. One can chain operations and assign the final output (a pandas DataFrame, since dfply works directly on DataFrames) to a variable. In dfply, the DataFrame result of each step of a chain of operations is represented by <code class="highlighter-rouge">X</code>. <br />
 For example, if you want to select three columns from a DataFrame in a step, drop the third column in the next step, and then show the first three rows of the final dataframe, you could do something like this:</p>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># 'data' is the original pandas DataFrame</span>
-<span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># 'data' is the original pandas DataFrame
+</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span>
  <span class="n">select</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">first_col</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">second_col</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
  <span class="n">drop</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
  <span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span></code></pre></figure>
@@ -292,12 +301,12 @@ For example, let’s create two new columns: one by dividing the <code class="hi
 <p>We will write the operations using <code class="highlighter-rouge">dfply</code> piping operator <code class="highlighter-rouge">&gt;&gt;</code>. We won’t have to use intermediate variables to save the result of each step.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
-  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c"># step 1</span>
-  <span class="n">mutate</span><span class="p">(</span><span class="n">speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">distance</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">air_time</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="c"># step 2</span>
-  <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c"># step 3a</span>
-  <span class="n">summarize</span><span class="p">(</span><span class="n">mean_speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="c"># step 3b</span>
-  <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">mean_speed</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c"># step 4</span>
-<span class="p">)</span></code></pre></figure>
+  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 1
+</span>  <span class="n">mutate</span><span class="p">(</span><span class="n">speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">distance</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">air_time</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 2
+</span>  <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3a
+</span>  <span class="n">summarize</span><span class="p">(</span><span class="n">mean_speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3b
+</span>  <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">mean_speed</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># step 4
+</span><span class="p">)</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>origin</th> <th>mean_speed</th> </tr></thead> <tbody> <tr> <th>0</th> <td>EWR</td><td>0.109777</td></tr><tr> <th>1</th> <td>JFK</td><td>0.109427</td></tr><tr> <th>2</th> <td>LGA</td><td>0.107362</td></tr></tbody></table>
@@ -350,6 +359,11 @@ For example, let’s create two new columns: one by dividing the <code class="hi
   </div>
 
 
+
+  <div class="next clearfix">
+      <a href="/deriving-ml-cost-functions-part1">Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part I</a>
+      <i class="fa fa-chevron-right"></i>
+  </div>
 
 
 </div>
