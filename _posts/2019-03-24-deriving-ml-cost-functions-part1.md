@@ -4,12 +4,12 @@ title: Deriving Machine Learning Cost Functions using Maximum Likelihood Estimat
 comments: true
 tags: ['Machine-Learning']
 image_url: mathematics.jpg
-excerpt: 'Mean Squared Error (MSE) - the commonly used cost function for regression problems derived using Maximum Likelihood Estimation (MLE)'
+excerpt: 'Mean Squared Error (MSE) - a commonly used cost function for regression problems derived using Maximum Likelihood Estimation (MLE)'
 ---
 
 ### Motivation
 In supervised machine learning, cost functions are used to measure a trained model's performance. The most commonly used cost function for regression is the Mean Squared Error (MSE), and Cross Entropy for binary classification problems. For many people, the reasons for choosing these cost functions are not at all clear.  
-The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while Part II will focus on deriving Cross Entropy.
+The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while [Part II](/deriving-ml-cost-functions-part2){:target="_blank"} will focus on deriving Cross Entropy.
 
 ### Background
 Given a training set of $n$ examples $(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots (x^{(n)}, y^{(n)})$ where $x^{(i)}$ is the feature vector for the $i^{th}$ training example and $y^{(i)}$ is its target, the goal of supervised learning is to learn a model $f: \mathcal{X} \to \mathcal{Y}$, a mapping that given $x \in \mathcal{X}$ outputs a prediction $\hat y \in \mathcal{Y}$. $\mathcal X$ and $\mathcal Y$ are called the input space and output space respectively.  
@@ -44,7 +44,7 @@ Given a set of independent and identically distributed (i.i.d)[^iid] random vari
 <p class="math">
 $$
 \begin{align}
-  \mathcal{L(\theta | x_1, x_2, \cdots, x_n)} = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
+  \mathcal{L}(\theta | x_1, x_2, \cdots, x_n) = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
 \end{align}
 $$
 </p>
