@@ -3,7 +3,7 @@ layout: post
 title: Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part II
 comments: true
 tags: ['Machine-Learning']
-image_url: sigmoid.jpg
+image_url: mathematics.jpg
 excerpt: 'Cross-Entropy Loss - a commonly used cost function for binary classification problems derived using Maximum Likelihood Estimation (MLE)'
 ---
 
