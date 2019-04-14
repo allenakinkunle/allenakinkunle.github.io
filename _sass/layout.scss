@@ -42,6 +42,10 @@ body {
   @include nav-position(left);
 }
 
+img.percent80 {
+  width: 80%;
+}
+
 /* Toggle class to open menu */
 
 #nav.menu-open {
