@@ -5,15 +5,213 @@
     <description>The personal website of Allen Akinkunle</description>
     <link>http://allenkunle.me//</link>
     <atom:link href="http://allenkunle.me//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 24 Mar 2019 02:18:25 +0000</pubDate>
-    <lastBuildDate>Sun, 24 Mar 2019 02:18:25 +0000</lastBuildDate>
+    <pubDate>Sun, 14 Apr 2019 17:56:59 +0100</pubDate>
+    <lastBuildDate>Sun, 14 Apr 2019 17:56:59 +0100</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part II</title>
+        <description>&lt;p&gt;In &lt;a href=&quot;/deriving-ml-cost-functions-part1&quot; target=&quot;_blank&quot;&gt;Part I&lt;/a&gt; of this article, we introduced Maximum Likelihood Estimation (MLE), Likelihood function, and derived Mean Squared Error (MSE) using Maximum likelihood estimation. In this article, we will use Maximum likelihood estimation to derive Cross-Entropy cost function, which is commonly used for binary classification problems.&lt;/p&gt;
+
+&lt;h3 id=&quot;background&quot;&gt;Background&lt;/h3&gt;
+&lt;p&gt;Binary logistic regression is used to model the relationship between a categorical target variable $Y$ and a predictor vector $X = (X_1, X_2, \cdots, X_p)$. The target variable will have two possible values, such as whether a student passes an exam or not, or whether a visitor to a website subscribes to the website’s newsletter or not. The two possible categories are coded as ‘1’, called the positive class, and ‘0’, called the negative class. Binary logistic regression estimates the probability that the response variable $Y$ belongs to the positive class given $X$.&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  p(X) = Pr(Y = 1 | X)
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;In linear regression, we model the expected value (the mean $\mu$) of the continuous target variable $Y$ as a linear combination of the predictor vector $X$ and estimate the weight parameters $\beta_1, \beta_2, \cdots, \beta_p$ using our training data.&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \mathbb{E}(Y|X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label{eqn:true-regression}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;In this case where our target variable $Y$ is categorical and has two possible values coded as 0 and 1, the expected value or mean of $Y$ is the probability $p(X)$ of observing the positive class&lt;sup id=&quot;fnref:expectation&quot;&gt;&lt;a href=&quot;#fn:expectation&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. It seems sensible then to model the expected value of our categorical $Y$ variable using equation \eqref{eqn:true-regression}, as in linear regression.&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \mathbb{E}(Y|X) = p(X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label{eqn:probability-linear}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;The problem with modelling the probability $p(X)$ as a linear combination of the predictor variables is that probability $p(X)$ has a range $[0, 1]$, but the right-hand side of the equation outputs values in the range $(-\infty, +\infty)$. In other words, we will get meaningless estimates of the probability if we use that equation.&lt;br /&gt;
+The solution is to use a function of probability $p(X)$ that provides a suitable relationship between the linear combination of the predictor variables $X$ and $p(X)$, the mean of the response variable. This function is called a link function, and it maps the probability range $[0, 1]$ to $(-\infty, +\infty)$.&lt;br /&gt;
+The most commonly used link function for binary logistic regression is the logit function (or log-odds&lt;sup id=&quot;fnref:odds&quot;&gt;&lt;a href=&quot;#fn:odds&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;), given as:&lt;/p&gt;
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \text{logit}\bigg(p(X)\bigg) = \text{log}\bigg(\frac{p(X)}{1-p(X)}\bigg) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label {eqn:logit}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;How do we then go from the logit function to getting the estimate of the probability p(X) of observing the positive class? Because logit is a function of probability, we can take its inverse to map arbitrary values in the range $(-\infty, +\infty)$ back to the probability range $[0, 1]$. &lt;br /&gt;
+Recall that the inverse function of the natural logarithm function is the exponential function, so if we take the inverse of equation \eqref{eqn:logit}, we get:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \frac{p(X)}{1-p(X)} = e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} \label{eqn:odds}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;If we solve for $p(X)$ in equation \eqref{eqn:odds}, we get&lt;sup id=&quot;fnref:logistic&quot;&gt;&lt;a href=&quot;#fn:logistic&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  p(X) &amp;amp; = &amp;amp; \frac{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}}{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} + 1} \nonumber \\
+      &amp;amp; = &amp;amp; \frac{1}{1 + e^{(-\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}} \label{eqn:logistic}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;Equation \eqref{eqn:logistic} is the logistic (or sigmoid) function, and it maps values in the logit range $(-\infty, +\infty)$ back into the range $[0, 1]$ of probabilities.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/log-odds.svg&quot; alt=&quot;log-odds&amp;amp;sigmoid&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;deriving-cost-entropy-using-mle&quot;&gt;Deriving Cost Entropy using MLE&lt;/h3&gt;
+&lt;p&gt;Given a set of $n$ training examples $\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})\}$, binary cross-entropy is given by:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \text{Cross-Entropy} = -\bigg[\frac{1}{n} \sum_{i=1}^n\bigg(y^{(i)}\text{log} p^{(i)} + (1- y^{(i)})\text{log}(1 - p^{(i)})\bigg)\bigg] \label{eqn:cross-entropy}
+\end{align} 
+$$
+&lt;/p&gt;
+
+&lt;p&gt;where $x^{(i)}$ is the feature vector, $y^{(i)}$ is the true label (0 or 1) for the $i^{th}$ training example, and $p^{(i)}$ is the predicted probability that the $i^{th}$ training example belongs to the positive class, that is, $Pr(Y = 1 | X = x^{(i)})$.&lt;/p&gt;
+
+&lt;p&gt;In this section, we will derive cross-entropy using MLE. If you are not already familiar with MLE and likelihood function, I will advise that you read the section that explains both concepts in &lt;a href=&quot;/deriving-ml-cost-functions-part1&quot;&gt;Part I&lt;/a&gt; of this article.&lt;/p&gt;
+
+&lt;p&gt;The derivation of cross-entropy follows from using MLE to estimate the parameters $\beta_0, \beta_1, \cdots, \beta_p$ of our logistic model on our training data.&lt;br /&gt;
+We start by describing the random process that generated $y^{(i)}$. &lt;br /&gt;
+$y^{(i)}$ is a realisation of the Bernoulli random variable&lt;sup id=&quot;fnref:bernoulli&quot;&gt;&lt;a href=&quot;#fn:bernoulli&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; $Y$. The Bernoulli distribution is parameterised by $p$, and its probability mass function (pmf) is given by:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  Pr(Y = y^{(i)}) = \begin{cases}
+   p &amp;amp; \text{if } y^{(i)} = 1, \\
+   1-p &amp;amp; \text {if } y^{(i)} = 0.
+ \end{cases}
+\end{align} 
+$$
+&lt;/p&gt;
+
+&lt;p&gt;which can be written in the more compact form:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  Pr(Y = y^{(i)}) = p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \ \text{for} \ y^{(i)} \in \{0,1\} \label{eqn:compact}
+\end{align} 
+$$
+&lt;/p&gt;
+
+&lt;p&gt;We then define our Likelihood function. The estimates of $\beta_0, \beta_1, \cdots, \beta_p$ we choose will be the ones that maximise the likelihood function. The likelihood function is a function of our parameter $p$ given our training data:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \mathcal{L}(p | (x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})) &amp;amp; = \prod_{i=1}^n f(y^{(i)}|p) \nonumber \\
+                                                     &amp;amp; = \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \label{eq:likelihood}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;It is easier to work with the log of the likelihood function&lt;sup id=&quot;fnref:part1&quot;&gt;&lt;a href=&quot;#fn:part1&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;, called the log-likelihood, so if we take the natural logarithm of equation \eqref{eq:likelihood}, we get:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \log \bigg(\mathcal{L}(p | y^{(1)}, y^{(2)}, \cdots, y^{(n)})\bigg) &amp;amp; = \log\bigg( \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \bigg) \nonumber \\
+    &amp;amp; = \sum_{i=1}^n \log \bigg(p^{y^{(i)}}(1-p)^{1 - y^{(i)}}\bigg) \nonumber \\
+    &amp;amp; = \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \label{eq:log-likelihood}
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;Recall that for our training data, $p^{(i)}$ in equation \eqref{eq:log-likelihood} is the predicted probability of the $i^{th}$ training example gotten from the logisitic function, so it is a function of the parameters $\beta_0, \beta_1, \cdots, \beta_p$. The maximum likelihood estimate $\hat \beta$ is therefore the value of the parameters that maximises the log-likelihood function.&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \hat \beta = \underset{\beta}{\operatorname{arg\,max}} \bigg[ \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;We also know that maximising a function is the same as minimising its negative.&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[ -\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;Taking the average across our $n$ training examples, we get:&lt;/p&gt;
+
+&lt;p class=&quot;math&quot;&gt;
+$$
+\begin{align}
+  \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[\color{red}-\frac{1}{n}\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \color{black}\bigg]
+\end{align}
+$$
+&lt;/p&gt;
+
+&lt;p&gt;which is the cross-entropy as defined in equation \eqref{eqn:cross-entropy}.&lt;/p&gt;
+
+&lt;h3 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h3&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:expectation&quot;&gt;
+      &lt;p&gt;$Y$ is a Bernoulli random variable. The Bernoulli distribution is a discrete probability distribution that describes processes that have only two possible outcomes: 1, with a probability of $p$ and 0, with a probability of $1 - p$. The expectation (or mean) of the Bernoulli distribution is $p$. [&lt;a href=&quot;https://brilliant.org/wiki/bernoulli-distribution/&quot; target=&quot;_blank&quot;&gt;Proof]&lt;/a&gt; &lt;a href=&quot;#fnref:expectation&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:odds&quot;&gt;
+      &lt;p&gt;The odds is defined as the ratio of the probability $p$ of observing an event to the probability $1-p$ of not observing that event. $\text{odds} = \frac{p}{1-p}$. If, for example, the odds of an event happening is $o$:1, it means that the event happened $o$ times out of a total of $o+1$ occurrences. The log-odds is simply the natural logarithm of the odds. &lt;a href=&quot;#fnref:odds&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:logistic&quot;&gt;
+      &lt;p&gt;A simple derivation can be found &lt;a href=&quot;https://qr.ae/TWTpnk&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; &lt;a href=&quot;#fnref:logistic&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:bernoulli&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Bernoulli_distribution&quot;&gt;Bernoulli distribution&lt;/a&gt; is the discrete probability distribution of a random variable that takes on two possible values: 1 with probability $p$ and 0 with probability $1-p$. An experiment modelled by the Bernoulli distribution is called a Bernoull trial. Examples of Bernoulli trials include: tossing a coin (head/tail), playing a game (winning/not winning). &lt;a href=&quot;#fnref:bernoulli&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:part1&quot;&gt;
+      &lt;p&gt;The reasons why this is the case is explained clearly in &lt;a href=&quot;/deriving-ml-cost-functions-part1&quot;&gt;Part I&lt;/a&gt;. Check the ‘What is Maximum Likelihood Estimation?’ section. &lt;a href=&quot;#fnref:part1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sun, 31 Mar 2019 00:00:00 +0000</pubDate>
+        <link>http://allenkunle.me//deriving-ml-cost-functions-part2</link>
+        <guid isPermaLink="true">http://allenkunle.me//deriving-ml-cost-functions-part2</guid>
+        
+        <category>Machine-Learning</category>
+        
+        
+      </item>
     
       <item>
         <title>Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part I</title>
         <description>&lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt;
 &lt;p&gt;In supervised machine learning, cost functions are used to measure a trained model’s performance. The most commonly used cost function for regression is the Mean Squared Error (MSE), and Cross Entropy for binary classification problems. For many people, the reasons for choosing these cost functions are not at all clear.&lt;br /&gt;
-The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while Part II will focus on deriving Cross Entropy.&lt;/p&gt;
+The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while &lt;a href=&quot;/deriving-ml-cost-functions-part2&quot; target=&quot;_blank&quot;&gt;Part II&lt;/a&gt; will focus on deriving Cross Entropy.&lt;/p&gt;
 
 &lt;h3 id=&quot;background&quot;&gt;Background&lt;/h3&gt;
 &lt;p&gt;Given a training set of $n$ examples $(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots (x^{(n)}, y^{(n)})$ where $x^{(i)}$ is the feature vector for the $i^{th}$ training example and $y^{(i)}$ is its target, the goal of supervised learning is to learn a model $f: \mathcal{X} \to \mathcal{Y}$, a mapping that given $x \in \mathcal{X}$ outputs a prediction $\hat y \in \mathcal{Y}$. $\mathcal X$ and $\mathcal Y$ are called the input space and output space respectively.&lt;/p&gt;
@@ -48,7 +246,7 @@ $$
 &lt;p class=&quot;math&quot;&gt;
 $$
 \begin{align}
-  \mathcal{L(\theta | x_1, x_2, \cdots, x_n)} = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
+  \mathcal{L}(\theta | x_1, x_2, \cdots, x_n) = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
 \end{align}
 $$
 &lt;/p&gt;

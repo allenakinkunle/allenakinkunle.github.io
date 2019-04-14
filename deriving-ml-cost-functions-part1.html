@@ -135,7 +135,7 @@
 
 		<h3 id="motivation">Motivation</h3>
 <p>In supervised machine learning, cost functions are used to measure a trained model’s performance. The most commonly used cost function for regression is the Mean Squared Error (MSE), and Cross Entropy for binary classification problems. For many people, the reasons for choosing these cost functions are not at all clear.<br />
-The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while Part II will focus on deriving Cross Entropy.</p>
+The purpose of this two-part article is to shed some light on the choice of these cost functions by deriving them using Maximum Likelihood Estimation (MLE). Part I will focus on deriving MSE while <a href="/deriving-ml-cost-functions-part2" target="_blank">Part II</a> will focus on deriving Cross Entropy.</p>
 
 <h3 id="background">Background</h3>
 <p>Given a training set of $n$ examples $(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots (x^{(n)}, y^{(n)})$ where $x^{(i)}$ is the feature vector for the $i^{th}$ training example and $y^{(i)}$ is its target, the goal of supervised learning is to learn a model $f: \mathcal{X} \to \mathcal{Y}$, a mapping that given $x \in \mathcal{X}$ outputs a prediction $\hat y \in \mathcal{Y}$. $\mathcal X$ and $\mathcal Y$ are called the input space and output space respectively.</p>
@@ -170,7 +170,7 @@ $$
 <p class="math">
 $$
 \begin{align}
-  \mathcal{L(\theta | x_1, x_2, \cdots, x_n)} = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
+  \mathcal{L}(\theta | x_1, x_2, \cdots, x_n) = f(x_1, x_2, \cdots, x_n|\theta) \label{eq:likelihood}
 \end{align}
 $$
 </p>
@@ -403,6 +403,11 @@ $$
   </div>
 
 
+
+  <div class="next clearfix">
+      <a href="/deriving-ml-cost-functions-part2">Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part II</a>
+      <i class="fa fa-chevron-right"></i>
+  </div>
 
 
 </div>

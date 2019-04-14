@@ -4,12 +4,22 @@
  <title>Allen Akinkunle | Data Science, Machine Learning</title>
  <link href="http://allenkunle.me/atom.xml" rel="self"/>
  <id>http://allenkunle.me</id>
- <updated>2019-03-24T02:18:25+00:00</updated>
+ <updated>2019-04-14T17:56:59+01:00</updated>
  <author>
    <name>Allen Akinkunle</name>
    <uri>http://www.allenkunle.me</uri>
    <email>hello@allenkunle.me</email>
  </author>
+
+ 
+
+ <entry>
+   <title>Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part II</title>
+   <link href="http://allenkunle.me/deriving-ml-cost-functions-part2"/>
+   <id>http://allenkunle.me/deriving-ml-cost-functions-part2</id>
+   <updated>2019-03-31T00:00:00+00:00</updated>
+   <content type="html">&lt;p&gt;In &lt;a href=&quot;/deriving-ml-cost-functions-part1&quot; target=&quot;_blank&quot;&gt;Part I&lt;/a&gt; of this article, we introduced Maximum Likelihood Estimation (MLE), Likelihood function, and derived Mean Squared Error (MSE) using Maximum likelihood estimation. In this article, we will use Maximum likelihood estimation to derive Cross-Entropy cost function, which is commonly used for binary classification problems.&lt;/p&gt; &lt;h3 id=&quot;background&quot;&gt;Background&lt;/h3&gt;...</content>
+ </entry>
 
  
 
