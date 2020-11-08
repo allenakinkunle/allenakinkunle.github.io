@@ -184,7 +184,7 @@ div.table {
 
 .container {
 	margin:0 auto;
-	max-width: 800px;
+	max-width: 900px;
 	padding: 0 1.5rem;
 }
 
@@ -336,6 +336,7 @@ img[title="Emerald"] {
 .content ul, .content ol {
   line-height: 1.6em; /* 24px/16px */
   padding-left: 1.5em;
+  margin-bottom: 0;
   @media (min-width: 940px) {
     line-height: 1.6em; /* 24px/18px */
   }
@@ -356,6 +357,7 @@ img[title="Emerald"] {
 .pagination {
   text-align: center;
   margin: 2.666668em;
+  font-size: 2rem;
   span {
     background-color: darken($background-color, 5%);
     color: $text-color;

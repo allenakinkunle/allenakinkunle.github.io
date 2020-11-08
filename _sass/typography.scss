@@ -34,10 +34,6 @@ p.btn_read_more {
   }
 }
 
-.MathJax a {
-  color: $main-color;
-}
-
 #metadata p.tags {
   a {
     font-size: 1.7rem;
@@ -45,7 +41,43 @@ p.btn_read_more {
 }
 
 p.math {
-  overflow: scroll;
+
+  margin: 0;
+
+  .katex-display {
+    margin: 0.5rem 0 1rem 0;
+
+    @media (max-width: 760px) {
+
+      .katex {
+        white-space: nowrap;
+
+        .base {
+          display: inline;
+        }
+
+        .tag {
+          position: relative;
+          padding-left: 20px;
+        }
+
+      }
+
+      .katex-html {
+        overflow: scroll;
+      }
+    }
+  }
+}
+
+ul li p.math {
+  .katex-display {
+    margin: 1.5rem 0 0rem 0;
+  }
+}
+
+.katex>.katex-html {
+  font-size: 2.2rem;
 }
 
 p, ul, ol {
@@ -117,7 +149,7 @@ figure.highlight {
 p, ul, ol {
   font-size: 2.1rem;
   line-height: 3.5rem;
-  margin-bottom: 4rem; 
+  margin-bottom: 2rem; 
 }
 
 li {

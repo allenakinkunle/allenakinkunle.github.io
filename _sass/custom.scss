@@ -32,3 +32,11 @@
     }
   }
 }
+
+p.tag {
+  background: $main-color;
+  color: $background-color;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-top: -7px;
+}
