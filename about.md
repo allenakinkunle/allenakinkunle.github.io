@@ -6,7 +6,7 @@ permalink: /about/
 
 <h2>About</h2>
 
-I am a Machine Learning Engineer based in London, United Kingdom. I work within EY's Emerging Technologies team. In my current role, I use Natural Language Processing and Machine Learning techniques to build intelligent data products.
+I am a Machine Learning Engineer based in London, United Kingdom. I work within EY's Emerging Technologies team where I use Natural Language Processing and Machine Learning techniques to build intelligent data products.
 
 Before joining EY, I was a software developer building web and cross-platform mobile applications. I worked with startups in Lagos and London.
 
