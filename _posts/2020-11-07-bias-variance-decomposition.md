@@ -3,6 +3,7 @@ layout: post
 title: The Bias-Variance Decomposition Demystified
 comments: true
 tags: ['Machine-Learning', 'Statistics']
+image_url: mathematics.jpg
 excerpt: This post provides an intuitive explanation of the bias-variance decomposition. The bias-variance decomposition shows the generalisation error of a learning algorithm as the sum of three terms - bias, variance, and the irreducible error.
 ---
 
