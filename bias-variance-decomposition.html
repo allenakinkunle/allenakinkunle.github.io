@@ -226,7 +226,7 @@ $$
   $$
  </p>
 <ul>
-  <li>Individual observations of $Y$ will deviate from the true regression line by a certain amount. For example, if the feature $X$ is age of a person and the outcome variable $Y$ is height, $\color{green}f(X)$ is the mean height of people of a certain age, and each person’s height will be deviate from the mean height by a certain amount. An error term $\boldsymbol \epsilon$ captures this deviation. We assume that it is normally distributed with expectation $\mathbb{E}[\boldsymbol \epsilon] = 0$ and variance $\text{Var}(\boldsymbol \epsilon) = \sigma^2$. We also assume that $\boldsymbol \epsilon$ is independent of $X$ and cannot be estimated from data.</li>
+  <li>Individual observations of $Y$ will deviate from the true regression line by a certain amount. For example, if the feature $X$ is age of a person and the outcome variable $Y$ is height, $\color{green}f(X)$ is the mean height of people of a certain age, and each person’s height will deviate from the mean height by a certain amount. An error term $\boldsymbol \epsilon$ captures this deviation. We assume that it is normally distributed with expectation $\mathbb{E}[\boldsymbol \epsilon] = 0$ and variance $\text{Var}(\boldsymbol \epsilon) = \sigma^2$. We also assume that $\boldsymbol \epsilon$ is independent of $X$ and cannot be estimated from data.</li>
 </ul>
 <p class="math">
   $$
@@ -277,7 +277,7 @@ The model variance is the expectation of the squared differences between a parti
 
 <p class="tag">Simulation 1</p>
 
-<p>In practice, the true function we try to estimate is unknown, but for the sake of demonstration, we will assume that the true function is $f(x) = sin(x)$. Individual observations of $y$ will be $y = sin(x) + \epsilon$. We assume that $\mathbb{E}[\epsilon] = 0$ and $\text{Var}(\epsilon) = \sigma^2 = 1.5$. We will sample 50 data sets each with 100 individual observations, and on them we will fit three polynomial functions of varying degrees/complexities (1, 3, 20) to estimate our true function $f(x)$. Degree 1 is the least complex and degree 20 is the most complex.</p>
+<p>In practice, the true function we try to estimate is unknown, but for the sake of demonstration, we will assume that the true function is $f(x) = sin(x)$. Individual observations of $y$ will be $y = sin(x) + \epsilon$. We assume that $\mathbb{E}[\epsilon] = 0$ and $\text{Var}(\epsilon) = \sigma^2 = 1.5$. We will sample 50 data sets each with 100 individual observations, and on them we will fit three polynomial functions of varying degrees/complexities (1, 5, 20) to estimate our true function $f(x)$. Degree 1 is the least complex and degree 20 is the most complex.</p>
 
 <p><img src="/img/models-complexity.png" alt="models" /></p>
 
