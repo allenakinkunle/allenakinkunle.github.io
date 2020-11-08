@@ -22,7 +22,7 @@ markdown: kramdown
 source: .
 destination: ./_site
 permalink: /:title
-paginate: 5
+paginate: 10
 paginate_path: /page/:num/
 url: http://allenkunle.me
 
@@ -30,6 +30,7 @@ url: http://allenkunle.me
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+  math_engine: katex
 
 
 # Default values
@@ -49,7 +50,7 @@ reverse: true
 
 timezone: Europe/London
 
-exclude: [Gemfile, Rakefile, Gemfile.lock]
+exclude: [Gemfile, Rakefile, Gemfile.lock, vendor]
 
 sass:
   style: compressed
