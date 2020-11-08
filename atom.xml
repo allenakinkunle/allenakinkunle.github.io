@@ -4,12 +4,22 @@
  <title>Allen Akinkunle | Data Science, Machine Learning</title>
  <link href="http://allenkunle.me/atom.xml" rel="self"/>
  <id>http://allenkunle.me</id>
- <updated>2019-04-14T18:12:33+01:00</updated>
+ <updated>2020-11-08T15:40:52+00:00</updated>
  <author>
    <name>Allen Akinkunle</name>
    <uri>http://www.allenkunle.me</uri>
    <email>hello@allenkunle.me</email>
  </author>
+
+ 
+
+ <entry>
+   <title>The Bias-Variance Decomposition Demystified</title>
+   <link href="http://allenkunle.me/bias-variance-decomposition"/>
+   <id>http://allenkunle.me/bias-variance-decomposition</id>
+   <updated>2020-11-07T00:00:00+00:00</updated>
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt; &lt;p&gt;The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.&lt;/p&gt; &lt;p class=&quot;math&quot;&gt; $$...</content>
+ </entry>
 
  
 
@@ -38,7 +48,7 @@
    <link href="http://allenkunle.me/dplyr-style-data-manipulation-in-python"/>
    <id>http://allenkunle.me/dplyr-style-data-manipulation-in-python</id>
    <updated>2018-01-03T00:00:00+00:00</updated>
-   <content type="html">&lt;p&gt;I often use R’s &lt;code class=&quot;highlighter-rouge&quot;&gt;dplyr&lt;/code&gt; package for exploratory data analysis and data manipulation. In addition to providing a consistent set of functions that one can use to solve the most common data manipulation problems, dplyr also allows one to write elegant, chainable data manipulation code using pipes.&lt;/p&gt; &lt;p&gt;Now, Python...</content>
+   <content type="html">&lt;p&gt;I often use R’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dplyr&lt;/code&gt; package for exploratory data analysis and data manipulation. In addition to providing a consistent set of functions that one can use to solve the most common data manipulation problems, dplyr also allows one to write elegant, chainable data manipulation code using pipes.&lt;/p&gt; &lt;p&gt;Now,...</content>
  </entry>
 
  

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<meta name="generator" content="Data Science, Machine Learning, Data Visualisation, Software Development">
+
+	<title>The Bias-Variance Decomposition Demystified</title>
+
+	<!-- Twitter cards -->
+	<meta name="twitter:site"    content="@allenakinkunle">
+	<meta name="twitter:creator" content="@allenakinkunle">
+	<meta name="twitter:title"   content="The Bias-Variance Decomposition Demystified">
+	<meta name="twitter:card"    content="summary_large_image">
+	<meta name="twitter:image"   content="http://allenkunle.me/img/">
+
+	<!-- CSS & fonts -->
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+	<script>
+	WebFont.load({
+		google: {
+			families: [
+				'Crimson Text:400,600',
+				'Source Sans Pro:600',
+				'Signika:600'
+			]
+		}
+	});
+	</script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- RSS -->
+	<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" />
+
+	<!-- Feed -->
+	<link rel="alternate" type="application/rss+xml" title="My Site RSS" href="/feed.xml" />
+
+	<!-- Icons -->
+	<link rel="shortcut icon" href="/img/favicon.ico">
+
+	<!-- Google Analytics -->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-136832785-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+	<!-- Katex-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+		onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            'delimiters': [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
+</script>
+	
+</head>
+
+
+<body>
+
+	<div id="wrap">
+
+		<!-- Header -->
+		<header id="header">
+	<div class="container">
+		<a href="/">
+		  <h1>Allen Akinkunle</h1>
+		</a>
+
+		<div class="social">
+		  <a href="https://github.com/allenakinkunle" target="_blank"><i class="fa fa-github"></i></a> <i class="dot">.</i>
+		  <a href="mailto:hello@allenkunle.me" target="_blank"><i class="fa fa-envelope"></i></a> <i class="dot">.</i>
+		  <a href="http://twitter.com/allenakinkunle" target="_blank"><i class="fa fa-twitter"></i></a> <i class="dot">.</i>
+		  <a href="http://uk.linkedin.com/in/allenkunle" target="_blank"><i class="fa fa-linkedin"></i></a> <i class="dot">.</i>
+			<a href="http://stackoverflow.com/users/1748587/akinkunle-allen" target="_blank"><i class="fa fa-stack-overflow"></i></a> <i class="dot">.</i>
+			<a href="/about/" class="about">About</a>
+		</div>
+	</div>
+</header>
+
+
+    <!-- Main content -->
+	  <div class="container">
+
+		<main>
+
+			<article id="post-page">
+	<h2 class="title">The Bias-Variance Decomposition Demystified</h2>
+
+	<div id="metadata">
+	  <time datetime="2020-11-07T00:00:00+00:00" class="time"><i class="fa fa-clock-o"></i>07 Nov 2020</time>
+	  <p class="tags"><i class="fa fa-tags"></i>
+	    
+	      <a href="/tags/Machine-Learning">Machine-Learning</a>
+	    
+	      <a href="/tags/Statistics">Statistics</a>
+	    
+	  </p>
+	</div>
+
+	<div class="content">
+
+		<h3 id="introduction">Introduction</h3>
+<p>The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.</p>
+
+<p class="math">
+$$
+  \tag{1} \text{Generalisation error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
+$$
+</p>
+
+<p>In many statistics and machine learning texts, this decomposition is just presented and its derivation skipped. In texts where it derived, it is often presented in a way that is inaccessible to many people. And why is it important to understand this derivation? Because the decomposition is a useful theoretical tool for understanding the performance of a learning algorithm. Understanding how bias and variance contribute to generalisation error helps us understand underfitting and overfitting.</p>
+
+<p>The goal of this article is to present the bias-variance decomposition in an accessible and easy-to-follow format. We will restrict our discussion of this decomposition to regression problems where mean squared error is used as the performance metric.</p>
+
+<h3 id="a-quick-statistics-refresher">A Quick Statistics Refresher</h3>
+<p>We will go over some statistics concepts that will aid our understanding of the other concepts we will discuss.</p>
+
+<h4 id="expectation-of-a-random-variable">Expectation of a random variable</h4>
+<p>The expectation<sup id="fnref:expectation" role="doc-noteref"><a href="#fn:expectation" class="footnote">1</a></sup> or expected value of a random variable $X$, written as $\mathbb{E}[X]$, is the <strong>mean</strong> of a large number of observations of the random variable. The expectation has some basic properties:</p>
+
+<ul>
+  <li>The expectation of any constant $c$ is the constant:
+    <p class="math">
+ $$
+ \tag{2} \begin{aligned}
+   \mathbb{E}[c] = c
+  \end{aligned}
+ $$
+ </p>
+
+    <p>$\mathbb{E}\big[\mathbb{E}[X]\big] = \mathbb{E}[X]$ because the expection of a random variable is a constant.</p>
+  </li>
+  <li><strong>Linearity of expectations:</strong> For any random variables $X$ and $Y$, the expectation of their sum is equal to the sum of their expectations:
+    <p class="math">
+  $$
+  \tag{3} \begin{aligned}
+    \mathbb{E}[X+Y] = \mathbb{E}[X] + \mathbb{E}[Y]
+  \end{aligned}
+  $$
+  </p>
+  </li>
+  <li>For any random variable $X$ and a constant $c$:
+    <p class="math">
+  $$
+  \tag{4} \begin{aligned}
+    \mathbb{E}[cX] = \mathbb{E}[c]\mathbb{E}[X] = c\mathbb{E}[X]
+  \end{aligned}
+  $$
+  </p>
+  </li>
+</ul>
+
+<h4 id="variance-of-a-random-variable">Variance of a random variable</h4>
+<p>The variance of a random variable $X$ is the expectation of the squared difference of the random variable from its expectation $\color{blue} \mathbb{E}[X]$. In other words, it measures on average how spread out observations of the random variable are from the expectation of the random variable.</p>
+
+<p class="math">
+  $$
+  \begin{aligned}
+  \tag{5} \text{Var}(X) &amp; =  \mathbb{E}\Big[\Big(X - {\color{blue} \mathbb{E}[X]}\Big)^2\Big] \\
+  
+  &amp; =  \mathbb{E}\Big[\Big(X - {\color{blue}\mathbb{E}[X]} \Big)\Big(X - {\color{blue} \mathbb{E}[X]}\Big)\Big] \\ 
+ 
+  &amp; =  \mathbb{E}\Big[\Big(X^2 - 2X{\color{blue}\mathbb{E}[X]} + {\color{blue}\mathbb{E}[X]}^2\Big)\Big] 
+  \end{aligned}
+
+  $$
+</p>
+
+<p>If we recall that the expectation of a random variable $\color{blue}\mathbb{E}[X]$ is a constant and if we use the properties stated in equations (3) and (4), we get:</p>
+
+<p class="math">
+$$
+\tag{6} \begin{aligned}
+\text{Var}(X) &amp; = \mathbb{E}\big[X^2\big] - \mathbb{E}\big[2X{\color{blue}\mathbb{E}[X]}\big] + \mathbb{E}\big[{\color{blue}\mathbb{E}[X]}^2\big] \\
+
+&amp; = \mathbb{E}[X^2] - 2{\color{blue}\mathbb{E}[X]\mathbb{E}[X]} + {\color{blue}\mathbb{E}[X]}^2 \\ 
+
+&amp; = \mathbb{E}[X^2] - 2{\color{blue}\mathbb{E}[X]}^2 + {\color{blue}\mathbb{E}[X]}^2 \\ 
+
+\text{Var}(X) &amp; = \mathbb{E}[X^2] - {\color{blue}\mathbb{E}[X]}^2 
+\end{aligned}
+$$
+</p>
+
+<p>We could rewrite equation (6) as:</p>
+
+<p class="math">
+$$
+\tag{7} \begin{aligned}
+\mathbb{E}[X^2] &amp; = \text{Var}(X) + {\color{blue}\mathbb{E}[X]}^2 \\
+&amp; = \mathbb{E}\Big[\Big(X - {\color{blue} \mathbb{E}[X]}\Big)^2\Big] + {\color{blue}\mathbb{E}[X]}^2
+\end{aligned}
+$$
+</p>
+
+<h3 id="bias-variance-decomposition-for-regression-problems">Bias-Variance Decomposition for regression problems</h3>
+<p>If we are trying to predict a quantitative variable $Y$ with features $X$, we may assume that there is a <strong><em>true, unknown function</em></strong> $\color{green} f(X)$ that defines the relationship between $X$ and $Y$. Linear regression makes the following assumptions about this relationship:</p>
+<ul>
+  <li>There is a linear function between the conditional population mean of the outcome $Y$ and the features $X$. This function is called the <strong><em>true regression line</em></strong> and it is the unknown function we will estimate using training data.</li>
+</ul>
+<p class="math">
+  $$
+    \tag{8} \begin{aligned} 
+    \color{green} f(X) = \mathbb{E}[Y|X] = \boldsymbol\beta^\mathsf{T} X
+    \end{aligned}
+  $$
+ </p>
+<ul>
+  <li>Individual observations of $Y$ will deviate from the true regression line by a certain amount. For example, if the feature $X$ is age of a person and the outcome variable $Y$ is height, $\color{green}f(X)$ is the mean height of people of a certain age, and each person’s height will be deviate from the mean height by a certain amount. An error term $\boldsymbol \epsilon$ captures this deviation. We assume that it is normally distributed with expectation $\mathbb{E}[\boldsymbol \epsilon] = 0$ and variance $\text{Var}(\boldsymbol \epsilon) = \sigma^2$. We also assume that $\boldsymbol \epsilon$ is independent of $X$ and cannot be estimated from data.</li>
+</ul>
+<p class="math">
+  $$
+  \tag{9} \begin{aligned}
+  \color{green} Y = f(X) + \epsilon 
+  \end{aligned}
+  $$
+  </p>
+
+<p>To estimate the true, unknown function, we obtain a training dataset $\mathcal{D}$ of $n$ examples $\big[(x_1, {\color{green}y_1}), \cdots (x_n, {\color{green}y_n})\big]$ drawn i.i.d<sup id="fnref:iid" role="doc-noteref"><a href="#fn:iid" class="footnote">2</a></sup> from a data generating distribution $P(X,Y)$ and use a learning algorithm $\mathcal{A}$, say linear regression, to train a model $\color{red}\hat f_\mathcal{D}(X)$ that minimises <strong><em>mean squared error</em></strong> over the training examples. $\color{red}\hat f_\mathcal{D}(X)$ has subscript $\mathcal{D}$ to indicate that the model was trained on a specific training dataset $\mathcal{D}$. We call $\color{red}\hat f_\mathcal{D}(X)$ the <strong><em>model</em></strong> of our true, unknown function $\color{green}f(X)$.</p>
+
+<p>What we really care about is how our model performs on previously unseen test data. For an arbitrary new point $\big(x^\star, \space {\color{green}y^\star = f(x^\star)  + \epsilon} \big)$ drawn from $P(X,Y)$, we can use <strong><em>squared error</em></strong> to measure the model’s performance on this new example, where $\color{red}\hat f_\mathcal{D}(x^\star)$ is the model’s prediction.</p>
+
+<p class="math">
+$$
+\tag{10} \begin{aligned}
+\text{Squared Error} = \big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\big)^2
+\end{aligned}
+$$
+</p>
+
+<p>Now, because we draw our training set from a data generating distribution, it is possible, in principle<sup id="fnref:principle" role="doc-noteref"><a href="#fn:principle" class="footnote">3</a></sup>, to randomly draw a large number $N$ of different training datasets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo fence="false">(</mo><msub><mi mathvariant="script">D</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi mathvariant="script">D</mi><mi>N</mi></msub><mo fence="false">)</mo></mrow><annotation encoding="application/x-tex">\big(\mathcal{D}_1, \cdots, \mathcal{D}_N\big)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.20001em;vertical-align:-0.35001em;"></span><span class="mord"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="delimsizing size1">)</span></span></span></span></span> of $n$  examples from the distribution. If we use the learning algorithm $\mathcal{A}$ to train a model on each training set, we will get $N$ different models $\big({\color{red}\hat f_\mathcal{D_1}(X)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(X)}\big)$ that will give us $N$ different predictions $\big({\color{red}\hat f_\mathcal{D_1}(x^\star)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(x^\star)}\big)$ on our arbitrary new point $x^\star$. We could calculate the <strong><em>squared error</em></strong> for each of the $N$  models predictions on $x^\star$ $\Big[\big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D_1}(x^\star)}\big)^2, \cdots, \big({\color{green}y^\star - \color{red}\hat f_\mathcal{D_N}(x^\star)}\big)^2 \big]$. <br />
+To get an idea of how well, on average, the learning algorithm $\mathcal{A}$ generalises to the previously unseen data point, we compute the mean/expectation of the squared errors of the $N$ models. This is called the <strong><em>expected squared error</em></strong>.</p>
+
+<p class="math">
+$$
+\begin{aligned}
+\tag{11} \text{Expected Squared Error} = \mathbb{E}\Big[\Big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\Big)^2\Big]
+\end{aligned}
+$$
+</p>
+
+<p>It is this expected squared error of the model that we will decompose into the bias, variance, and irreducible error components.</p>
+
+<p><img src="/img/experiment.png" alt="experiment" /></p>
+
+<h4 id="expectation-bias-and-variance-of-model">Expectation, Bias, and Variance of model</h4>
+<ul>
+  <li><strong>Expectation of model $\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}(x)}\big]$</strong><br />
+The expectation of the model is the average of the collection of models estimated over many training datasets.</li>
+  <li><strong>Bias of model</strong> $\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}(x)}\big] - \color{green}f(x)$<br />
+The model bias describes how much the expectation of the model deviates from the true value of the function $\color{green}f(x)$ we are trying to estimate. Low bias signifies that our model does a good job of approximating our function, and high bias signifies otherwise. The bias measures the <strong><em>average accuracy</em></strong> of the model.</li>
+  <li><strong>Variance of model</strong> $\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}(x)} - \mathbb{E}\big[{\color{red}\hat f_\mathcal{D}(x)}\big]\Big)^2\Big]$<br />
+The model variance is the expectation of the squared differences between a particular model and the expectation of the collection of models estimated over many datasets. It captures how much the model fits vary across different datasets, so it measures the <strong><em>average consistency</em></strong> of the model. A learning algorithm with high variance indicates that the models vary a lot across datasets, while low variance indicates that models are quite similar across datasets.</li>
+</ul>
+
+<hr />
+
+<p class="tag">Simulation 1</p>
+
+<p>In practice, the true function we try to estimate is unknown, but for the sake of demonstration, we will assume that the true function is $f(x) = sin(x)$. Individual observations of $y$ will be $y = sin(x) + \epsilon$. We assume that $\mathbb{E}[\epsilon] = 0$ and $\text{Var}(\epsilon) = \sigma^2 = 1.5$. We will sample 50 data sets each with 100 individual observations, and on them we will fit three polynomial functions of varying degrees/complexities (1, 3, 20) to estimate our true function $f(x)$. Degree 1 is the least complex and degree 20 is the most complex.</p>
+
+<p><img src="/img/models-complexity.png" alt="models" /></p>
+
+<p>We see from the image above that on average, the degree-1 polynomial model does a bad job of estimating our true function. It has a high bias. The variance is low, which means that the model is consistent across datasets. The degree-20 polynomial model 20 has low bias, which means it does a good job of approximating our true function, but it has a high variance. This means that the model isn’t consistent across datasets. The degree-5 polynomial model has low bias (good estimate of our true function), and a relatively low variance (consistent across datasets).</p>
+
+<p>The code for this simulation can be found <a href="https://colab.research.google.com/drive/18T2jwJEStq54rNpit3zVXjvjYeplmM4G?usp=sharing" target="_blank">here</a>.</p>
+
+<h4 id="a-note-on-bias-variance-tradeoff">A Note on Bias-Variance Tradeoff</h4>
+<p>Bias-variance tradeoff is the tradeoff in attempting to simultaneously minimise the two sources of error that affect a model’s ability to generalise beyond its training set. Reducing bias generally increases variance and vice versa, and this is a function of a model’s complexity and flexibility. Low variance, high bias models tend to be less complex and less flexible and they mostly underfit the training data, while low bias, high variance models tend to be more complex with a flexible structure that tend to overfit. The optimal model will have both low bias and low variance.</p>
+
+<p><img src="/img/error-complexity.png" alt="complexity" /></p>
+
+<hr />
+
+<h4 id="decomposing-expected-squared-error">Decomposing Expected Squared Error</h4>
+<p>As mentioned earlier, it is the expected squared error term in equation (11) that we will decompose into the bias, variance, and irreducible error components. To avoid clutter while decomposing, we will drop the $\color{green}\star$ sign from $\color{green}y^\star$ and $\color{red}(x^\star)$ from $\color{red}\hat f_\mathcal{D}(x^\star)$.</p>
+
+<p class="math">
+$$
+\tag{12} \begin{aligned}
+\text{Error} &amp; = \mathbb{E}\Big[\Big({\color{green}y} - {\color{red}\hat f_\mathcal{D}}\Big)^2\Big] \\ 
+
+&amp; = \mathbb{E}\Big[\Big({\color{green}y} - {\color{red}\hat f_\mathcal{D}}\Big)\Big({\color{green}y} - {\color{red}\hat f_\mathcal{D}}\Big)\Big] \\
+
+&amp; = \mathbb{E}\Big[ \Big({\color{green}y}^2 - 2{\color{green}y}{\color{red}\hat f_\mathcal{D}} + {\color{red}\hat f_\mathcal{D}}^2 \Big)\Big] \\
+
+&amp; = \underbrace{\mathbb{E}\Big[ {\color{green}y}^2 \Big]}_{1} + \underbrace{\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}}^2 \Big]}_{2} - \underbrace{2\mathbb{E}\Big[ {\color{green}y}\Big]\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}} \Big]}_{3}
+
+\end{aligned}
+$$
+</p>
+
+<p>Equation (12) has three terms that we will deal with separately. If we consider the third term first, we know that $\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]$ is the expectation of our model. If we recall equations (2) and (9) and that $\mathbb{E}[{\boldsymbol\epsilon}] = 0$, we can rewrite $\mathbb{E}\big[ {\color{green}y}\big]$ as:</p>
+
+<p class="math">
+$$
+\tag{13} \begin{aligned}
+\mathbb{E}\Big[ {\color{green}y}\Big] &amp; = \mathbb{E}\Big[ {\color{green}f(x) + \epsilon }\Big] \\
+ &amp; = \mathbb{E}\Big[ {\color{green}f(x) }\Big] + \mathbb{E}\Big[ {\color{green} \epsilon }\Big] \\
+  &amp; = {\color{green}f(x)}
+\end{aligned}
+$$
+</p>
+
+<p>For the first and second terms, we use equations (7), (9), and (13) to rewrite them as:</p>
+
+<p class="math">
+$$
+\tag{14} \begin{aligned}
+\mathbb{E}\Big[ {\color{green}y}^2 \Big] &amp; = \mathbb{E}\Big[\Big({\color{green}y} - {\mathbb{E}[{\color{green}y}]}\Big)^2\Big] + {\mathbb{E}[{\color{green}y}]}^2 \\
+
+&amp; = \mathbb{E}\Big[\Big({\color{green}f(x) + \epsilon } - {\color{green}f(x)}\Big)^2\Big] + {\color{green}f(x)}^2 \\
+
+&amp; = \mathbb{E}\Big[{\color{green}\epsilon}^2 \Big] + {\color{green}f(x)}^2 \\
+
+\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}}^2 \Big] &amp; = \mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}}\big]}\Big)^2\Big] + {\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}}\big]}^2
+
+\end{aligned}
+$$
+</p>
+
+<p>Substituting equations (13) and (14) into equation (12), we get:</p>
+
+<p class="math">
+$$
+\tag{15} \begin{aligned}
+\text{Error} &amp; = \mathbb{E}\Big[ {\color{green}y}^2 \Big] + \mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}}^2 \Big] - 2\mathbb{E}\Big[ {\color{green}y}\Big]\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}} \Big]
+
+\\
+
+&amp; = \mathbb{E}\Big[{\color{green}\epsilon}^2 \Big] + {\color{green}f(x)}^2 + \mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}}\big]}\Big)^2\Big] + {\mathbb{E}\big[{\color{red}\hat f_\mathcal{D}}\big]}^2 - 2{\color{green}f(x)}\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]
+\end{aligned}
+$$
+</p>
+
+<p>If we rearrange equation (15) and use expansion of squares $(a-b)^2 = a^2 - 2ab + b^2$, we get:</p>
+
+<p class="math">
+$$
+\tag{16} \begin{aligned}
+\text{Error} &amp; = \underbrace{ {\mathbb{E}\big[}{\color{red}\hat f_\mathcal{D}} {\big]} ^2 - 2{\color{green}f(x)}\mathbb{E}\big[{\color{red} \hat f_\mathcal{D}}\big] + {\color{green}f(x)}^2 }_{1} + \underbrace{\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}[{\color{red}\hat f_\mathcal{D}}]}\Big)^2\Big]}_{2} + \underbrace{\mathbb{E}\Big[{\color{green}\epsilon}^2 \Big]}_{3} \\
+
+&amp; = \underbrace{\Big( {\mathbb{E}\big[}{\color{red}\hat f_\mathcal{D}} \big] - {\color{green}f(x)} \Big)^2}_{1} + \underbrace{\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}[{\color{red}\hat f_\mathcal{D}}]}\Big)^2\Big]}_{2} + \underbrace{\mathbb{E}\Big[{\color{green}\epsilon}^2 \Big]}_{3} \\
+
+&amp; = \underbrace{\Big( {\mathbb{E}\big[}{\color{red}\hat f_\mathcal{D}} \big] - {\color{green}f(x)} \Big)^2}_{\text{Bias}^2 \space \text{of model}} + \underbrace{\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}[{\color{red}\hat f_\mathcal{D}}]}\Big)^2\Big]}_{\text{Variance of model}} + \underbrace{\sigma^2}_{\text{Irreducible error}}
+
+\end{aligned}
+$$
+</p>
+
+<p>And there is the error decomposed into its three constituent parts. To see a breakdown of how the third term $\mathbb{E}\Big[{\color{green}\epsilon}^2 \Big]$ became $\sigma^2$, you can check the footnote.<sup id="fnref:var" role="doc-noteref"><a href="#fn:var" class="footnote">4</a></sup></p>
+
+<h3 id="illustrating-bias-variance-decomposition-using-simulated-data">Illustrating Bias-Variance Decomposition using simulated data</h3>
+<p>In Simulation 1, we estimated our true function $f(x) = sin(x)$ by fitting three polynomial functions of varying complexities. What we really care about though is how our models perform on previously unseen data. In this section, we will demonstrate this and show how the expected squared error decomposes into the sum of variance and squared bias by running the following steps:</p>
+
+<ul>
+  <li>Generate 100 random datasets of 500 observations each from $sin(x) + \epsilon$. We assume that the $\text{Var}(\epsilon) = \sigma^2 = 1.5$.</li>
+  <li>Split the generated datasets into training and test sets.</li>
+  <li>Fit 20 polynomial functions (degrees from 1 to 20) on each of the training sets.</li>
+  <li>Predict the value of the test set using the fitted models.</li>
+  <li>Calculate the expected prediction error (the mean squared error) on the test set for each model.</li>
+  <li>Show the expected prediction error as a sum of the variance and squared bias.</li>
+</ul>
+
+<hr />
+
+<p class="tag">Simulation 2</p>
+
+<p><img src="/img/bias-variance.png" alt="bias" /></p>
+
+<p>We see from graph on the left in the image above that the error starts quite high, drops off to its minimum at model complexity 3, and then starts climbing rapidly as the complexity increases. If we look at the right graph, we see that it follows the bias-variance tradeoff. The squared-bias of the models drops as the complexity increases, but variance increases. Low bias, high variance models suggest that the models overfit the training data and hence performs poorly on the test data. Our optimal model has low bias and low variance and it is the model with complexity 3 in our simulation.</p>
+
+<p><img src="/img/bias-var-sum.png" alt="Bias-Var" /></p>
+
+<p>We see from the table above that the mean squared error (MSE) is a sum of the squared bias and the variance, as shown in equation (16). The irreducible part of the decomposition is not added to our sum because we cannot estimate it from data.</p>
+
+<p>The code for this simulation can be found <a href="https://colab.research.google.com/drive/1PtUgJGl439xqGvCStOy86p3Q25YlaJHG?usp=sharing" target="_blank">here</a>.</p>
+
+<hr />
+
+<h3 id="conclusion">Conclusion</h3>
+<p>We have shown the decomposition of the generalisation error for regression problems. It is possible to show this decomposition for classification problems. Pedro Domingos’ brilliant paper, <a href="https://homes.cs.washington.edu/~pedrod/papers/mlc00a.pdf">A Unified Bias-Variance Decomposition and its Application</a> goes over it in details.</p>
+
+<h3 id="footnotes">Footnotes</h3>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:expectation" role="doc-endnote">
+      <p><a href="https://brilliant.org/wiki/expected-value/" target="_blank">Expected value explained on Brilliant.org</a> <a href="#fnref:expectation" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:iid" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables" target="_blank">Independent and Identically Distributed Random Variables</a> <a href="#fnref:iid" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:principle" role="doc-endnote">
+      <p>In practice, we have access to only one training dataset. <a href="#fnref:principle" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:var" role="doc-endnote">
+      <p>Using the variance lemma in equation (7) and the assumption that $\mathbb{E}[\boldsymbol \epsilon] = 0$ and $\text{Var}(\boldsymbol \epsilon) = \sigma^2$: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi mathvariant="double-struck">E</mi><mo fence="false">[</mo><msup><mi mathvariant="bold-italic">ϵ</mi><mn>2</mn></msup><mo fence="false">]</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mtext>Var</mtext><mo stretchy="false">(</mo><mi mathvariant="bold-italic">ϵ</mi><mo stretchy="false">)</mo><mo>+</mo><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi mathvariant="bold-italic">ϵ</mi><msup><mo stretchy="false">]</mo><mn>2</mn></msup><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \mathbb{E}\big[{\boldsymbol \epsilon}^2 \big]  &amp; = \text{Var}(\boldsymbol \epsilon) + \mathbb{E}[\boldsymbol \epsilon]^2 = \sigma^2 \end{aligned}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.524108em;vertical-align:-0.512054em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="mord"><span class="delimsizing size1">[</span></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">ϵ</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="delimsizing size1">]</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class="mord">Var</span></span><span class="mopen">(</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathbb">E</span></span><span class="mopen">[</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span></span></span></span></span></span>. <a href="#fnref:var" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+	</div>
+
+	<div class="footer">
+		<!-- Share Buttons -->
+		<ul id="share" class="clearfix">
+    <li>
+        <a href="https://www.linkedin.com/shareArticle?url=http://allenkunle.me/bias-variance-decomposition&mini=true&title=The Bias-Variance Decomposition Demystified&summary=Introduction The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error. $$ \tag{1} \text{Generalisation error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error} $$ In many statistics and machine learning texts, this decomposition is just presented and its derivation skipped. In texts where it derived, it is often presented in a way that is inaccessible to many people. And why is it important to understand this..."
+          target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin-square"></i> Share on LinkedIn</a>
+      </li>
+  <li>
+    <a href="https://www.twitter.com/intent/tweet?text='The Bias-Variance Decomposition Demystified'&url=http://allenkunle.me/bias-variance-decomposition&via=allenakinkunle"
+      rel="nofollow" target="_blank" title="Share on Twitter"><i class="fa fa-twitter-square"></i> Share on Twitter</a>
+  </li>
+  <li>
+    <a href="https://www.facebook.com/sharer.php?u=http://allenkunle.me/bias-variance-decomposition" rel="nofollow"
+      target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i> Share on Facebook</a>
+  </li>
+</ul>
+
+
+		<!-- Show next and previous links -->
+		<div id="page-navigation" class="clearfix">
+
+
+  <div class="previous clearfix">
+      <i class="fa fa-chevron-left"></i>
+    <a href="/deriving-ml-cost-functions-part2">Deriving Machine Learning Cost Functions using Maximum Likelihood Estimation (MLE) - Part II</a>
+  </div>
+
+
+
+
+</div>
+
+
+		<!-- Comments -->
+		  <!-- Add Disqus comments. -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'allenakinkunle'; // required: replace example with your forum shortname
+    var disqus_identifier = "/bias-variance-decomposition";
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+	</div>
+</article>
+
+
+	  </main>
+
+		  <!-- Pagination links -->
+      
+
+	  </div>
+
+	</div>
+</body>
+</html>

@@ -23,7 +23,7 @@
 	WebFont.load({
 		google: {
 			families: [
-				'Crimson Text:400',
+				'Crimson Text:400,600',
 				'Source Sans Pro:600',
 				'Signika:600'
 			]
@@ -54,40 +54,24 @@
 </script>
 
 
-	<!-- MathJax-->
-	<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        jax: ['input/TeX', 'output/HTML-CSS'],
-        showProcessingMessages: false,
-        messageStyle: 'none',
-        
-        tex2jax: {
-          inlineMath: [['$','$']],
-          displayMath: [['$$','$$']],
-          processEnvironments: true
-        },
-        "HTML-CSS": { 
-          fonts: ["TeX"] ,
-          minScaleAdjust: 100,
-          matchFontHeight: false,
-          linebreaks: {
-            width: "100% container"
-          }
-        },
-        TeX: {
-          equationNumbers: {
-            autoNumber: "AMS"
-          },
-          extensions: ["color.js"],
-        }
-      });
+	<!-- Katex-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+		onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            'delimiters': [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
 </script>
-
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML">
-</script>
-
-
+	
 </head>
 
 
@@ -165,7 +149,7 @@ $$
 <p>Maximum Likelihood Estimation (MLE) is a method of estimating the unknown parameter $\theta$ of a model, given observed data. It estimates the model parameter by finding the parameter value that maximises the likelihood function. The parameter estimate is called the maximum likelihood estimate $\hat{\theta}_{MLE}$.</p>
 
 <h4 id="likelihood-function">Likelihood Function</h4>
-<p>Given a set of independent and identically distributed (i.i.d)<sup id="fnref:iid"><a href="#fn:iid" class="footnote">1</a></sup> random variables $X_1, X_2, \cdots, X_n$ from a probability distribution $P_\theta$ with parameter $\theta$. We assume the random variables have a joint probability density function (or joint probability mass function in the case of discrete variables)<sup id="fnref:jpdf"><a href="#fn:jpdf" class="footnote">2</a></sup> $f(x_1, x_2,\cdots, x_n|\theta)$. Suppose $x_1, x_2,\cdots, x_n$ are the observed values of the random variables, we define the likelihood function, a function of parameter $\theta$ as:</p>
+<p>Given a set of independent and identically distributed (i.i.d)<sup id="fnref:iid" role="doc-noteref"><a href="#fn:iid" class="footnote">1</a></sup> random variables $X_1, X_2, \cdots, X_n$ from a probability distribution $P_\theta$ with parameter $\theta$. We assume the random variables have a joint probability density function (or joint probability mass function in the case of discrete variables)<sup id="fnref:jpdf" role="doc-noteref"><a href="#fn:jpdf" class="footnote">2</a></sup> $f(x_1, x_2,\cdots, x_n|\theta)$. Suppose $x_1, x_2,\cdots, x_n$ are the observed values of the random variables, we define the likelihood function, a function of parameter $\theta$ as:</p>
 
 <p class="math">
 $$
@@ -309,7 +293,7 @@ $$
 $$
 </p>
 
-<p>Since we need to take the derivative of log-likehood function with respect to $\beta$ to find the maximum likehood estimate of $\beta$, we can remove all the terms that do not contain our parameter $\beta$ as they do not have any effect on our optimisation <sup id="fnref:remove-terms"><a href="#fn:remove-terms" class="footnote">3</a></sup>, so our equation becomes:</p>
+<p>Since we need to take the derivative of log-likehood function with respect to $\beta$ to find the maximum likehood estimate of $\beta$, we can remove all the terms that do not contain our parameter $\beta$ as they do not have any effect on our optimisation <sup id="fnref:remove-terms" role="doc-noteref"><a href="#fn:remove-terms" class="footnote">3</a></sup>, so our equation becomes:</p>
 
 <p class="math">
 $$
@@ -358,16 +342,16 @@ $$
 
 <h3 id="footnotes">Footnotes</h3>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:iid">
-      <p>A set of random variables $X_1, X_2, \cdots, X_n$ are said to be independent and identically distributed if they have the same probability distribution and are mutually independent. <a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables" target="_blank">Wikipedia Article</a> <a href="#fnref:iid" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:iid" role="doc-endnote">
+      <p>A set of random variables $X_1, X_2, \cdots, X_n$ are said to be independent and identically distributed if they have the same probability distribution and are mutually independent. <a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables" target="_blank">Wikipedia Article</a> <a href="#fnref:iid" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:jpdf">
-      <p>This <a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading7a.pdf" target="_blank">note</a> from the <a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/" target="_blank">Introduction to Probability and Statistics</a> class on MIT OpenCourseWare explains joint probability mass and density functions clearly. <a href="#fnref:jpdf" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:jpdf" role="doc-endnote">
+      <p>This <a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading7a.pdf" target="_blank">note</a> from the <a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/" target="_blank">Introduction to Probability and Statistics</a> class on MIT OpenCourseWare explains joint probability mass and density functions clearly. <a href="#fnref:jpdf" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:remove-terms">
-      <p>The terms without the parameter $\beta$ are regarded as constants in the log-likelihood function, and differentiating a constant gives us zero. <a href="#fnref:remove-terms" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:remove-terms" role="doc-endnote">
+      <p>The terms without the parameter $\beta$ are regarded as constants in the log-likelihood function, and differentiating a constant gives us zero. <a href="#fnref:remove-terms" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>

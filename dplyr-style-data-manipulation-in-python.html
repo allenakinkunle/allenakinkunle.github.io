@@ -23,7 +23,7 @@
 	WebFont.load({
 		google: {
 			families: [
-				'Crimson Text:400',
+				'Crimson Text:400,600',
 				'Source Sans Pro:600',
 				'Signika:600'
 			]
@@ -54,40 +54,24 @@
 </script>
 
 
-	<!-- MathJax-->
-	<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        jax: ['input/TeX', 'output/HTML-CSS'],
-        showProcessingMessages: false,
-        messageStyle: 'none',
-        
-        tex2jax: {
-          inlineMath: [['$','$']],
-          displayMath: [['$$','$$']],
-          processEnvironments: true
-        },
-        "HTML-CSS": { 
-          fonts: ["TeX"] ,
-          minScaleAdjust: 100,
-          matchFontHeight: false,
-          linebreaks: {
-            width: "100% container"
-          }
-        },
-        TeX: {
-          equationNumbers: {
-            autoNumber: "AMS"
-          },
-          extensions: ["color.js"],
-        }
-      });
+	<!-- Katex-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+		onload="renderMathInElement(document.body);"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            'delimiters': [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
 </script>
-
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML">
-</script>
-
-
+	
 </head>
 
 
@@ -139,14 +123,14 @@
 
 	<div class="content">
 
-		<p>I often use R’s <code class="highlighter-rouge">dplyr</code> package for exploratory data analysis and data manipulation. In addition to providing a consistent set of functions that one can use to solve the most common data manipulation problems, dplyr also allows one to write elegant, chainable data manipulation code using pipes.</p>
+		<p>I often use R’s <code class="language-plaintext highlighter-rouge">dplyr</code> package for exploratory data analysis and data manipulation. In addition to providing a consistent set of functions that one can use to solve the most common data manipulation problems, dplyr also allows one to write elegant, chainable data manipulation code using pipes.</p>
 
-<p>Now, Python is my main language and <code class="highlighter-rouge">pandas</code> is my swiss army knife for data analysis, yet I often wished there was a Python package that allowed dplyr-style data manipulation directly on pandas DataFrames. I searched the Internet and found a package called <code class="highlighter-rouge">dfply</code>, developed by <a href="https://github.com/kieferk" target="_blank">Kiefer Katovich</a>. Like dplyr, dfply also allows chaining of multiple operations with pipe operators.</p>
+<p>Now, Python is my main language and <code class="language-plaintext highlighter-rouge">pandas</code> is my swiss army knife for data analysis, yet I often wished there was a Python package that allowed dplyr-style data manipulation directly on pandas DataFrames. I searched the Internet and found a package called <code class="language-plaintext highlighter-rouge">dfply</code>, developed by <a href="https://github.com/kieferk" target="_blank">Kiefer Katovich</a>. Like dplyr, dfply also allows chaining of multiple operations with pipe operators.</p>
 
 <p>This post will focus on the core functions of the dfply package and show how to use them to manipulate pandas DataFrames. The complete source code and dataset is available on <a href="https://github.com/allenakinkunle/dplyr-style-data-manipulation-in-python" target="_blank">Github</a>.</p>
 
 <h3 id="getting-started">Getting Started</h3>
-<p>The first thing we need to do is install the package using <code class="highlighter-rouge">pip</code>.</p>
+<p>The first thing we need to do is install the package using <code class="language-plaintext highlighter-rouge">pip</code>.</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">pip <span class="nb">install </span>dfply</code></pre></figure>
 
@@ -158,23 +142,23 @@
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">dfply</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 
-<span class="n">flight_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'nycflights13.csv'</span><span class="p">)</span>
-<span class="n">flight_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></figure>
+<span class="n">flight_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'nycflights13.csv'</span><span class="p">)</span>
+<span class="n">flight_data</span><span class="p">.</span><span class="n">head</span><span class="p">()</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>year</th> <th>month</th> <th>day</th> <th>dep_time</th> <th>sched_dep_time</th> <th>dep_delay</th> <th>arr_time</th> <th>sched_arr_time</th> <th>arr_delay</th> <th>carrier</th> <th>flight</th> <th>tailnum</th> <th>origin</th> <th>dest</th> <th>air_time</th> <th>distance</th> <th>hour</th> <th>minute</th> <th>time_hour</th> </tr></thead> <tbody> <tr> <th>0</th> <td>2013</td><td>1</td><td>1</td><td>517.0</td><td>515</td><td>2.0</td><td>830.0</td><td>819</td><td>11.0</td><td>UA</td><td>1545</td><td>N14228</td><td>EWR</td><td>IAH</td><td>227.0</td><td>1400</td><td>5</td><td>15</td><td>2013-01-01 05:00:00</td></tr><tr> <th>1</th> <td>2013</td><td>1</td><td>1</td><td>533.0</td><td>529</td><td>4.0</td><td>850.0</td><td>830</td><td>20.0</td><td>UA</td><td>1714</td><td>N24211</td><td>LGA</td><td>IAH</td><td>227.0</td><td>1416</td><td>5</td><td>29</td><td>2013-01-01 05:00:00</td></tr><tr> <th>2</th> <td>2013</td><td>1</td><td>1</td><td>542.0</td><td>540</td><td>2.0</td><td>923.0</td><td>850</td><td>33.0</td><td>AA</td><td>1141</td><td>N619AA</td><td>JFK</td><td>MIA</td><td>160.0</td><td>1089</td><td>5</td><td>40</td><td>2013-01-01 05:00:00</td></tr><tr> <th>3</th> <td>2013</td><td>1</td><td>1</td><td>544.0</td><td>545</td><td>-1.0</td><td>1004.0</td><td>1022</td><td>-18.0</td><td>B6</td><td>725</td><td>N804JB</td><td>JFK</td><td>BQN</td><td>183.0</td><td>1576</td><td>5</td><td>45</td><td>2013-01-01 05:00:00</td></tr><tr> <th>4</th> <td>2013</td><td>1</td><td>1</td><td>554.0</td><td>600</td><td>-6.0</td><td>812.0</td><td>837</td><td>-25.0</td><td>DL</td><td>461</td><td>N668DN</td><td>LGA</td><td>ATL</td><td>116.0</td><td>762</td><td>6</td><td>0</td><td>2013-01-01 06:00:00</td></tr></tbody></table>
 </div>
 
 <h3 id="piping">Piping</h3>
-<p>Let’s say you want to perform <code class="highlighter-rouge">n</code> discrete transformation operations on your dataset before outputting the final result. The most common way is to perform the operations step by step and store the result of each step in a variable. The variable holding the intermediate result is then used in the next step of the transformation pipeline. Let’s take a look at an abstract example.</p>
+<p>Let’s say you want to perform <code class="language-plaintext highlighter-rouge">n</code> discrete transformation operations on your dataset before outputting the final result. The most common way is to perform the operations step by step and store the result of each step in a variable. The variable holding the intermediate result is then used in the next step of the transformation pipeline. Let’s take a look at an abstract example.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># 'original_data' could be a pandas DataFrame.
 </span><span class="n">result_1</span> <span class="o">=</span> <span class="n">transformation_1</span><span class="p">(</span><span class="n">original_data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">result_2</span> <span class="o">=</span> <span class="n">transformation_2</span><span class="p">(</span><span class="n">result_1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">result_3</span> <span class="o">=</span> <span class="n">transformation_3</span><span class="p">(</span><span class="n">result_2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="o">.</span>
-<span class="o">.</span>
-<span class="o">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
 <span class="n">final_result</span> <span class="o">=</span> <span class="n">transformation_n</span><span class="p">(</span><span class="n">result_n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code></pre></figure>
 
 <p>This isn’t very elegant code and it can get confusing and messy to write. This is where piping comes to the rescue. Piping allows us to rewrite the above code without needing those intermediate variables.</p>
@@ -183,86 +167,86 @@
                 <span class="n">transformation_1</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">--&gt;</span>
                 <span class="n">transformation_2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">--&gt;</span>
                 <span class="n">transformation_3</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">--&gt;</span>
-                <span class="o">.</span>
-                <span class="o">.</span>
-                <span class="o">.</span>
+                <span class="p">.</span>
+                <span class="p">.</span>
+                <span class="p">.</span>
                 <span class="n">transformation_n</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code></pre></figure>
 
 <p>Magic?! No, it isn’t. Piping works by implicitly making the output of one stage the input of the following stage. In other words, each transformation step works on the transformed result of its previous step.</p>
 
 <h4 id="piping-with-dfply">Piping with dfply</h4>
-<p>dfply allows chaining multiple operations on a pandas DataFrame with the <code class="highlighter-rouge">&gt;&gt;</code> operator. One can chain operations and assign the final output (a pandas DataFrame, since dfply works directly on DataFrames) to a variable. In dfply, the DataFrame result of each step of a chain of operations is represented by <code class="highlighter-rouge">X</code>. <br />
+<p>dfply allows chaining multiple operations on a pandas DataFrame with the <code class="language-plaintext highlighter-rouge">&gt;&gt;</code> operator. One can chain operations and assign the final output (a pandas DataFrame, since dfply works directly on DataFrames) to a variable. In dfply, the DataFrame result of each step of a chain of operations is represented by <code class="language-plaintext highlighter-rouge">X</code>. <br />
 For example, if you want to select three columns from a DataFrame in a step, drop the third column in the next step, and then show the first three rows of the final dataframe, you could do something like this:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># 'data' is the original pandas DataFrame
 </span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span>
- <span class="n">select</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">first_col</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">second_col</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
- <span class="n">drop</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+ <span class="n">select</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">first_col</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">second_col</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+ <span class="n">drop</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">third_col</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
  <span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span></code></pre></figure>
 
-<p><code class="highlighter-rouge">select</code> and <code class="highlighter-rouge">drop</code> are both dfply transformation functions, while <code class="highlighter-rouge">X</code> represents the result of each transformation step.</p>
+<p><code class="language-plaintext highlighter-rouge">select</code> and <code class="language-plaintext highlighter-rouge">drop</code> are both dfply transformation functions, while <code class="language-plaintext highlighter-rouge">X</code> represents the result of each transformation step.</p>
 
 <h3 id="exploring-some-of-dfplys-transformation-methods">Exploring some of dfply’s transformation methods</h3>
-<p><code class="highlighter-rouge">dfply</code> provides a set of functions for selecting and dropping columns, subsetting and filtering rows, grouping data, and reshaping data, to name a few.</p>
+<p><code class="language-plaintext highlighter-rouge">dfply</code> provides a set of functions for selecting and dropping columns, subsetting and filtering rows, grouping data, and reshaping data, to name a few.</p>
 
-<h4 id="select-and-drop-columns-with-select-and-drop">Select and drop columns with <code class="highlighter-rouge">select()</code> and <code class="highlighter-rouge">drop()</code></h4>
-<p>Occassionally, you will work on datasets with a lot of columns, but only a subset of the columns will be of interest; <code class="highlighter-rouge">select()</code> allows you to select these columns.<br />
-For example, to select the <code class="highlighter-rouge">origin</code>, <code class="highlighter-rouge">dest</code>, and <code class="highlighter-rouge">hour</code> columns in the <code class="highlighter-rouge">flight_data</code> DataFrame we loaded earlier, we do:</p>
+<h4 id="select-and-drop-columns-with-select-and-drop">Select and drop columns with <code class="language-plaintext highlighter-rouge">select()</code> and <code class="language-plaintext highlighter-rouge">drop()</code></h4>
+<p>Occassionally, you will work on datasets with a lot of columns, but only a subset of the columns will be of interest; <code class="language-plaintext highlighter-rouge">select()</code> allows you to select these columns.<br />
+For example, to select the <code class="language-plaintext highlighter-rouge">origin</code>, <code class="language-plaintext highlighter-rouge">dest</code>, and <code class="language-plaintext highlighter-rouge">hour</code> columns in the <code class="language-plaintext highlighter-rouge">flight_data</code> DataFrame we loaded earlier, we do:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">select</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">hour</span><span class="p">))</span></code></pre></figure>
+ <span class="n">select</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">hour</span><span class="p">))</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>origin</th> <th>dest</th> <th>hour</th> </tr></thead> <tbody> <tr> <th>0</th> <td>EWR</td><td>IAH</td><td>5</td></tr><tr> <th>1</th> <td>LGA</td><td>IAH</td><td>5</td></tr><tr> <th>2</th> <td>JFK</td><td>MIA</td><td>5</td></tr><tr> <th>3</th> <td>JFK</td><td>BQN</td><td>5</td></tr><tr> <th>4</th> <td>LGA</td><td>ATL</td><td>6</td></tr></tbody></table>
 </div>
 
-<p><code class="highlighter-rouge">drop()</code> is the inverse of <code class="highlighter-rouge">select()</code>. It returns all the columns except those passed in as arguments. <br />
-For example, to get all the columns except the <code class="highlighter-rouge">year</code>, <code class="highlighter-rouge">month</code>, and <code class="highlighter-rouge">day</code> columns:</p>
+<p><code class="language-plaintext highlighter-rouge">drop()</code> is the inverse of <code class="language-plaintext highlighter-rouge">select()</code>. It returns all the columns except those passed in as arguments. <br />
+For example, to get all the columns except the <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">month</code>, and <code class="language-plaintext highlighter-rouge">day</code> columns:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">drop</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">day</span><span class="p">))</span></code></pre></figure>
+ <span class="n">drop</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">year</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">month</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">day</span><span class="p">))</span></code></pre></figure>
 
-<p>You can also drop columns inside the <code class="highlighter-rouge">select()</code> method by putting a tilde <code class="highlighter-rouge">~</code> in front of the column(s) you wish to drop.<br />
-For example, to select all but the <code class="highlighter-rouge">hour</code> and <code class="highlighter-rouge">minute</code> columns in the <code class="highlighter-rouge">flight_data</code> DataFrame:</p>
+<p>You can also drop columns inside the <code class="language-plaintext highlighter-rouge">select()</code> method by putting a tilde <code class="language-plaintext highlighter-rouge">~</code> in front of the column(s) you wish to drop.<br />
+For example, to select all but the <code class="language-plaintext highlighter-rouge">hour</code> and <code class="language-plaintext highlighter-rouge">minute</code> columns in the <code class="language-plaintext highlighter-rouge">flight_data</code> DataFrame:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">select</span><span class="p">(</span><span class="o">~</span><span class="n">X</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="o">~</span><span class="n">X</span><span class="o">.</span><span class="n">minute</span><span class="p">))</span></code></pre></figure>
+ <span class="n">select</span><span class="p">(</span><span class="o">~</span><span class="n">X</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span> <span class="o">~</span><span class="n">X</span><span class="p">.</span><span class="n">minute</span><span class="p">))</span></code></pre></figure>
 
-<h4 id="filter-rows-with-mask">Filter rows with <code class="highlighter-rouge">mask()</code></h4>
-<p><code class="highlighter-rouge">mask()</code> allows you to select a subset of rows in a pandas DataFrame based on logical criteria. <code class="highlighter-rouge">mask()</code> selects all the rows where the criteria is/are true. <br />
+<h4 id="filter-rows-with-mask">Filter rows with <code class="language-plaintext highlighter-rouge">mask()</code></h4>
+<p><code class="language-plaintext highlighter-rouge">mask()</code> allows you to select a subset of rows in a pandas DataFrame based on logical criteria. <code class="language-plaintext highlighter-rouge">mask()</code> selects all the rows where the criteria is/are true. <br />
 For example, to select all flights longer than 10 hours that originated from JFK airport on January 1:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
-  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">day</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">origin</span> <span class="o">==</span> <span class="s">'JFK'</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">))</span></code></pre></figure>
+  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">day</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">origin</span> <span class="o">==</span> <span class="s">'JFK'</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">))</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>year</th> <th>month</th> <th>day</th> <th>dep_time</th> <th>sched_dep_time</th> <th>dep_delay</th> <th>arr_time</th> <th>sched_arr_time</th> <th>arr_delay</th> <th>carrier</th> <th>flight</th> <th>tailnum</th> <th>origin</th> <th>dest</th> <th>air_time</th> <th>distance</th> <th>hour</th> <th>minute</th> <th>time_hour</th> </tr></thead> <tbody> <tr> <th>151</th> <td>2013</td><td>1</td><td>1</td><td>848.0</td><td>1835</td><td>853.0</td><td>1001.0</td><td>1950</td><td>851.0</td><td>MQ</td><td>3944</td><td>N942MQ</td><td>JFK</td><td>BWI</td><td>41.0</td><td>184</td><td>18</td><td>35</td><td>2013-01-01 18:00:00</td></tr><tr> <th>258</th> <td>2013</td><td>1</td><td>1</td><td>1059.0</td><td>1100</td><td>-1.0</td><td>1210.0</td><td>1215</td><td>-5.0</td><td>MQ</td><td>3792</td><td>N509MQ</td><td>JFK</td><td>DCA</td><td>50.0</td><td>213</td><td>11</td><td>0</td><td>2013-01-01 11:00:00</td></tr><tr> <th>265</th> <td>2013</td><td>1</td><td>1</td><td>1111.0</td><td>1115</td><td>-4.0</td><td>1222.0</td><td>1226</td><td>-4.0</td><td>B6</td><td>24</td><td>N279JB</td><td>JFK</td><td>BTV</td><td>52.0</td><td>266</td><td>11</td><td>15</td><td>2013-01-01 11:00:00</td></tr><tr> <th>266</th> <td>2013</td><td>1</td><td>1</td><td>1112.0</td><td>1100</td><td>12.0</td><td>1440.0</td><td>1438</td><td>2.0</td><td>UA</td><td>285</td><td>N517UA</td><td>JFK</td><td>SFO</td><td>364.0</td><td>2586</td><td>11</td><td>0</td><td>2013-01-01 11:00:00</td></tr><tr> <th>272</th> <td>2013</td><td>1</td><td>1</td><td>1124.0</td><td>1100</td><td>24.0</td><td>1435.0</td><td>1431</td><td>4.0</td><td>B6</td><td>641</td><td>N590JB</td><td>JFK</td><td>SFO</td><td>349.0</td><td>2586</td><td>11</td><td>0</td><td>2013-01-01 11:00:00</td></tr></tbody></table>
 </div>
 
-<h4 id="sort-rows-with-arrange">Sort rows with <code class="highlighter-rouge">arrange()</code></h4>
-<p><code class="highlighter-rouge">arrange()</code> allows you to order rows based on one or multiple columns; the default behaviour is to sort the rows in ascending order. <br />
-For example, to sort by <code class="highlighter-rouge">distance</code> and then by the number of <code class="highlighter-rouge">hours</code> the flights take, we do:</p>
+<h4 id="sort-rows-with-arrange">Sort rows with <code class="language-plaintext highlighter-rouge">arrange()</code></h4>
+<p><code class="language-plaintext highlighter-rouge">arrange()</code> allows you to order rows based on one or multiple columns; the default behaviour is to sort the rows in ascending order. <br />
+For example, to sort by <code class="language-plaintext highlighter-rouge">distance</code> and then by the number of <code class="language-plaintext highlighter-rouge">hours</code> the flights take, we do:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">hour</span><span class="p">))</span></code></pre></figure>
+ <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">hour</span><span class="p">))</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>year</th> <th>month</th> <th>day</th> <th>dep_time</th> <th>sched_dep_time</th> <th>dep_delay</th> <th>arr_time</th> <th>sched_arr_time</th> <th>arr_delay</th> <th>carrier</th> <th>flight</th> <th>tailnum</th> <th>origin</th> <th>dest</th> <th>air_time</th> <th>distance</th> <th>hour</th> <th>minute</th> <th>time_hour</th> </tr></thead> <tbody> <tr> <th>275945</th> <td>2013</td><td>7</td><td>27</td><td>NaN</td><td>106</td><td>NaN</td><td>NaN</td><td>245</td><td>NaN</td><td>US</td><td>1632</td><td>NaN</td><td>EWR</td><td>LGA</td><td>NaN</td><td>17</td><td>1</td><td>6</td><td>2013-07-27 01:00:00</td></tr><tr> <th>3083</th> <td>2013</td><td>1</td><td>4</td><td>1240.0</td><td>1200</td><td>40.0</td><td>1333.0</td><td>1306</td><td>27.0</td><td>EV</td><td>4193</td><td>N14972</td><td>EWR</td><td>PHL</td><td>30.0</td><td>80</td><td>12</td><td>0</td><td>2013-01-04 12:00:00</td></tr><tr> <th>3901</th> <td>2013</td><td>1</td><td>5</td><td>1155.0</td><td>1200</td><td>-5.0</td><td>1241.0</td><td>1306</td><td>-25.0</td><td>EV</td><td>4193</td><td>N14902</td><td>EWR</td><td>PHL</td><td>29.0</td><td>80</td><td>12</td><td>0</td><td>2013-01-05 12:00:00</td></tr><tr> <th>3426</th> <td>2013</td><td>1</td><td>4</td><td>1829.0</td><td>1615</td><td>134.0</td><td>1937.0</td><td>1721</td><td>136.0</td><td>EV</td><td>4502</td><td>N15983</td><td>EWR</td><td>PHL</td><td>28.0</td><td>80</td><td>16</td><td>15</td><td>2013-01-04 16:00:00</td></tr><tr> <th>10235</th> <td>2013</td><td>1</td><td>12</td><td>1613.0</td><td>1617</td><td>-4.0</td><td>1708.0</td><td>1722</td><td>-14.0</td><td>EV</td><td>4616</td><td>N11150</td><td>EWR</td><td>PHL</td><td>36.0</td><td>80</td><td>16</td><td>17</td><td>2013-01-12 16:00:00</td></tr></tbody></table>
 </div>
 
-<p>To sort in descending order, you set the <code class="highlighter-rouge">ascending</code> keyword argument of <code class="highlighter-rouge">arrange()</code> to <code class="highlighter-rouge">False</code>, like this:</p>
+<p>To sort in descending order, you set the <code class="language-plaintext highlighter-rouge">ascending</code> keyword argument of <code class="language-plaintext highlighter-rouge">arrange()</code> to <code class="language-plaintext highlighter-rouge">False</code>, like this:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span></code></pre></figure>
+ <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span></code></pre></figure>
 
-<h4 id="add-new-columns-with-mutate">Add new columns with <code class="highlighter-rouge">mutate()</code></h4>
-<p><code class="highlighter-rouge">mutate()</code> allows you to create new columns in the DataFrame. The new columns can be composed from existing columns.<br />
-For example, let’s create two new columns: one by dividing the <code class="highlighter-rouge">distance</code> column by <code class="highlighter-rouge">1000</code>, and the other by concatenating the <code class="highlighter-rouge">carrier</code> and <code class="highlighter-rouge">origin</code> columns. We will name these new columns <code class="highlighter-rouge">new_distance</code> and <code class="highlighter-rouge">carrier_origin</code> respectively.</p>
+<h4 id="add-new-columns-with-mutate">Add new columns with <code class="language-plaintext highlighter-rouge">mutate()</code></h4>
+<p><code class="language-plaintext highlighter-rouge">mutate()</code> allows you to create new columns in the DataFrame. The new columns can be composed from existing columns.<br />
+For example, let’s create two new columns: one by dividing the <code class="language-plaintext highlighter-rouge">distance</code> column by <code class="language-plaintext highlighter-rouge">1000</code>, and the other by concatenating the <code class="language-plaintext highlighter-rouge">carrier</code> and <code class="language-plaintext highlighter-rouge">origin</code> columns. We will name these new columns <code class="language-plaintext highlighter-rouge">new_distance</code> and <code class="language-plaintext highlighter-rouge">carrier_origin</code> respectively.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
  <span class="n">mutate</span><span class="p">(</span>
-   <span class="n">new_distance</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">distance</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
-   <span class="n">carrier_origin</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">carrier</span> <span class="o">+</span> <span class="n">X</span><span class="o">.</span><span class="n">origin</span>
+   <span class="n">new_distance</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">distance</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
+   <span class="n">carrier_origin</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">carrier</span> <span class="o">+</span> <span class="n">X</span><span class="p">.</span><span class="n">origin</span>
  <span class="p">))</span></code></pre></figure>
 
 <div class="table">
@@ -271,18 +255,18 @@ For example, let’s create two new columns: one by dividing the <code class="hi
 
 <p>The newly created columns will be at the end of the DataFrame.</p>
 
-<h4 id="group-and-ungroup-data-with-group_by-and-ungroup">Group and ungroup data with <code class="highlighter-rouge">group_by()</code> and <code class="highlighter-rouge">ungroup()</code></h4>
-<p><code class="highlighter-rouge">group_by()</code> allows you to group the DataFrame by one or multiple columns. Functions chained after <code class="highlighter-rouge">group_by()</code> are applied on the group until the DataFrame is ungrouped with the <code class="highlighter-rouge">ungroup()</code> function. For example, to group the data by the originating airport, we do:</p>
+<h4 id="group-and-ungroup-data-with-group_by-and-ungroup">Group and ungroup data with <code class="language-plaintext highlighter-rouge">group_by()</code> and <code class="language-plaintext highlighter-rouge">ungroup()</code></h4>
+<p><code class="language-plaintext highlighter-rouge">group_by()</code> allows you to group the DataFrame by one or multiple columns. Functions chained after <code class="language-plaintext highlighter-rouge">group_by()</code> are applied on the group until the DataFrame is ungrouped with the <code class="language-plaintext highlighter-rouge">ungroup()</code> function. For example, to group the data by the originating airport, we do:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">))</span></code></pre></figure>
+ <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">origin</span><span class="p">))</span></code></pre></figure>
 
-<h4 id="summarise-data-using-summarize">Summarise data using <code class="highlighter-rouge">summarize()</code></h4>
-<p><code class="highlighter-rouge">summarize()</code> is typically used together with <code class="highlighter-rouge">group_by()</code> to reduce each group into a single row summary. In other words, the output will have one row for each group. For example, to calculate the mean distance for flights originating from every airport, we do:</p>
+<h4 id="summarise-data-using-summarize">Summarise data using <code class="language-plaintext highlighter-rouge">summarize()</code></h4>
+<p><code class="language-plaintext highlighter-rouge">summarize()</code> is typically used together with <code class="language-plaintext highlighter-rouge">group_by()</code> to reduce each group into a single row summary. In other words, the output will have one row for each group. For example, to calculate the mean distance for flights originating from every airport, we do:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
- <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
- <span class="n">summarize</span><span class="p">(</span><span class="n">mean_distance</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+ <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+ <span class="n">summarize</span><span class="p">(</span><span class="n">mean_distance</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">distance</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span>
 <span class="p">)</span></code></pre></figure>
 
 <div class="table">
@@ -293,35 +277,35 @@ For example, let’s create two new columns: one by dividing the <code class="hi
 <p>Let’s say you want to perform the following operations on the flights data</p>
 <ul>
   <li>[Step 1]: Filter out all flights less than 10 hours</li>
-  <li>[Step 2]: Create a new column, <code class="highlighter-rouge">speed</code>, using the formula [distance / (air time * 60)]</li>
+  <li>[Step 2]: Create a new column, <code class="language-plaintext highlighter-rouge">speed</code>, using the formula [distance / (air time * 60)]</li>
   <li>[Step 3]: Calculate the mean speed for flights originating from each airport</li>
   <li>[Step 4]: Sort the result by mean speed in descending order</li>
 </ul>
 
-<p>We will write the operations using <code class="highlighter-rouge">dfply</code> piping operator <code class="highlighter-rouge">&gt;&gt;</code>. We won’t have to use intermediate variables to save the result of each step.</p>
+<p>We will write the operations using <code class="language-plaintext highlighter-rouge">dfply</code> piping operator <code class="language-plaintext highlighter-rouge">&gt;&gt;</code>. We won’t have to use intermediate variables to save the result of each step.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">(</span><span class="n">flight_data</span> <span class="o">&gt;&gt;</span>
-  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 1
-</span>  <span class="n">mutate</span><span class="p">(</span><span class="n">speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">distance</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">air_time</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 2
-</span>  <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3a
-</span>  <span class="n">summarize</span><span class="p">(</span><span class="n">mean_speed</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3b
-</span>  <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">mean_speed</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># step 4
+  <span class="n">mask</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">hour</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 1
+</span>  <span class="n">mutate</span><span class="p">(</span><span class="n">speed</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">distance</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">air_time</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 2
+</span>  <span class="n">group_by</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">origin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3a
+</span>  <span class="n">summarize</span><span class="p">(</span><span class="n">mean_speed</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">speed</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="c1"># step 3b
+</span>  <span class="n">arrange</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">mean_speed</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># step 4
 </span><span class="p">)</span></code></pre></figure>
 
 <div class="table">
 <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>origin</th> <th>mean_speed</th> </tr></thead> <tbody> <tr> <th>0</th> <td>EWR</td><td>0.109777</td></tr><tr> <th>1</th> <td>JFK</td><td>0.109427</td></tr><tr> <th>2</th> <td>LGA</td><td>0.107362</td></tr></tbody></table>
 </div>
 
-<p>If we use <code class="highlighter-rouge">pandas</code> data manipulation functions instead of <code class="highlighter-rouge">dfply</code>’s, our code will look something like this:</p>
+<p>If we use <code class="language-plaintext highlighter-rouge">pandas</code> data manipulation functions instead of <code class="language-plaintext highlighter-rouge">dfply</code>’s, our code will look something like this:</p>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">flight_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">flight_data</span><span class="p">[</span><span class="s">'hour'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'speed'</span><span class="p">]</span> <span class="o">=</span> <span class="n">flight_data</span><span class="p">[</span><span class="s">'distance'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">flight_data</span><span class="p">[</span><span class="s">'air_time'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">flight_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'origin'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="s">'speed'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'speed'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">flight_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">flight_data</span><span class="p">[</span><span class="s">'hour'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'speed'</span><span class="p">]</span> <span class="o">=</span> <span class="n">flight_data</span><span class="p">[</span><span class="s">'distance'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">flight_data</span><span class="p">[</span><span class="s">'air_time'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">flight_data</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'origin'</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="s">'speed'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">result</span><span class="p">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'speed'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></figure>
 
-<p>I find the <code class="highlighter-rouge">dfply</code> version easier to read and understand than the <code class="highlighter-rouge">pandas</code> version.</p>
+<p>I find the <code class="language-plaintext highlighter-rouge">dfply</code> version easier to read and understand than the <code class="language-plaintext highlighter-rouge">pandas</code> version.</p>
 
 <h3 id="conclusion">Conclusion</h3>
-<p>This is by no means an exhaustive coverage of the functionality of the <code class="highlighter-rouge">dfply</code> package. The <a href="https://github.com/kieferk/dfply" target="_blank">package documentation</a> is really good and I advise that you check it out to learn more.</p>
+<p>This is by no means an exhaustive coverage of the functionality of the <code class="language-plaintext highlighter-rouge">dfply</code> package. The <a href="https://github.com/kieferk/dfply" target="_blank">package documentation</a> is really good and I advise that you check it out to learn more.</p>
 
 <p>If you have suggestions or questions, please drop a comment in the comment section below. You can also send me an email at hello [at] allenkunle [dot] me or tweet at me <a href="https://twitter.com/allenakinkunle" target="_blank">@allenakinkunle</a>, and I will reply as soon as I can.</p>
 
