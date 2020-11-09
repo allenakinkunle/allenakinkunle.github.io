@@ -14,9 +14,9 @@ Binary logistic regression is used to model the relationship between a categoric
 
 <p class="math">
 $$
-\begin{align}
+\tag{1} \begin{aligned}
   p(X) = Pr(Y = 1 | X)
-\end{align}
+\end{aligned}
 $$
 </p>  
 
@@ -24,56 +24,57 @@ In linear regression, we model the expected value (the mean $\mu$) of the contin
 
 <p class="math">
 $$
-\begin{align}
-  \mathbb{E}(Y|X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label{eqn:true-regression}
-\end{align}
+\tag{2} \begin{aligned}
+  \mathbb{E}(Y|X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
+\end{aligned}
 $$
 </p>
 
-In this case where our target variable $Y$ is categorical and has two possible values coded as 0 and 1, the expected value or mean of $Y$ is the probability $p(X)$ of observing the positive class[^expectation]. It seems sensible then to model the expected value of our categorical $Y$ variable using equation \eqref{eqn:true-regression}, as in linear regression.
+In this case where our target variable $Y$ is categorical and has two possible values coded as 0 and 1, the expected value or mean of $Y$ is the probability $p(X)$ of observing the positive class[^expectation]. It seems sensible then to model the expected value of our categorical $Y$ variable using equation (2), as in linear regression.
 
 <p class="math">
 $$
-\begin{align}
-  \mathbb{E}(Y|X) = p(X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label{eqn:probability-linear}
-\end{align}
+\tag{3} \begin{aligned}
+  \mathbb{E}(Y|X) = p(X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
+\end{aligned}
 $$
 </p>
 
 The problem with modelling the probability $p(X)$ as a linear combination of the predictor variables is that probability $p(X)$ has a range $[0, 1]$, but the right-hand side of the equation outputs values in the range $(-\infty, +\infty)$. In other words, we will get meaningless estimates of the probability if we use that equation.  
 The solution is to use a function of probability $p(X)$ that provides a suitable relationship between the linear combination of the predictor variables $X$ and $p(X)$, the mean of the response variable. This function is called a link function, and it maps the probability range $[0, 1]$ to $(-\infty, +\infty)$.  
 The most commonly used link function for binary logistic regression is the logit function (or log-odds[^odds]), given as: 
+
 <p class="math">
 $$
-\begin{align}
-  \text{logit}\bigg(p(X)\bigg) = \text{log}\bigg(\frac{p(X)}{1-p(X)}\bigg) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p \label {eqn:logit}
-\end{align}
+\tag{4} \begin{aligned}
+  \text{logit}\bigg(p(X)\bigg) = \text{log}\bigg(\frac{p(X)}{1-p(X)}\bigg) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
+\end{aligned}
 $$
 </p>
 
 How do we then go from the logit function to getting the estimate of the probability p(X) of observing the positive class? Because logit is a function of probability, we can take its inverse to map arbitrary values in the range $(-\infty, +\infty)$ back to the probability range $[0, 1]$.   
-Recall that the inverse function of the natural logarithm function is the exponential function, so if we take the inverse of equation \eqref{eqn:logit}, we get: 
+Recall that the inverse function of the natural logarithm function is the exponential function, so if we take the inverse of equation (4), we get: 
 
 <p class="math">
 $$
-\begin{align}
-  \frac{p(X)}{1-p(X)} = e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} \label{eqn:odds}
-\end{align}
+\tag{5} \begin{aligned}
+  \frac{p(X)}{1-p(X)} = e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}
+\end{aligned}
 $$
 </p>
 
-If we solve for $p(X)$ in equation \eqref{eqn:odds}, we get[^logistic]:
+If we solve for $p(X)$ in equation (5), we get[^logistic]:
 
 <p class="math">
 $$
-\begin{align}
-  p(X) & = & \frac{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}}{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} + 1} \nonumber \\
-      & = & \frac{1}{1 + e^{(-\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}} \label{eqn:logistic}
-\end{align}
+\tag{6} \begin{aligned}
+  p(X) & = \frac{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}}{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} + 1} \\
+      & =  \frac{1}{1 + e^{(-\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}}
+\end{aligned}
 $$
 </p>
 
-Equation \eqref{eqn:logistic} is the logistic (or sigmoid) function, and it maps values in the logit range $(-\infty, +\infty)$ back into the range $[0, 1]$ of probabilities.
+Equation (6) is the logistic (or sigmoid) function, and it maps values in the logit range $(-\infty, +\infty)$ back into the range $[0, 1]$ of probabilities.
 
 ![log-odds&sigmoid](/img/log-odds.svg)
 
@@ -82,9 +83,9 @@ Given a set of $n$ training examples $\\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}),
 
 <p class="math">
 $$
-\begin{align}
-  \text{Cross-Entropy} = -\bigg[\frac{1}{n} \sum_{i=1}^n\bigg(y^{(i)}\text{log} p^{(i)} + (1- y^{(i)})\text{log}(1 - p^{(i)})\bigg)\bigg] \label{eqn:cross-entropy}
-\end{align} 
+\tag{7} \begin{aligned}
+  \text{Cross-Entropy} = -\bigg[\frac{1}{n} \sum_{i=1}^n\bigg(y^{(i)}\text{log} p^{(i)} + (1- y^{(i)})\text{log}(1 - p^{(i)})\bigg)\bigg]
+\end{aligned} 
 $$
 </p>
 
@@ -98,12 +99,12 @@ $y^{(i)}$ is a realisation of the Bernoulli random variable[^bernoulli] $Y$. The
 
 <p class="math">
 $$
-\begin{align}
+\tag{8} \begin{aligned}
   Pr(Y = y^{(i)}) = \begin{cases}
    p & \text{if } y^{(i)} = 1, \\
    1-p & \text {if } y^{(i)} = 0.
  \end{cases}
-\end{align} 
+\end{aligned} 
 $$
 </p>
 
@@ -111,9 +112,9 @@ which can be written in the more compact form:
 
 <p class="math">
 $$
-\begin{align}
-  Pr(Y = y^{(i)}) = p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \ \text{for} \ y^{(i)} \in \{0,1\} \label{eqn:compact}
-\end{align} 
+\tag{9} \begin{aligned}
+  Pr(Y = y^{(i)}) = p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \ \text{for} \ y^{(i)} \in \{0,1\}
+\end{aligned} 
 $$
 </p>
 
@@ -121,32 +122,32 @@ We then define our Likelihood function. The estimates of $\beta_0, \beta_1, \cdo
 
 <p class="math">
 $$
-\begin{align}
-  \mathcal{L}(p | (x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})) & = \prod_{i=1}^n f(y^{(i)}|p) \nonumber \\
-                                                     & = \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \label{eq:likelihood}
-\end{align}
+\tag{10} \begin{aligned}
+  \mathcal{L}(p | (x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})) & = \prod_{i=1}^n f(y^{(i)}|p) \\
+                                                     & = \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}}
+\end{aligned}
 $$
 </p>
 
-It is easier to work with the log of the likelihood function[^part1], called the log-likelihood, so if we take the natural logarithm of equation \eqref{eq:likelihood}, we get:
+It is easier to work with the log of the likelihood function[^part1], called the log-likelihood, so if we take the natural logarithm of equation (10), we get:
 
 <p class="math">
 $$
-\begin{align}
-  \log \bigg(\mathcal{L}(p | y^{(1)}, y^{(2)}, \cdots, y^{(n)})\bigg) & = \log\bigg( \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \bigg) \nonumber \\
-    & = \sum_{i=1}^n \log \bigg(p^{y^{(i)}}(1-p)^{1 - y^{(i)}}\bigg) \nonumber \\
-    & = \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \label{eq:log-likelihood}
-\end{align}
+\tag{11} \begin{aligned}
+  \log \bigg(\mathcal{L}(p | y^{(1)}, y^{(2)}, \cdots, y^{(n)})\bigg) & = \log\bigg( \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \bigg) \\
+    & = \sum_{i=1}^n \log \bigg(p^{y^{(i)}}(1-p)^{1 - y^{(i)}}\bigg) \\
+    & = \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg)
+\end{aligned}
 $$
 </p>
 
-Recall that for our training data, $p^{(i)}$ in equation \eqref{eq:log-likelihood} is the predicted probability of the $i^{th}$ training example gotten from the logisitic function, so it is a function of the parameters $\beta_0, \beta_1, \cdots, \beta_p$. The maximum likelihood estimate $\hat \beta$ is therefore the value of the parameters that maximises the log-likelihood function.
+Recall that for our training data, $p^{(i)}$ in equation (11) is the predicted probability of the $i^{th}$ training example gotten from the logisitic function, so it is a function of the parameters $\beta_0, \beta_1, \cdots, \beta_p$. The maximum likelihood estimate $\hat \beta$ is therefore the value of the parameters that maximises the log-likelihood function.
 
 <p class="math">
 $$
-\begin{align}
+\tag{12} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,max}} \bigg[ \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
-\end{align}
+\end{aligned}
 $$
 </p>
 
@@ -154,9 +155,9 @@ We also know that maximising a function is the same as minimising its negative.
 
 <p class="math">
 $$
-\begin{align}
+\tag{13} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[ -\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
-\end{align}
+\end{aligned}
 $$
 </p>
 
@@ -164,13 +165,13 @@ Taking the average across our $n$ training examples, we get:
 
 <p class="math">
 $$
-\begin{align}
+\tag{14} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[\color{red}-\frac{1}{n}\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \color{black}\bigg]
-\end{align}
+\end{aligned}
 $$
 </p>
 
-which is the cross-entropy as defined in equation \eqref{eqn:cross-entropy}.
+which is the cross-entropy as defined in equation (7).
 
 ### Footnotes
 [^expectation]: $Y$ is a Bernoulli random variable. The Bernoulli distribution is a discrete probability distribution that describes processes that have only two possible outcomes: 1, with a probability of $p$ and 0, with a probability of $1 - p$. The expectation (or mean) of the Bernoulli distribution is $p$. \[[Proof\]](https://brilliant.org/wiki/bernoulli-distribution/){:target="_blank"}   
