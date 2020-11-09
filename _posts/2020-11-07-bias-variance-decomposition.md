@@ -160,7 +160,7 @@ In practice, the true function we try to estimate is unknown, but for the sake o
 
 ![models](/img/models-complexity.png)
 
-We see from the image above that on average, the degree-1 polynomial model does a bad job of estimating our true function. It has a high bias. The variance is low, which means that the model is consistent across datasets. The degree-20 polynomial model 20 has low bias, which means it does a good job of approximating our true function, but it has a high variance. This means that the model isn't consistent across datasets. The degree-5 polynomial model has low bias (good estimate of our true function), and a relatively low variance (consistent across datasets).
+We see from the image above that on average, the degree-1 polynomial model does a bad job of estimating our true function. It has a high bias. The variance is low, which means that the model is consistent across datasets. The degree-20 polynomial model has low bias, which means it does a good job of approximating our true function, but it has a high variance. This means that the model isn't consistent across datasets. The degree-5 polynomial model has low bias (good estimate of our true function), and a relatively low variance (consistent across datasets).
 
 The code for this simulation can be found [here](https://colab.research.google.com/drive/18T2jwJEStq54rNpit3zVXjvjYeplmM4G?usp=sharing){:target="_blank"}.
 
