@@ -4,7 +4,7 @@
  <title>Allen Akinkunle | Data Science, Machine Learning</title>
  <link href="http://allenkunle.me/atom.xml" rel="self"/>
  <id>http://allenkunle.me</id>
- <updated>2020-11-08T15:40:52+00:00</updated>
+ <updated>2020-11-11T23:13:54+00:00</updated>
  <author>
    <name>Allen Akinkunle</name>
    <uri>http://www.allenkunle.me</uri>
@@ -18,7 +18,7 @@
    <link href="http://allenkunle.me/bias-variance-decomposition"/>
    <id>http://allenkunle.me/bias-variance-decomposition</id>
    <updated>2020-11-07T00:00:00+00:00</updated>
-   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt; &lt;p&gt;The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.&lt;/p&gt; &lt;p class=&quot;math&quot;&gt; $$...</content>
+   <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt; &lt;p&gt;The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.&lt;/p&gt; &lt;p class=&quot;math&quot; id=&quot;eqn1&quot;&gt;...</content>
  </entry>
 
  

@@ -122,7 +122,7 @@
 		<h3 id="introduction">Introduction</h3>
 <p>The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.</p>
 
-<p class="math">
+<p class="math" id="eqn1">
 $$
   \tag{1} \text{Generalisation error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 $$
@@ -140,7 +140,7 @@ $$
 
 <ul>
   <li>The expectation of any constant $c$ is the constant:
-    <p class="math">
+    <p class="math" id="eqn2">
  $$
  \tag{2} \begin{aligned}
    \mathbb{E}[c] = c
@@ -151,7 +151,7 @@ $$
     <p>$\mathbb{E}\big[\mathbb{E}[X]\big] = \mathbb{E}[X]$ because the expection of a random variable is a constant.</p>
   </li>
   <li><strong>Linearity of expectations:</strong> For any random variables $X$ and $Y$, the expectation of their sum is equal to the sum of their expectations:
-    <p class="math">
+    <p class="math" id="eqn3">
   $$
   \tag{3} \begin{aligned}
     \mathbb{E}[X+Y] = \mathbb{E}[X] + \mathbb{E}[Y]
@@ -160,7 +160,7 @@ $$
   </p>
   </li>
   <li>For any random variable $X$ and a constant $c$:
-    <p class="math">
+    <p class="math" id="eqn4">
   $$
   \tag{4} \begin{aligned}
     \mathbb{E}[cX] = \mathbb{E}[c]\mathbb{E}[X] = c\mathbb{E}[X]
@@ -173,7 +173,7 @@ $$
 <h4 id="variance-of-a-random-variable">Variance of a random variable</h4>
 <p>The variance of a random variable $X$ is the expectation of the squared difference of the random variable from its expectation $\color{blue} \mathbb{E}[X]$. In other words, it measures on average how spread out observations of the random variable are from the expectation of the random variable.</p>
 
-<p class="math">
+<p class="math" id="eqn5">
   $$
   \begin{aligned}
   \tag{5} \text{Var}(X) &amp; =  \mathbb{E}\Big[\Big(X - {\color{blue} \mathbb{E}[X]}\Big)^2\Big] \\
@@ -186,9 +186,9 @@ $$
   $$
 </p>
 
-<p>If we recall that the expectation of a random variable $\color{blue}\mathbb{E}[X]$ is a constant and if we use the properties stated in equations (3) and (4), we get:</p>
+<p>If we recall that the expectation of a random variable $\color{blue}\mathbb{E}[X]$ is a constant and if we use the properties stated in equations <a class="link" id="3">(3)</a> and <a class="link" id="4">(4)</a>, we get:</p>
 
-<p class="math">
+<p class="math" id="eqn6">
 $$
 \tag{6} \begin{aligned}
 \text{Var}(X) &amp; = \mathbb{E}\big[X^2\big] - \mathbb{E}\big[2X{\color{blue}\mathbb{E}[X]}\big] + \mathbb{E}\big[{\color{blue}\mathbb{E}[X]}^2\big] \\
@@ -202,9 +202,9 @@ $$
 $$
 </p>
 
-<p>We could rewrite equation (6) as:</p>
+<p>We could rewrite equation <a class="link" id="6">(6)</a> as:</p>
 
-<p class="math">
+<p class="math" id="eqn7">
 $$
 \tag{7} \begin{aligned}
 \mathbb{E}[X^2] &amp; = \text{Var}(X) + {\color{blue}\mathbb{E}[X]}^2 \\
@@ -218,7 +218,7 @@ $$
 <ul>
   <li>There is a linear function between the conditional population mean of the outcome $Y$ and the features $X$. This function is called the <strong><em>true regression line</em></strong> and it is the unknown function we will estimate using training data.</li>
 </ul>
-<p class="math">
+<p class="math" id="eqn8">
   $$
     \tag{8} \begin{aligned} 
     \color{green} f(X) = \mathbb{E}[Y|X] = \boldsymbol\beta^\mathsf{T} X
@@ -228,7 +228,8 @@ $$
 <ul>
   <li>Individual observations of $Y$ will deviate from the true regression line by a certain amount. For example, if the feature $X$ is age of a person and the outcome variable $Y$ is height, $\color{green}f(X)$ is the mean height of people of a certain age, and each person’s height will deviate from the mean height by a certain amount. An error term $\boldsymbol \epsilon$ captures this deviation. We assume that it is normally distributed with expectation $\mathbb{E}[\boldsymbol \epsilon] = 0$ and variance $\text{Var}(\boldsymbol \epsilon) = \sigma^2$. We also assume that $\boldsymbol \epsilon$ is independent of $X$ and cannot be estimated from data.</li>
 </ul>
-<p class="math">
+
+<p class="math" id="eqn9">
   $$
   \tag{9} \begin{aligned}
   \color{green} Y = f(X) + \epsilon 
@@ -240,7 +241,7 @@ $$
 
 <p>What we really care about is how our model performs on previously unseen test data. For an arbitrary new point $\big(x^\star, \space {\color{green}y^\star = f(x^\star)  + \epsilon} \big)$ drawn from $P(X,Y)$, we can use <strong><em>squared error</em></strong> to measure the model’s performance on this new example, where $\color{red}\hat f_\mathcal{D}(x^\star)$ is the model’s prediction.</p>
 
-<p class="math">
+<p class="math" id="eqn10">
 $$
 \tag{10} \begin{aligned}
 \text{Squared Error} = \big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\big)^2
@@ -251,7 +252,7 @@ $$
 <p>Now, because we draw our training set from a data generating distribution, it is possible, in principle<sup id="fnref:principle" role="doc-noteref"><a href="#fn:principle" class="footnote">3</a></sup>, to randomly draw a large number $N$ of different training datasets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo fence="false">(</mo><msub><mi mathvariant="script">D</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi mathvariant="script">D</mi><mi>N</mi></msub><mo fence="false">)</mo></mrow><annotation encoding="application/x-tex">\big(\mathcal{D}_1, \cdots, \mathcal{D}_N\big)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.20001em;vertical-align:-0.35001em;"></span><span class="mord"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">D</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="delimsizing size1">)</span></span></span></span></span> of $n$  examples from the distribution. If we use the learning algorithm $\mathcal{A}$ to train a model on each training set, we will get $N$ different models $\big({\color{red}\hat f_\mathcal{D_1}(X)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(X)}\big)$ that will give us $N$ different predictions $\big({\color{red}\hat f_\mathcal{D_1}(x^\star)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(x^\star)}\big)$ on our arbitrary new point $x^\star$. We could calculate the <strong><em>squared error</em></strong> for each of the $N$  models predictions on $x^\star$ $\Big[\big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D_1}(x^\star)}\big)^2, \cdots, \big({\color{green}y^\star - \color{red}\hat f_\mathcal{D_N}(x^\star)}\big)^2 \big]$. <br />
 To get an idea of how well, on average, the learning algorithm $\mathcal{A}$ generalises to the previously unseen data point, we compute the mean/expectation of the squared errors of the $N$ models. This is called the <strong><em>expected squared error</em></strong>.</p>
 
-<p class="math">
+<p class="math" id="eqn11">
 $$
 \begin{aligned}
 \tag{11} \text{Expected Squared Error} = \mathbb{E}\Big[\Big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\Big)^2\Big]
@@ -293,9 +294,9 @@ The model variance is the expectation of the squared differences between a parti
 <hr />
 
 <h4 id="decomposing-expected-squared-error">Decomposing Expected Squared Error</h4>
-<p>As mentioned earlier, it is the expected squared error term in equation (11) that we will decompose into the bias, variance, and irreducible error components. To avoid clutter while decomposing, we will drop the $\color{green}\star$ sign from $\color{green}y^\star$ and $\color{red}(x^\star)$ from $\color{red}\hat f_\mathcal{D}(x^\star)$.</p>
+<p>As mentioned earlier, it is the expected squared error term in equation <a class="link" id="11">(11)</a> that we will decompose into the bias, variance, and irreducible error components. To avoid clutter while decomposing, we will drop the $\color{green}\star$ sign from $\color{green}y^\star$ and $\color{red}(x^\star)$ from $\color{red}\hat f_\mathcal{D}(x^\star)$.</p>
 
-<p class="math">
+<p class="math" id="eqn12">
 $$
 \tag{12} \begin{aligned}
 \text{Error} &amp; = \mathbb{E}\Big[\Big({\color{green}y} - {\color{red}\hat f_\mathcal{D}}\Big)^2\Big] \\ 
@@ -310,9 +311,9 @@ $$
 $$
 </p>
 
-<p>Equation (12) has three terms that we will deal with separately. If we consider the third term first, we know that $\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]$ is the expectation of our model. If we recall equations (2) and (9) and that $\mathbb{E}[{\boldsymbol\epsilon}] = 0$, we can rewrite $\mathbb{E}\big[ {\color{green}y}\big]$ as:</p>
+<p>Equation <a class="link" id="12">(12)</a> has three terms that we will deal with separately. If we consider the third term first, we know that $\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]$ is the expectation of our model. If we recall equations <a class="link" id="2">(2)</a> and <a class="link" id="9">(9)</a> and that $\mathbb{E}[{\boldsymbol\epsilon}] = 0$, we can rewrite $\mathbb{E}\big[ {\color{green}y}\big]$ as:</p>
 
-<p class="math">
+<p class="math" id="eqn13">
 $$
 \tag{13} \begin{aligned}
 \mathbb{E}\Big[ {\color{green}y}\Big] &amp; = \mathbb{E}\Big[ {\color{green}f(x) + \epsilon }\Big] \\
@@ -322,9 +323,9 @@ $$
 $$
 </p>
 
-<p>For the first and second terms, we use equations (7), (9), and (13) to rewrite them as:</p>
+<p>For the first and second terms, we use equations <a class="link" id="7">(7)</a>, <a class="link" id="9">(9)</a>, and <a class="link" id="13">(13)</a> to rewrite them as:</p>
 
-<p class="math">
+<p class="math" id="eqn14">
 $$
 \tag{14} \begin{aligned}
 \mathbb{E}\Big[ {\color{green}y}^2 \Big] &amp; = \mathbb{E}\Big[\Big({\color{green}y} - {\mathbb{E}[{\color{green}y}]}\Big)^2\Big] + {\mathbb{E}[{\color{green}y}]}^2 \\
@@ -339,9 +340,9 @@ $$
 $$
 </p>
 
-<p>Substituting equations (13) and (14) into equation (12), we get:</p>
+<p>Substituting equations <a class="link" id="13">(13)</a> and <a class="link" id="14">(14)</a> into equation <a class="link" id="12">(12)</a>, we get:</p>
 
-<p class="math">
+<p class="math" id="eqn15">
 $$
 \tag{15} \begin{aligned}
 \text{Error} &amp; = \mathbb{E}\Big[ {\color{green}y}^2 \Big] + \mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}}^2 \Big] - 2\mathbb{E}\Big[ {\color{green}y}\Big]\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}} \Big]
@@ -353,9 +354,9 @@ $$
 $$
 </p>
 
-<p>If we rearrange equation (15) and use expansion of squares $(a-b)^2 = a^2 - 2ab + b^2$, we get:</p>
+<p>If we rearrange equation <a class="link" id="15">(15)</a> and use expansion of squares $(a-b)^2 = a^2 - 2ab + b^2$, we get:</p>
 
-<p class="math">
+<p class="math" id="eqn16">
 $$
 \tag{16} \begin{aligned}
 \text{Error} &amp; = \underbrace{ {\mathbb{E}\big[}{\color{red}\hat f_\mathcal{D}} {\big]} ^2 - 2{\color{green}f(x)}\mathbb{E}\big[{\color{red} \hat f_\mathcal{D}}\big] + {\color{green}f(x)}^2 }_{1} + \underbrace{\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}[{\color{red}\hat f_\mathcal{D}}]}\Big)^2\Big]}_{2} + \underbrace{\mathbb{E}\Big[{\color{green}\epsilon}^2 \Big]}_{3} \\
@@ -392,7 +393,7 @@ $$
 
 <p><img src="/img/bias-var-sum.png" alt="Bias-Var" /></p>
 
-<p>We see from the table above that the mean squared error (MSE) is a sum of the squared bias and the variance, as shown in equation (16). The irreducible part of the decomposition is not added to our sum because we cannot estimate it from data.</p>
+<p>We see from the table above that the mean squared error (MSE) is a sum of the squared bias and the variance, as shown in equation <a class="link" id="16">(16)</a>. The irreducible part of the decomposition is not added to our sum because we cannot estimate it from data.</p>
 
 <p>The code for this simulation can be found <a href="https://colab.research.google.com/drive/1PtUgJGl439xqGvCStOy86p3Q25YlaJHG?usp=sharing" target="_blank">here</a>.</p>
 
@@ -415,7 +416,7 @@ $$
       <p>In practice, we have access to only one training dataset. <a href="#fnref:principle" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:var" role="doc-endnote">
-      <p>Using the variance lemma in equation (7) and the assumption that $\mathbb{E}[\boldsymbol \epsilon] = 0$ and $\text{Var}(\boldsymbol \epsilon) = \sigma^2$: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi mathvariant="double-struck">E</mi><mo fence="false">[</mo><msup><mi mathvariant="bold-italic">ϵ</mi><mn>2</mn></msup><mo fence="false">]</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mtext>Var</mtext><mo stretchy="false">(</mo><mi mathvariant="bold-italic">ϵ</mi><mo stretchy="false">)</mo><mo>+</mo><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi mathvariant="bold-italic">ϵ</mi><msup><mo stretchy="false">]</mo><mn>2</mn></msup><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \mathbb{E}\big[{\boldsymbol \epsilon}^2 \big]  &amp; = \text{Var}(\boldsymbol \epsilon) + \mathbb{E}[\boldsymbol \epsilon]^2 = \sigma^2 \end{aligned}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.524108em;vertical-align:-0.512054em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="mord"><span class="delimsizing size1">[</span></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">ϵ</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="delimsizing size1">]</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class="mord">Var</span></span><span class="mopen">(</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathbb">E</span></span><span class="mopen">[</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span></span></span></span></span></span>. <a href="#fnref:var" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p>Using the variance lemma in equation <a class="link" id="7">(7)</a> and the assumption that $\mathbb{E}[\boldsymbol \epsilon] = 0$ and $\text{Var}(\boldsymbol \epsilon) = \sigma^2$: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi mathvariant="double-struck">E</mi><mo fence="false">[</mo><msup><mi mathvariant="bold-italic">ϵ</mi><mn>2</mn></msup><mo fence="false">]</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mtext>Var</mtext><mo stretchy="false">(</mo><mi mathvariant="bold-italic">ϵ</mi><mo stretchy="false">)</mo><mo>+</mo><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi mathvariant="bold-italic">ϵ</mi><msup><mo stretchy="false">]</mo><mn>2</mn></msup><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \mathbb{E}\big[{\boldsymbol \epsilon}^2 \big]  &amp; = \text{Var}(\boldsymbol \epsilon) + \mathbb{E}[\boldsymbol \epsilon]^2 = \sigma^2 \end{aligned}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.524108em;vertical-align:-0.512054em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="mord"><span class="delimsizing size1">[</span></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">ϵ</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="delimsizing size1">]</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.012054em;"><span style="top:-3.147946em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class="mord">Var</span></span><span class="mopen">(</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathbb">E</span></span><span class="mopen">[</span><span class="mord"><span class="mord boldsymbol">ϵ</span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.512054em;"><span></span></span></span></span></span></span></span></span></span></span>. <a href="#fnref:var" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
@@ -485,6 +486,30 @@ $$
 
 	  </div>
 
-	</div>
+  </div>
+  
+  <!-- Tooltip -->
+<script defer src="https://unpkg.com/@popperjs/core@2"></script>
+<script defer src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css"/>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        links = document.getElementsByClassName('link');
+
+        for (i=0; i < links.length; i++) {
+            link = links[i];
+            eqn_id = 'eqn' + link.id;
+            eqn = document.getElementById(eqn_id);
+            tippy(link, {
+                content: eqn.outerHTML,
+                maxWidth: 'none',
+                allowHTML: true,
+                interactive: true,
+                theme: 'light'
+            });    
+        }
+    });
+</script>
+
 </body>
 </html>

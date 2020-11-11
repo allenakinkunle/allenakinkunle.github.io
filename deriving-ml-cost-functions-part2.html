@@ -122,7 +122,7 @@
 <h3 id="background">Background</h3>
 <p>Binary logistic regression is used to model the relationship between a categorical target variable $Y$ and a predictor vector $X = (X_1, X_2, \cdots, X_p)$. The target variable will have two possible values, such as whether a student passes an exam or not, or whether a visitor to a website subscribes to the website’s newsletter or not. The two possible categories are coded as ‘1’, called the positive class, and ‘0’, called the negative class. Binary logistic regression estimates the probability that the response variable $Y$ belongs to the positive class given $X$.</p>
 
-<p class="math">
+<p class="math" id="eqn1">
 $$
 \tag{1} \begin{aligned}
   p(X) = Pr(Y = 1 | X)
@@ -132,7 +132,7 @@ $$
 
 <p>In linear regression, we model the expected value (the mean $\mu$) of the continuous target variable $Y$ as a linear combination of the predictor vector $X$ and estimate the weight parameters $\beta_1, \beta_2, \cdots, \beta_p$ using our training data.</p>
 
-<p class="math">
+<p class="math" id="eqn2">
 $$
 \tag{2} \begin{aligned}
   \mathbb{E}(Y|X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
@@ -140,9 +140,9 @@ $$
 $$
 </p>
 
-<p>In this case where our target variable $Y$ is categorical and has two possible values coded as 0 and 1, the expected value or mean of $Y$ is the probability $p(X)$ of observing the positive class<sup id="fnref:expectation" role="doc-noteref"><a href="#fn:expectation" class="footnote">1</a></sup>. It seems sensible then to model the expected value of our categorical $Y$ variable using equation (2), as in linear regression.</p>
+<p>In this case where our target variable $Y$ is categorical and has two possible values coded as 0 and 1, the expected value or mean of $Y$ is the probability $p(X)$ of observing the positive class<sup id="fnref:expectation" role="doc-noteref"><a href="#fn:expectation" class="footnote">1</a></sup>. It seems sensible then to model the expected value of our categorical $Y$ variable using equation <a class="link" id="2">(2)</a>, as in linear regression.</p>
 
-<p class="math">
+<p class="math" id="eqn3">
 $$
 \tag{3} \begin{aligned}
   \mathbb{E}(Y|X) = p(X) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
@@ -154,7 +154,7 @@ $$
 The solution is to use a function of probability $p(X)$ that provides a suitable relationship between the linear combination of the predictor variables $X$ and $p(X)$, the mean of the response variable. This function is called a link function, and it maps the probability range $[0, 1]$ to $(-\infty, +\infty)$.<br />
 The most commonly used link function for binary logistic regression is the logit function (or log-odds<sup id="fnref:odds" role="doc-noteref"><a href="#fn:odds" class="footnote">2</a></sup>), given as:</p>
 
-<p class="math">
+<p class="math" id="eqn4">
 $$
 \tag{4} \begin{aligned}
   \text{logit}\bigg(p(X)\bigg) = \text{log}\bigg(\frac{p(X)}{1-p(X)}\bigg) = \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p
@@ -163,9 +163,9 @@ $$
 </p>
 
 <p>How do we then go from the logit function to getting the estimate of the probability p(X) of observing the positive class? Because logit is a function of probability, we can take its inverse to map arbitrary values in the range $(-\infty, +\infty)$ back to the probability range $[0, 1]$. <br />
-Recall that the inverse function of the natural logarithm function is the exponential function, so if we take the inverse of equation (4), we get:</p>
+Recall that the inverse function of the natural logarithm function is the exponential function, so if we take the inverse of equation <a class="link" id="4">(4)</a>, we get:</p>
 
-<p class="math">
+<p class="math" id="eqn5">
 $$
 \tag{5} \begin{aligned}
   \frac{p(X)}{1-p(X)} = e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}
@@ -173,9 +173,9 @@ $$
 $$
 </p>
 
-<p>If we solve for $p(X)$ in equation (5), we get<sup id="fnref:logistic" role="doc-noteref"><a href="#fn:logistic" class="footnote">3</a></sup>:</p>
+<p>If we solve for $p(X)$ in equation <a class="link" id="5">(5)</a>, we get<sup id="fnref:logistic" role="doc-noteref"><a href="#fn:logistic" class="footnote">3</a></sup>:</p>
 
-<p class="math">
+<p class="math" id="eqn6">
 $$
 \tag{6} \begin{aligned}
   p(X) &amp; = \frac{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)}}{e^{(\beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p)} + 1} \\
@@ -184,14 +184,14 @@ $$
 $$
 </p>
 
-<p>Equation (6) is the logistic (or sigmoid) function, and it maps values in the logit range $(-\infty, +\infty)$ back into the range $[0, 1]$ of probabilities.</p>
+<p>Equation <a class="link" id="6">(6)</a> is the logistic (or sigmoid) function, and it maps values in the logit range $(-\infty, +\infty)$ back into the range $[0, 1]$ of probabilities.</p>
 
 <p><img src="/img/log-odds.svg" alt="log-odds&amp;sigmoid" /></p>
 
 <h3 id="deriving-cost-entropy-using-mle">Deriving Cost Entropy using MLE</h3>
 <p>Given a set of $n$ training examples $\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})\}$, binary cross-entropy is given by:</p>
 
-<p class="math">
+<p class="math" id="eqn7">
 $$
 \tag{7} \begin{aligned}
   \text{Cross-Entropy} = -\bigg[\frac{1}{n} \sum_{i=1}^n\bigg(y^{(i)}\text{log} p^{(i)} + (1- y^{(i)})\text{log}(1 - p^{(i)})\bigg)\bigg]
@@ -207,7 +207,7 @@ $$
 We start by describing the random process that generated $y^{(i)}$. <br />
 $y^{(i)}$ is a realisation of the Bernoulli random variable<sup id="fnref:bernoulli" role="doc-noteref"><a href="#fn:bernoulli" class="footnote">4</a></sup> $Y$. The Bernoulli distribution is parameterised by $p$, and its probability mass function (pmf) is given by:</p>
 
-<p class="math">
+<p class="math" id="eqn8">
 $$
 \tag{8} \begin{aligned}
   Pr(Y = y^{(i)}) = \begin{cases}
@@ -220,7 +220,7 @@ $$
 
 <p>which can be written in the more compact form:</p>
 
-<p class="math">
+<p class="math" id="eqn9">
 $$
 \tag{9} \begin{aligned}
   Pr(Y = y^{(i)}) = p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \ \text{for} \ y^{(i)} \in \{0,1\}
@@ -230,7 +230,7 @@ $$
 
 <p>We then define our Likelihood function. The estimates of $\beta_0, \beta_1, \cdots, \beta_p$ we choose will be the ones that maximise the likelihood function. The likelihood function is a function of our parameter $p$ given our training data:</p>
 
-<p class="math">
+<p class="math" id="eqn10">
 $$
 \tag{10} \begin{aligned}
   \mathcal{L}(p | (x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(n)}, y^{(n)})) &amp; = \prod_{i=1}^n f(y^{(i)}|p) \\
@@ -241,7 +241,7 @@ $$
 
 <p>It is easier to work with the log of the likelihood function<sup id="fnref:part1" role="doc-noteref"><a href="#fn:part1" class="footnote">5</a></sup>, called the log-likelihood, so if we take the natural logarithm of equation (10), we get:</p>
 
-<p class="math">
+<p class="math" id="eqn11">
 $$
 \tag{11} \begin{aligned}
   \log \bigg(\mathcal{L}(p | y^{(1)}, y^{(2)}, \cdots, y^{(n)})\bigg) &amp; = \log\bigg( \prod_{i=1}^n p^{y^{(i)}}(1-p)^{1 - y^{(i)}} \bigg) \\
@@ -251,9 +251,9 @@ $$
 $$
 </p>
 
-<p>Recall that for our training data, $p^{(i)}$ in equation (11) is the predicted probability of the $i^{th}$ training example gotten from the logisitic function, so it is a function of the parameters $\beta_0, \beta_1, \cdots, \beta_p$. The maximum likelihood estimate $\hat \beta$ is therefore the value of the parameters that maximises the log-likelihood function.</p>
+<p>Recall that for our training data, $p^{(i)}$ in equation <a class="link" id="11">(11)</a> is the predicted probability of the $i^{th}$ training example gotten from the logisitic function, so it is a function of the parameters $\beta_0, \beta_1, \cdots, \beta_p$. The maximum likelihood estimate $\hat \beta$ is therefore the value of the parameters that maximises the log-likelihood function.</p>
 
-<p class="math">
+<p class="math" id="eqn12">
 $$
 \tag{12} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,max}} \bigg[ \sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
@@ -263,7 +263,7 @@ $$
 
 <p>We also know that maximising a function is the same as minimising its negative.</p>
 
-<p class="math">
+<p class="math" id="eqn13">
 $$
 \tag{13} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[ -\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \bigg]
@@ -273,7 +273,7 @@ $$
 
 <p>Taking the average across our $n$ training examples, we get:</p>
 
-<p class="math">
+<p class="math" id="eqn14">
 $$
 \tag{14} \begin{aligned}
   \hat \beta = \underset{\beta}{\operatorname{arg\,min}} \bigg[\color{red}-\frac{1}{n}\sum_{i=1}^n \bigg(y^{(i)}\text{log}p^{(i)} + (1-y^{(i)})\text{log}(1-p^{(i)})\bigg) \color{black}\bigg]
@@ -281,7 +281,7 @@ $$
 $$
 </p>
 
-<p>which is the cross-entropy as defined in equation (7).</p>
+<p>which is the cross-entropy as defined in equation <a class="link" id="7">(7)</a>.</p>
 
 <h3 id="footnotes">Footnotes</h3>
 
@@ -375,6 +375,30 @@ $$
 
 	  </div>
 
-	</div>
+  </div>
+  
+  <!-- Tooltip -->
+<script defer src="https://unpkg.com/@popperjs/core@2"></script>
+<script defer src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css"/>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        links = document.getElementsByClassName('link');
+
+        for (i=0; i < links.length; i++) {
+            link = links[i];
+            eqn_id = 'eqn' + link.id;
+            eqn = document.getElementById(eqn_id);
+            tippy(link, {
+                content: eqn.outerHTML,
+                maxWidth: 'none',
+                allowHTML: true,
+                interactive: true,
+                theme: 'light'
+            });    
+        }
+    });
+</script>
+
 </body>
 </html>

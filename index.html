@@ -238,6 +238,30 @@
 
 	  </div>
 
-	</div>
+  </div>
+  
+  <!-- Tooltip -->
+<script defer src="https://unpkg.com/@popperjs/core@2"></script>
+<script defer src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css"/>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        links = document.getElementsByClassName('link');
+
+        for (i=0; i < links.length; i++) {
+            link = links[i];
+            eqn_id = 'eqn' + link.id;
+            eqn = document.getElementById(eqn_id);
+            tippy(link, {
+                content: eqn.outerHTML,
+                maxWidth: 'none',
+                allowHTML: true,
+                interactive: true,
+                theme: 'light'
+            });    
+        }
+    });
+</script>
+
 </body>
 </html>
