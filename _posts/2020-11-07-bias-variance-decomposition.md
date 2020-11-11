@@ -10,7 +10,7 @@ excerpt: This post provides an intuitive explanation of the bias-variance decomp
 ### Introduction
 The generalisation error of a machine learning algorithm measures how accurately the learning algorithm is able to predict the outcome of new data, unseen during training. The bias-variance decomposition shows the generalisation error as the sum of three terms: bias, variance, and the irreducible error.
 
-<p class="math">
+<p class="math" id="eqn1">
 $$
   \tag{1} \text{Generalisation error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 $$
@@ -27,7 +27,7 @@ We will go over some statistics concepts that will aid our understanding of the 
 The expectation[^expectation] or expected value of a random variable $X$, written as $\mathbb{E}[X]$, is the **mean** of a large number of observations of the random variable. The expectation has some basic properties:
 
 - The expectation of any constant $c$ is the constant:
-   <p class="math">
+   <p class="math" id="eqn2">
    $$
    \tag{2} \begin{aligned}
      \mathbb{E}[c] = c
@@ -38,7 +38,7 @@ The expectation[^expectation] or expected value of a random variable $X$, writte
    $\mathbb{E}\big[\mathbb{E}[X]\big] = \mathbb{E}[X]$ because the expection of a random variable is a constant.
 
 - **Linearity of expectations:** For any random variables $X$ and $Y$, the expectation of their sum is equal to the sum of their expectations:
-   <p class="math">
+   <p class="math" id="eqn3">
     $$
     \tag{3} \begin{aligned}
       \mathbb{E}[X+Y] = \mathbb{E}[X] + \mathbb{E}[Y]
@@ -47,7 +47,7 @@ The expectation[^expectation] or expected value of a random variable $X$, writte
     </p>
 
 - For any random variable $X$ and a constant $c$:
-  <p class="math">
+  <p class="math" id="eqn4">
     $$
     \tag{4} \begin{aligned}
       \mathbb{E}[cX] = \mathbb{E}[c]\mathbb{E}[X] = c\mathbb{E}[X]
@@ -58,7 +58,7 @@ The expectation[^expectation] or expected value of a random variable $X$, writte
 #### Variance of a random variable
 The variance of a random variable $X$ is the expectation of the squared difference of the random variable from its expectation $\color{blue} \mathbb{E}[X]$. In other words, it measures on average how spread out observations of the random variable are from the expectation of the random variable.
 
-<p class="math">
+<p class="math" id="eqn5">
   $$
   \begin{aligned}
   \tag{5} \text{Var}(X) & =  \mathbb{E}\Big[\Big(X - {\color{blue} \mathbb{E}[X]}\Big)^2\Big] \\
@@ -71,9 +71,9 @@ The variance of a random variable $X$ is the expectation of the squared differen
   $$
 </p>
 
-If we recall that the expectation of a random variable $\color{blue}\mathbb{E}[X]$ is a constant and if we use the properties stated in equations (3) and (4), we get:
+If we recall that the expectation of a random variable $\color{blue}\mathbb{E}[X]$ is a constant and if we use the properties stated in equations <a class="link" id="3">(3)</a> and <a class="link" id="4">(4)</a>, we get:
 
-<p class="math">
+<p class="math" id="eqn6">
 $$
 \tag{6} \begin{aligned}
 \text{Var}(X) & = \mathbb{E}\big[X^2\big] - \mathbb{E}\big[2X{\color{blue}\mathbb{E}[X]}\big] + \mathbb{E}\big[{\color{blue}\mathbb{E}[X]}^2\big] \\
@@ -87,9 +87,9 @@ $$
 $$
 </p>
 
-We could rewrite equation (6) as:
+We could rewrite equation <a class="link" id="6">(6)</a> as:
 
-<p class="math">
+<p class="math" id="eqn7">
 $$
 \tag{7} \begin{aligned}
 \mathbb{E}[X^2] & = \text{Var}(X) + {\color{blue}\mathbb{E}[X]}^2 \\
@@ -101,7 +101,7 @@ $$
 ### Bias-Variance Decomposition for regression problems
 If we are trying to predict a quantitative variable $Y$ with features $X$, we may assume that there is a ***true, unknown function*** $\color{green} f(X)$ that defines the relationship between $X$ and $Y$. Linear regression makes the following assumptions about this relationship:
  - There is a linear function between the conditional population mean of the outcome $Y$ and the features $X$. This function is called the ***true regression line*** and it is the unknown function we will estimate using training data.
- <p class="math">
+ <p class="math" id="eqn8">
   $$
     \tag{8} \begin{aligned} 
     \color{green} f(X) = \mathbb{E}[Y|X] = \boldsymbol\beta^\mathsf{T} X
@@ -109,7 +109,8 @@ If we are trying to predict a quantitative variable $Y$ with features $X$, we ma
   $$
  </p>
  - Individual observations of $Y$ will deviate from the true regression line by a certain amount. For example, if the feature $X$ is age of a person and the outcome variable $Y$ is height, $\color{green}f(X)$ is the mean height of people of a certain age, and each person's height will deviate from the mean height by a certain amount. An error term $\boldsymbol \epsilon$ captures this deviation. We assume that it is normally distributed with expectation $\mathbb{E}[\boldsymbol \epsilon] = 0$ and variance $\text{Var}(\boldsymbol \epsilon) = \sigma^2$. We also assume that $\boldsymbol \epsilon$ is independent of $X$ and cannot be estimated from data. 
-  <p class="math">
+
+  <p class="math" id="eqn9">
   $$
   \tag{9} \begin{aligned}
   \color{green} Y = f(X) + \epsilon 
@@ -121,7 +122,7 @@ To estimate the true, unknown function, we obtain a training dataset $\mathcal{D
 
 What we really care about is how our model performs on previously unseen test data. For an arbitrary new point $\big(x^\star, \space {\color{green}y^\star = f(x^\star)  + \epsilon} \big)$ drawn from $P(X,Y)$, we can use ***squared error*** to measure the model's performance on this new example, where $\color{red}\hat f_\mathcal{D}(x^\star)$ is the model's prediction.
 
-<p class="math">
+<p class="math" id="eqn10">
 $$
 \tag{10} \begin{aligned}
 \text{Squared Error} = \big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\big)^2
@@ -132,7 +133,7 @@ $$
 Now, because we draw our training set from a data generating distribution, it is possible, in principle[^principle], to randomly draw a large number $N$ of different training datasets $$\big(\mathcal{D}_1, \cdots, \mathcal{D}_N\big)$$ of $n$  examples from the distribution. If we use the learning algorithm $\mathcal{A}$ to train a model on each training set, we will get $N$ different models $\big({\color{red}\hat f_\mathcal{D_1}(X)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(X)}\big)$ that will give us $N$ different predictions $\big({\color{red}\hat f_\mathcal{D_1}(x^\star)}, \cdots, {\color{red}\hat f_\mathcal{D_N}(x^\star)}\big)$ on our arbitrary new point $x^\star$. We could calculate the ***squared error*** for each of the $N$  models predictions on $x^\star$ $\Big[\big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D_1}(x^\star)}\big)^2, \cdots, \big({\color{green}y^\star - \color{red}\hat f_\mathcal{D_N}(x^\star)}\big)^2 \big]$.   
 To get an idea of how well, on average, the learning algorithm $\mathcal{A}$ generalises to the previously unseen data point, we compute the mean/expectation of the squared errors of the $N$ models. This is called the <strong><em>expected squared error</em></strong>.
 
-<p class="math">
+<p class="math" id="eqn11">
 $$
 \begin{aligned}
 \tag{11} \text{Expected Squared Error} = \mathbb{E}\Big[\Big({\color{green}y^\star} - {\color{red}\hat f_\mathcal{D}(x^\star)}\Big)^2\Big]
@@ -172,9 +173,9 @@ Bias-variance tradeoff is the tradeoff in attempting to simultaneously minimise 
 ***
 
 #### Decomposing Expected Squared Error
-As mentioned earlier, it is the expected squared error term in equation (11) that we will decompose into the bias, variance, and irreducible error components. To avoid clutter while decomposing, we will drop the $\color{green}\star$ sign from $\color{green}y^\star$ and $\color{red}(x^\star)$ from $\color{red}\hat f_\mathcal{D}(x^\star)$. 
+As mentioned earlier, it is the expected squared error term in equation <a class="link" id="11">(11)</a> that we will decompose into the bias, variance, and irreducible error components. To avoid clutter while decomposing, we will drop the $\color{green}\star$ sign from $\color{green}y^\star$ and $\color{red}(x^\star)$ from $\color{red}\hat f_\mathcal{D}(x^\star)$. 
 
-<p class="math">
+<p class="math" id="eqn12">
 $$
 \tag{12} \begin{aligned}
 \text{Error} & = \mathbb{E}\Big[\Big({\color{green}y} - {\color{red}\hat f_\mathcal{D}}\Big)^2\Big] \\ 
@@ -189,9 +190,9 @@ $$
 $$
 </p>
 
-Equation (12) has three terms that we will deal with separately. If we consider the third term first, we know that $\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]$ is the expectation of our model. If we recall equations (2) and (9) and that $\mathbb{E}[{\boldsymbol\epsilon}] = 0$, we can rewrite $\mathbb{E}\big[ {\color{green}y}\big]$ as:
+Equation <a class="link" id="12">(12)</a> has three terms that we will deal with separately. If we consider the third term first, we know that $\mathbb{E}\big[ {\color{red}\hat f_\mathcal{D}} \big]$ is the expectation of our model. If we recall equations <a class="link" id="2">(2)</a> and <a class="link" id="9">(9)</a> and that $\mathbb{E}[{\boldsymbol\epsilon}] = 0$, we can rewrite $\mathbb{E}\big[ {\color{green}y}\big]$ as:
 
-<p class="math">
+<p class="math" id="eqn13">
 $$
 \tag{13} \begin{aligned}
 \mathbb{E}\Big[ {\color{green}y}\Big] & = \mathbb{E}\Big[ {\color{green}f(x) + \epsilon }\Big] \\
@@ -201,9 +202,9 @@ $$
 $$
 </p>
 
-For the first and second terms, we use equations (7), (9), and (13) to rewrite them as:
+For the first and second terms, we use equations <a class="link" id="7">(7)</a>, <a class="link" id="9">(9)</a>, and <a class="link" id="13">(13)</a> to rewrite them as:
 
-<p class="math">
+<p class="math" id="eqn14">
 $$
 \tag{14} \begin{aligned}
 \mathbb{E}\Big[ {\color{green}y}^2 \Big] & = \mathbb{E}\Big[\Big({\color{green}y} - {\mathbb{E}[{\color{green}y}]}\Big)^2\Big] + {\mathbb{E}[{\color{green}y}]}^2 \\
@@ -218,9 +219,9 @@ $$
 $$
 </p>
 
-Substituting equations (13) and (14) into equation (12), we get:
+Substituting equations <a class="link" id="13">(13)</a> and <a class="link" id="14">(14)</a> into equation <a class="link" id="12">(12)</a>, we get:
 
-<p class="math">
+<p class="math" id="eqn15">
 $$
 \tag{15} \begin{aligned}
 \text{Error} & = \mathbb{E}\Big[ {\color{green}y}^2 \Big] + \mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}}^2 \Big] - 2\mathbb{E}\Big[ {\color{green}y}\Big]\mathbb{E}\Big[ {\color{red}\hat f_\mathcal{D}} \Big]
@@ -232,9 +233,9 @@ $$
 $$
 </p>
 
-If we rearrange equation (15) and use expansion of squares $(a-b)^2 = a^2 - 2ab + b^2$, we get:
+If we rearrange equation <a class="link" id="15">(15)</a> and use expansion of squares $(a-b)^2 = a^2 - 2ab + b^2$, we get:
 
-<p class="math">
+<p class="math" id="eqn16">
 $$
 \tag{16} \begin{aligned}
 \text{Error} & = \underbrace{ {\mathbb{E}\big[}{\color{red}\hat f_\mathcal{D}} {\big]} ^2 - 2{\color{green}f(x)}\mathbb{E}\big[{\color{red} \hat f_\mathcal{D}}\big] + {\color{green}f(x)}^2 }_{1} + \underbrace{\mathbb{E}\Big[\Big({\color{red}\hat f_\mathcal{D}} - {\mathbb{E}[{\color{red}\hat f_\mathcal{D}}]}\Big)^2\Big]}_{2} + \underbrace{\mathbb{E}\Big[{\color{green}\epsilon}^2 \Big]}_{3} \\
@@ -269,7 +270,7 @@ We see from graph on the left in the image above that the error starts quite hig
 
 ![Bias-Var](/img/bias-var-sum.png)
 
-We see from the table above that the mean squared error (MSE) is a sum of the squared bias and the variance, as shown in equation (16). The irreducible part of the decomposition is not added to our sum because we cannot estimate it from data.
+We see from the table above that the mean squared error (MSE) is a sum of the squared bias and the variance, as shown in equation <a class="link" id="16">(16)</a>. The irreducible part of the decomposition is not added to our sum because we cannot estimate it from data.
 
 The code for this simulation can be found [here](https://colab.research.google.com/drive/1PtUgJGl439xqGvCStOy86p3Q25YlaJHG?usp=sharing){:target="_blank"}.
 
@@ -286,4 +287,4 @@ We have shown the decomposition of the generalisation error for regression probl
 
 [^principle]: In practice, we have access to only one training dataset.
 
-[^var]: Using the variance lemma in equation (7) and the assumption that $\mathbb{E}[\boldsymbol \epsilon] = 0$ and $\text{Var}(\boldsymbol \epsilon) = \sigma^2$: $$\begin{aligned} \mathbb{E}\big[{\boldsymbol \epsilon}^2 \big]  & = \text{Var}(\boldsymbol \epsilon) + \mathbb{E}[\boldsymbol \epsilon]^2 = \sigma^2 \end{aligned}$$. 
+[^var]: Using the variance lemma in equation <a class="link" id="7">(7)</a> and the assumption that $\mathbb{E}[\boldsymbol \epsilon] = 0$ and $\text{Var}(\boldsymbol \epsilon) = \sigma^2$: $$\begin{aligned} \mathbb{E}\big[{\boldsymbol \epsilon}^2 \big]  & = \text{Var}(\boldsymbol \epsilon) + \mathbb{E}[\boldsymbol \epsilon]^2 = \sigma^2 \end{aligned}$$. 

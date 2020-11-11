@@ -40,3 +40,8 @@ p.tag {
   padding: 5px 10px;
   margin-top: -7px;
 }
+
+// Remove equation tag from tooltip
+.tippy-box .tag {
+  display: none;
+}
